@@ -14,7 +14,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <NativeBaseButton
       w="full"
-      h={14}
+      h={16}
       bg={variant === "outline" ? "transparent" : "primary.blue.800"}
       borderWidth={variant === "outline" ? 1 : 0}
       borderColor="primary.blue.500"
@@ -27,7 +27,7 @@ export const Button: React.FC<ButtonProps> = ({
       <Text
         color={variant === "outline" ? "primary.blue.500" : "white"}
         fontFamily="heading"
-        fontSize="sm"
+        fontSize="md"
       >
         {title}
       </Text>

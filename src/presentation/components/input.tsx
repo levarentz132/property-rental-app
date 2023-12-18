@@ -24,7 +24,7 @@ export const Input: React.FC<InputProps> = ({
         fontSize="md"
         color="white"
         fontFamily="body"
-        placeholderTextColor="gray.300"
+        placeholderTextColor="textColor.grayLight"
         isInvalid={invalid}
         _invalid={{
           borderWidth: 1,
