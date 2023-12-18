@@ -1,14 +1,14 @@
 import { Box, HStack, VStack } from "native-base";
 import React from "react";
-import { Input } from "./input";
-
 import { SvgProps } from "react-native-svg";
 
+import { Input } from "./input";
+
 interface InputGroupProps {
-  inputs: Array<{
+  inputs: {
     label: string;
     icon: React.FC<SvgProps>;
-  }>;
+  }[];
 }
 
 export const InputGroup: React.FC<InputGroupProps> = ({
