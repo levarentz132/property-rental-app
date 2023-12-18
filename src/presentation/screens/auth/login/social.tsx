@@ -1,9 +1,9 @@
 import { HStack, Pressable, IStackProps } from "native-base";
 import React from "react";
 
-import AppleIcon from "../../../../main/assets/brands/apple.svg";
-import FacebookIcon from "../../../../main/assets/brands/facebook.svg";
-import GoogleIcon from "../../../../main/assets/brands/google.svg";
+import AppleIcon from "src/main/assets/brands/apple.svg";
+import FacebookIcon from "src/main/assets/brands/facebook.svg";
+import GoogleIcon from "src/main/assets/brands/google.svg";
 
 interface SocialPageProps extends IStackProps {}
 

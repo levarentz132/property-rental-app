@@ -2,7 +2,7 @@ import { HStack, IStackProps, Text } from "native-base";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 
-import { Button } from "../../../components/button";
+import { Button } from "src/presentation/components";
 
 interface ActionsPageProps extends IStackProps {
   onForgotPassword: () => void;

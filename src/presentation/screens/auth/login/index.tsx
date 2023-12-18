@@ -2,12 +2,13 @@ import { Box, Heading, VStack } from "native-base";
 import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import PasswordIcon from "src/main/assets/colorfull-icons/password.svg";
+import UserIcon from "src/main/assets/colorfull-icons/user.svg";
+import Logo from "src/main/assets/logo.svg";
+import { InputGroup } from "src/presentation/components";
+
 import { Actions } from "./actions";
 import { Social } from "./social";
-import passwordIcon from "../../../../main/assets/colorfull-icons/password.svg";
-import userIcon from "../../../../main/assets/colorfull-icons/user.svg";
-import Logo from "../../../../main/assets/logo.svg";
-import { InputGroup } from "../../../components/input-group";
 
 export const Login: React.FC = (): JSX.Element => {
   const [username, setUsername] = useState<string>();
@@ -51,12 +52,12 @@ export const Login: React.FC = (): JSX.Element => {
             inputs={[
               {
                 label: "Username",
-                icon: userIcon,
+                icon: UserIcon,
                 inputProps: { value: username, onChangeText: setUsername },
               },
               {
                 label: "Password",
-                icon: passwordIcon,
+                icon: PasswordIcon,
                 inputProps: { value: password, onChangeText: setPassword },
               },
             ]}
