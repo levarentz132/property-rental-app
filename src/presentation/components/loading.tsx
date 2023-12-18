@@ -3,7 +3,7 @@ import React from "react";
 
 export const Loading: React.FC = () => {
   return (
-    <Center flex={1} bg="gray.700">
+    <Center flex={1} bg="primary.bg.light">
       <Spinner />
     </Center>
   );
