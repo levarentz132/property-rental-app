@@ -1,0 +1,14 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.3" filter="url(#filter0_b_154_1708)">
+<rect width="36" height="36" rx="10" fill="#7F88E5"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15.4166 9.66669H20.5583C22.8166 9.66669 24.6416 10.5584 24.6666 12.825V25.475C24.6666 25.6167 24.6333 25.7584 24.5666 25.8834C24.4583 26.0834 24.2749 26.2334 24.0499 26.3C23.8333 26.3667 23.5916 26.3334 23.3916 26.2167L17.9916 23.5167L12.5833 26.2167C12.4591 26.2825 12.3166 26.325 12.1749 26.325C11.7083 26.325 11.3333 25.9417 11.3333 25.475V12.825C11.3333 10.5584 13.1666 9.66669 15.4166 9.66669ZM14.8499 16.0167H21.1249C21.4833 16.0167 21.7749 15.7242 21.7749 15.3584C21.7749 14.9917 21.4833 14.7 21.1249 14.7H14.8499C14.4916 14.7 14.1999 14.9917 14.1999 15.3584C14.1999 15.7242 14.4916 16.0167 14.8499 16.0167Z" fill="#4A43EC"/>
+<defs>
+<filter id="filter0_b_154_1708" x="-16.3097" y="-16.3097" width="68.6194" height="68.6194" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="8.15485"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_154_1708"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_154_1708" result="shape"/>
+</filter>
+</defs>
+</svg>
