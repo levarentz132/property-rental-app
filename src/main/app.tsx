@@ -6,9 +6,10 @@ import {
 import { NativeBaseProvider } from "native-base";
 import { StatusBar } from "react-native";
 
-import { THEME } from "./theme";
 import { Loading } from "../presentation/components/loading";
-import { Login } from "../presentation/screens/auth/login";
+import { Register } from "../presentation/screens/auth";
+import { Home } from "../presentation/screens/app";
+import { THEME } from "./theme";
 
 export const App = () => {
   const [fontsLoaded] = useFonts({
@@ -22,7 +23,7 @@ export const App = () => {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Login /> : <Loading />}
+      {fontsLoaded ? <Home /> : <Loading />}
     </NativeBaseProvider>
   );
 };

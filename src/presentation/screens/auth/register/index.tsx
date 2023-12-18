@@ -2,19 +2,17 @@ import { Box, Heading, VStack } from "native-base";
 import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import EmailIcon from "src/main/assets/colorfull-icons/email.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/password.svg";
 import UserIcon from "src/main/assets/colorfull-icons/user.svg";
-import Logo from "src/main/assets/logo.svg";
-import { InputGroup } from "src/presentation/components";
+import { Button, Input } from "src/presentation/components";
 
 import { Social } from "../social";
-import { Actions } from "./actions";
 
-export const Login: React.FC = (): JSX.Element => {
+export const Register: React.FC = (): JSX.Element => {
   const [username, setUsername] = useState<string>();
+  const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const handleLogin = () => {};
-  const handleForgotPassword = () => {};
   return (
     <VStack
       flex={1}
@@ -22,10 +20,7 @@ export const Login: React.FC = (): JSX.Element => {
       justifyContent="center"
       alignItems="center"
     >
-      <Box flex={1} justifyContent="center" alignItems="center">
-        <Logo width={150} height={150} />
-      </Box>
-
+      <Box flex={1} />
       <VStack
         bgColor="primary.bg.light"
         width="full"
@@ -42,32 +37,35 @@ export const Login: React.FC = (): JSX.Element => {
           marginTop={6}
           marginBottom={12}
         >
-          Login
+          Register
         </Heading>
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           style={{ width: "100%" }}
         >
-          <InputGroup
-            inputs={[
-              {
-                label: "Username",
-                icon: UserIcon,
-                inputProps: { value: username, onChangeText: setUsername },
-              },
-              {
-                label: "Password",
-                icon: PasswordIcon,
-                inputProps: { value: password, onChangeText: setPassword },
-              },
-            ]}
+          <Input
+            placeholder="Username"
+            my={2}
+            value={username}
+            onChangeText={setUsername}
+            icon={UserIcon}
           />
-          <Actions
-            marginTop={8}
-            onLogin={handleLogin}
-            onForgotPassword={handleForgotPassword}
+          <Input
+            placeholder="E-mail"
+            my={2}
+            value={email}
+            onChangeText={setEmail}
+            icon={EmailIcon}
           />
-          <Social marginTop={24} paddingX={8} />
+          <Input
+            placeholder="Password"
+            my={2}
+            value={password}
+            onChangeText={setPassword}
+            icon={PasswordIcon}
+          />
+          <Button flex={1} title="Register" marginTop={20} />
+          <Social marginTop={12} paddingX={8} />
         </KeyboardAwareScrollView>
       </VStack>
     </VStack>

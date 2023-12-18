@@ -28,7 +28,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
       {inputs.map(({ label, icon: Icon, inputProps }, index) => {
         return (
           <React.Fragment key={index}>
-            <HStack alignItems="center" px={30} py={4}>
+            <HStack alignItems="center" px={30} py={1.5}>
               <Icon width={40} height={40} />
               <Input
                 key={index}
@@ -38,7 +38,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
               />
             </HStack>
             {index < total - 1 && (
-              <Box width="full" height={0.2} bgColor="textColor.grayDark" />
+              <Box width="full" height={0.4} bgColor="textColor.grayDark" />
             )}
           </React.Fragment>
         );
