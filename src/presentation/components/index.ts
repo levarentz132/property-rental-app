@@ -5,3 +5,4 @@ export * from "./loading";
 export * from "./header";
 export * from "./group";
 export * from "./property-card";
+export * from "./filter";

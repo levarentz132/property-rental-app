@@ -51,10 +51,11 @@ export const FeaturedProperties: React.FC<PropertiesProps> = (
       <List borderWidth={0}>
         {MOCK_PROPERTIES.map((el) => (
           <PropertyCard
+            key={el.id}
             view="landscape"
-            {...el}
             paddingBottom={5}
             paddingX={6}
+            {...el}
           />
         ))}
       </List>

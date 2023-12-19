@@ -6,14 +6,16 @@ import SearchIcon from "src/main/assets/colorfull-icons/search.svg";
 
 interface SearchProps extends IStackProps {
   inputProps: Pick<IInputProps, "value" | "onChangeText">;
+  onFilterPress: () => void;
 }
 
 export const Search: React.FC<SearchProps> = ({
   inputProps,
+  onFilterPress,
   ...props
 }: SearchProps): JSX.Element => {
   return (
-    <HStack width="100%" {...props}>
+    <HStack width="100%" space={4} {...props}>
       <Box flex={1}>
         <Input
           placeholder="Search"
@@ -25,7 +27,11 @@ export const Search: React.FC<SearchProps> = ({
         />
       </Box>
       <Box flex={0.5} justifyContent="center" alignItems="center">
-        <Button addorment={FilterIcon} title="Filters" />
+        <Button
+          addorment={FilterIcon}
+          title="Filters"
+          onPress={onFilterPress}
+        />
       </Box>
     </HStack>
   );
