@@ -20,6 +20,7 @@ export const Search: React.FC<SearchProps> = ({
         <Input
           placeholder="Search"
           my={2}
+          color="blue.700"
           icon={SearchIcon}
           iconSize={30}
           divisionColor="primary.blue.500"

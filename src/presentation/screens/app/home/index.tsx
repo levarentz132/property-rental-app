@@ -1,6 +1,6 @@
 import { Box, FlatList, ScrollView, VStack, useTheme } from "native-base";
 import { ColorType } from "native-base/lib/typescript/components/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -13,6 +13,7 @@ import { Filter, Group, Header } from "src/presentation/components";
 import { Properties } from "./all-properties";
 import { FeaturedProperties } from "./featured-properties";
 import { Search } from "./search";
+import { HttpGetClient } from "src/data/contracts/infra";
 
 const AnimatedVStack = Animated.createAnimatedComponent(VStack);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
@@ -58,7 +59,13 @@ const MOCKED_CATEGORIES: CategoryData[] = [
   },
 ];
 
-export const Home: React.FC = (): JSX.Element => {
+interface HomeProps {
+  httpClient: HttpGetClient;
+}
+
+export const Home: React.FC<HomeProps> = ({
+  httpClient,
+}: HomeProps): JSX.Element => {
   const { colors } = useTheme();
   const [search, setSearch] = useState<string>();
   const [isFiltersVisible, setIsFiltersVisible] = useState<boolean>(false);
@@ -83,6 +90,19 @@ export const Home: React.FC = (): JSX.Element => {
     );
     setIsFiltersVisible(!isFiltersVisible);
   };
+  useEffect(() => {
+    const fetchDatas = async () => {
+      try {
+        const res = await httpClient.get({
+          url: "https://jsonplaceholder.typicode.com/todos/1",
+        });
+        console.log({ res });
+      } catch (error) {
+        console.error({ error });
+      }
+    };
+    fetchDatas();
+  }, []);
   return (
     <>
       <AnimatedBox flex={1} style={[animatedStyles]}>

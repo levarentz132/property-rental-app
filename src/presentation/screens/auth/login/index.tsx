@@ -9,6 +9,7 @@ import { InputGroup } from "src/presentation/components";
 
 import { Social } from "../social";
 import { Actions } from "./actions";
+import { StatusBar } from "react-native";
 
 export const Login: React.FC = (): JSX.Element => {
   const [username, setUsername] = useState<string>();
@@ -16,60 +17,67 @@ export const Login: React.FC = (): JSX.Element => {
   const handleLogin = () => {};
   const handleForgotPassword = () => {};
   return (
-    <VStack
-      flex={1}
-      bgColor="primary.blue.800"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Box flex={1} justifyContent="center" alignItems="center">
-        <Logo width={150} height={150} />
-      </Box>
-
+    <>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
       <VStack
-        bgColor="primary.bg.light"
-        width="full"
-        borderTopRightRadius="3xl"
-        borderTopLeftRadius="3xl"
+        flex={1}
+        bgColor="primary.blue.800"
+        justifyContent="center"
         alignItems="center"
-        justifyContent="flex-end"
-        padding={6}
       >
-        <Heading
-          color="textColor.dark"
-          fontFamily="heading"
-          fontSize="3xl"
-          marginTop={6}
-          marginBottom={12}
+        <Box flex={1} justifyContent="center" alignItems="center">
+          <Logo width={150} height={150} />
+        </Box>
+
+        <VStack
+          bgColor="primary.bg.light"
+          width="full"
+          borderTopRightRadius="3xl"
+          borderTopLeftRadius="3xl"
+          alignItems="center"
+          justifyContent="flex-end"
+          padding={6}
         >
-          Login
-        </Heading>
-        <KeyboardAwareScrollView
-          showsVerticalScrollIndicator={false}
-          style={{ width: "100%" }}
-        >
-          <InputGroup
-            inputs={[
-              {
-                label: "Username",
-                icon: UserIcon,
-                inputProps: { value: username, onChangeText: setUsername },
-              },
-              {
-                label: "Password",
-                icon: PasswordIcon,
-                inputProps: { value: password, onChangeText: setPassword },
-              },
-            ]}
-          />
-          <Actions
-            marginTop={8}
-            onLogin={handleLogin}
-            onForgotPassword={handleForgotPassword}
-          />
-          <Social marginTop={24} paddingX={8} />
-        </KeyboardAwareScrollView>
+          <Heading
+            color="textColor.dark"
+            fontFamily="heading"
+            fontSize="3xl"
+            marginTop={6}
+            marginBottom={12}
+          >
+            Login
+          </Heading>
+          <KeyboardAwareScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ width: "100%" }}
+          >
+            <InputGroup
+              inputs={[
+                {
+                  label: "Username",
+                  icon: UserIcon,
+                  inputProps: { value: username, onChangeText: setUsername },
+                },
+                {
+                  label: "Password",
+                  icon: PasswordIcon,
+                  inputProps: { value: password, onChangeText: setPassword },
+                },
+              ]}
+            />
+            <Actions
+              marginTop={8}
+              onLogin={handleLogin}
+              onForgotPassword={handleForgotPassword}
+            />
+            <Social marginTop={24} paddingX={8} />
+          </KeyboardAwareScrollView>
+        </VStack>
       </VStack>
-    </VStack>
+    </>
   );
 };
