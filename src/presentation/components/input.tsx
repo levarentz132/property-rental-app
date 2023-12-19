@@ -4,17 +4,22 @@ import {
   IInputProps,
   Input as NativeBaseInput,
 } from "native-base";
+import { ColorType } from "native-base/lib/typescript/components/types";
 import React from "react";
 import { SvgProps } from "react-native-svg";
 
 interface InputProps extends IInputProps {
   icon?: React.FC<SvgProps>;
+  iconSize?: number;
+  divisionColor?: ColorType;
   errorMessage?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
   errorMessage,
   isInvalid,
+  iconSize = 40,
+  divisionColor,
   icon: Icon,
   ...props
 }: InputProps) => {
@@ -35,7 +40,16 @@ export const Input: React.FC<InputProps> = ({
         alignItems="center"
         px={3}
       >
-        {Icon && <Icon width={40} height={40} />}
+        {Icon && <Icon width={iconSize} height={iconSize} />}
+        {divisionColor && (
+          <Box
+            width={0.5}
+            rounded="full"
+            height={6}
+            bgColor={divisionColor}
+            marginLeft={2}
+          />
+        )}
         <NativeBaseInput
           borderWidth={0}
           flex={1}

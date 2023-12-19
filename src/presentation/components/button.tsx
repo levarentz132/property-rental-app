@@ -1,19 +1,31 @@
-import { Button as NativeBaseButton, IButtonProps, Text } from "native-base";
+import {
+  Button as NativeBaseButton,
+  IButtonProps,
+  Text,
+  useTheme,
+  Box,
+} from "native-base";
 import React from "react";
+import { SvgProps } from "react-native-svg";
 
 interface ButtonProps extends Omit<IButtonProps, "variant"> {
   title: string;
   variant?: "outline" | "solid";
+  addorment?: React.FC<SvgProps>;
+  endorment?: React.FC<SvgProps>;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   title,
   variant,
+  addorment: Addorment,
+  endorment: Endorment,
   ...props
 }: ButtonProps) => {
+  const { space } = useTheme();
   return (
     <NativeBaseButton
-      w="full"
+      width="100%"
       h={16}
       bg={variant === "outline" ? "transparent" : "primary.blue.800"}
       borderWidth={variant === "outline" ? 1 : 0}
@@ -24,13 +36,21 @@ export const Button: React.FC<ButtonProps> = ({
       }}
       {...props}
     >
-      <Text
-        color={variant === "outline" ? "primary.blue.500" : "white"}
-        fontFamily="heading"
-        fontSize="md"
-      >
-        {title}
-      </Text>
+      <Box flexDirection="row">
+        {Addorment && (
+          <Addorment width={20} height={20} style={{ marginRight: space[2] }} />
+        )}
+        <Text
+          color={variant === "outline" ? "primary.blue.500" : "white"}
+          fontFamily="heading"
+          fontSize="md"
+        >
+          {title}
+        </Text>
+        {Endorment && (
+          <Endorment width={20} height={20} style={{ marginLeft: space[2] }} />
+        )}
+      </Box>
     </NativeBaseButton>
   );
 };

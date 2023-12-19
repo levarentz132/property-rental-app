@@ -19,7 +19,7 @@ export const App = () => {
   return (
     <NativeBaseProvider theme={THEME} isSSR={false}>
       <StatusBar
-        barStyle="light-content"
+        barStyle="dark-content"
         backgroundColor="transparent"
         translucent
       />
