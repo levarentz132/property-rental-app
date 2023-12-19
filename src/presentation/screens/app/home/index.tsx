@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, VStack } from "native-base";
+import { Box, FlatList, ScrollView, VStack, useTheme } from "native-base";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ColorType } from "native-base/lib/typescript/components/types";
@@ -7,6 +7,15 @@ import { Search } from "./search";
 import { Filter, Group, Header } from "src/presentation/components";
 import { Properties } from "./all-properties";
 import { FeaturedProperties } from "./featured-properties";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { StatusBar } from "react-native";
+
+const AnimatedVStack = Animated.createAnimatedComponent(VStack);
+const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 export enum Category {
   House = "House",
@@ -50,61 +59,80 @@ const MOCKED_CATEGORIES: CategoryData[] = [
 ];
 
 export const Home: React.FC = (): JSX.Element => {
+  const { colors } = useTheme();
   const [search, setSearch] = useState<string>();
-  const [isFiltersVisible, setIsFiltersVisible] = useState<boolean>(true);
+  const [isFiltersVisible, setIsFiltersVisible] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>(
     Category.House,
   );
+  const opacity = useSharedValue(1);
+  const bgColor = useSharedValue(colors.textColor.white);
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      backgroundColor: bgColor.value,
+    };
+  });
   const handleChangeCategory = (category: Category) => {
     setSelectedCategory(category);
   };
+  const handleToggleFilters = () => {
+    opacity.value = withTiming(!isFiltersVisible ? 0.5 : 1);
+    bgColor.value = withTiming(
+      !isFiltersVisible ? colors.muted[900] : colors.textColor.white,
+    );
+    setIsFiltersVisible(!isFiltersVisible);
+  };
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView>
-          <VStack
-            flex={1}
-            bgColor={isFiltersVisible ? "muted.900" : "textColor.white"}
-            opacity={isFiltersVisible ? 0.5 : 1}
-          >
-            <VStack padding={6}>
-              <Header />
-              <Search
-                marginTop={4}
-                inputProps={{
-                  value: search,
-                  onChangeText: setSearch,
-                }}
-                onFilterPress={() => setIsFiltersVisible(!isFiltersVisible)}
+      <AnimatedBox flex={1} style={[animatedStyles]}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <ScrollView>
+            <AnimatedVStack flex={1} style={[animatedStyles]}>
+              <StatusBar
+                barStyle="dark-content"
+                backgroundColor="transparent"
+                translucent
               />
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={MOCKED_CATEGORIES}
-                my={6}
-                keyExtractor={({ category: name }) => name}
-                maxH={10}
-                minH={10}
-                renderItem={({ item }) => (
-                  <Group
-                    active={
-                      selectedCategory.toUpperCase() ===
-                      item.category.toUpperCase()
-                    }
-                    color={item.color}
-                    category={item.category}
-                    onSelect={handleChangeCategory}
-                    paddingX={4}
-                  />
-                )}
-              />
-            </VStack>
-            <Properties marginBottom={2} />
-            <FeaturedProperties />
-          </VStack>
-        </ScrollView>
-        {isFiltersVisible && <Filter position="absolute" bottom={0} />}
-      </SafeAreaView>
+              <VStack padding={6}>
+                <Header />
+                <Search
+                  marginTop={4}
+                  inputProps={{
+                    value: search,
+                    onChangeText: setSearch,
+                  }}
+                  onFilterPress={handleToggleFilters}
+                />
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={MOCKED_CATEGORIES}
+                  my={6}
+                  keyExtractor={({ category: name }) => name}
+                  maxH={10}
+                  minH={10}
+                  renderItem={({ item }) => (
+                    <Group
+                      active={
+                        selectedCategory.toUpperCase() ===
+                        item.category.toUpperCase()
+                      }
+                      color={item.color}
+                      category={item.category}
+                      onSelect={handleChangeCategory}
+                      paddingX={4}
+                    />
+                  )}
+                />
+              </VStack>
+              <Properties marginBottom={2} />
+              <FeaturedProperties />
+            </AnimatedVStack>
+          </ScrollView>
+        </SafeAreaView>
+      </AnimatedBox>
+      {isFiltersVisible && <Filter position="absolute" bottom={0} />}
     </>
   );
 };

@@ -25,7 +25,7 @@ export const CustomMarker: React.FC<CustomMarkerProps> = ({
         {props.pressed && (
           <Box
             position="absolute"
-            bottom={-44}
+            top={-44}
             left={-20}
             bgColor="secondary.sky"
             borderRadius="sm"
@@ -33,8 +33,9 @@ export const CustomMarker: React.FC<CustomMarkerProps> = ({
             paddingX={3}
             justifyContent="center"
             alignItems="center"
+            width={props.currentValue.toString().length > 4 ? 24 : 18}
           >
-            <Text color="primary.bg.white" overflow="visible" width={12}>
+            <Text color="primary.bg.white">
               {(props.valuePrefix || "") +
                 props.currentValue +
                 (props.valueSuffix || "")}

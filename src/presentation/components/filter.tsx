@@ -8,11 +8,14 @@ import {
   VStack,
   useTheme,
 } from "native-base";
+
 import { Dimensions } from "react-native";
 import { Button } from "./button";
 import { CustomMarker } from "./custom-marker";
-
+import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 const MultiSlider = Factory(RNMultiSlider);
+
+const AnimatedVStack = Animated.createAnimatedComponent(VStack);
 
 interface FilterProps extends IStackProps {}
 
@@ -24,7 +27,9 @@ export const Filter: React.FC<FilterProps> = ({
 }: FilterProps): JSX.Element => {
   const { space, colors } = useTheme();
   return (
-    <VStack
+    <AnimatedVStack
+      entering={SlideInDown}
+      exiting={SlideOutDown}
       flex={1}
       width="100%"
       bgColor="textColor.white"
@@ -134,6 +139,6 @@ export const Filter: React.FC<FilterProps> = ({
         <Button flex={0.5} title="Reset" variant="outline" />
         <Button flex={1} title="Check availability" />
       </HStack>
-    </VStack>
+    </AnimatedVStack>
   );
 };

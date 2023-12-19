@@ -69,7 +69,7 @@ export const Properties: React.FC<PropertiesProps> = (
   return (
     <VStack flex={1} {...props}>
       <HStack paddingX={6} paddingY={2} alignItems="center">
-        <Heading fontSize="md" fontWeight="bold" flex={1}>
+        <Heading fontSize="md" fontWeight="bold" flex={1} marginBottom={2}>
           All Property
         </Heading>
         <TouchableOpacity

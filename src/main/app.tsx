@@ -4,7 +4,6 @@ import {
   useFonts,
 } from "@expo-google-fonts/inter";
 import { NativeBaseProvider } from "native-base";
-import { StatusBar } from "react-native";
 
 import { Loading } from "../presentation/components/loading";
 import { Register } from "../presentation/screens/auth";
@@ -18,11 +17,6 @@ export const App = () => {
   });
   return (
     <NativeBaseProvider theme={THEME} isSSR={false}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent
-      />
       {fontsLoaded ? <Home /> : <Loading />}
     </NativeBaseProvider>
   );
