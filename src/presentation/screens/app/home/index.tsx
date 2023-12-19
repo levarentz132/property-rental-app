@@ -1,18 +1,18 @@
 import { Box, FlatList, ScrollView, VStack, useTheme } from "native-base";
-import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ColorType } from "native-base/lib/typescript/components/types";
-
-import { Search } from "./search";
-import { Filter, Group, Header } from "src/presentation/components";
-import { Properties } from "./all-properties";
-import { FeaturedProperties } from "./featured-properties";
+import React, { useState } from "react";
+import { StatusBar } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { StatusBar } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { Filter, Group, Header } from "src/presentation/components";
+import { Properties } from "./all-properties";
+import { FeaturedProperties } from "./featured-properties";
+import { Search } from "./search";
 
 const AnimatedVStack = Animated.createAnimatedComponent(VStack);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
@@ -132,7 +132,7 @@ export const Home: React.FC = (): JSX.Element => {
           </ScrollView>
         </SafeAreaView>
       </AnimatedBox>
-      {isFiltersVisible && <Filter position="absolute" bottom={0} />}
+      {isFiltersVisible && <Filter onCLose={handleToggleFilters} />}
     </>
   );
 };

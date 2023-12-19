@@ -1,3 +1,5 @@
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 import {
   Inter_400Regular,
   Inter_700Bold,
@@ -16,8 +18,10 @@ export const App = () => {
     Inter_700Bold,
   });
   return (
-    <NativeBaseProvider theme={THEME} isSSR={false}>
-      {fontsLoaded ? <Home /> : <Loading />}
-    </NativeBaseProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NativeBaseProvider theme={THEME} isSSR={false}>
+        {fontsLoaded ? <Home /> : <Loading />}
+      </NativeBaseProvider>
+    </GestureHandlerRootView>
   );
 };
