@@ -1,11 +1,12 @@
-import { FlatList, VStack } from "native-base";
+import { FlatList, ScrollView, VStack } from "native-base";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ColorType } from "native-base/lib/typescript/components/types";
 
 import { Search } from "./search";
 import { Group, Header } from "src/presentation/components";
-import { Properties } from "./properties";
+import { Properties } from "./all-properties";
+import { FeaturedProperties } from "./featured-properties";
 
 export enum Category {
   House = "House",
@@ -58,37 +59,43 @@ export const Home: React.FC = (): JSX.Element => {
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <VStack flex={1} padding={6} bgColor="textColor.white">
-        <Header />
-        <Search
-          marginTop={4}
-          inputProps={{
-            value: search,
-            onChangeText: setSearch,
-          }}
-        />
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={MOCKED_CATEGORIES}
-          my={6}
-          keyExtractor={({ category: name }) => name}
-          maxH={10}
-          minH={10}
-          renderItem={({ item }) => (
-            <Group
-              active={
-                selectedCategory.toUpperCase() === item.category.toUpperCase()
-              }
-              color={item.color}
-              category={item.category}
-              onSelect={handleChangeCategory}
-              paddingX={4}
+      <ScrollView>
+        <VStack flex={1} bgColor="textColor.white">
+          <VStack padding={6}>
+            <Header />
+            <Search
+              marginTop={4}
+              inputProps={{
+                value: search,
+                onChangeText: setSearch,
+              }}
             />
-          )}
-        />
-        <Properties />
-      </VStack>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={MOCKED_CATEGORIES}
+              my={6}
+              keyExtractor={({ category: name }) => name}
+              maxH={10}
+              minH={10}
+              renderItem={({ item }) => (
+                <Group
+                  active={
+                    selectedCategory.toUpperCase() ===
+                    item.category.toUpperCase()
+                  }
+                  color={item.color}
+                  category={item.category}
+                  onSelect={handleChangeCategory}
+                  paddingX={4}
+                />
+              )}
+            />
+          </VStack>
+          <Properties marginBottom={2} />
+          <FeaturedProperties />
+        </VStack>
+      </ScrollView>
     </SafeAreaView>
   );
 };

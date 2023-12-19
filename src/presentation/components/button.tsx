@@ -36,9 +36,9 @@ export const Button: React.FC<ButtonProps> = ({
       }}
       {...props}
     >
-      <Box flexDirection="row">
+      <Box flexDirection="row" justifyContent="center" alignItems="center">
         {Addorment && (
-          <Addorment width={20} height={20} style={{ marginRight: space[2] }} />
+          <Addorment width={30} height={30} style={{ marginRight: space[2] }} />
         )}
         <Text
           color={variant === "outline" ? "primary.blue.500" : "white"}
@@ -48,7 +48,7 @@ export const Button: React.FC<ButtonProps> = ({
           {title}
         </Text>
         {Endorment && (
-          <Endorment width={20} height={20} style={{ marginLeft: space[2] }} />
+          <Endorment width={30} height={30} style={{ marginLeft: space[2] }} />
         )}
       </Box>
     </NativeBaseButton>
