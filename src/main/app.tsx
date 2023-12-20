@@ -9,7 +9,7 @@ import { NativeBaseProvider } from "native-base";
 
 import { Loading } from "../presentation/components/loading";
 import { THEME } from "./theme";
-import { homeFactory } from "./factories";
+import { Routes } from "./routes";
 
 export const App = () => {
   const [fontsLoaded] = useFonts({
@@ -19,7 +19,7 @@ export const App = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NativeBaseProvider theme={THEME} isSSR={false}>
-        {fontsLoaded ? homeFactory() : <Loading />}
+        {fontsLoaded ? <Routes /> : <Loading />}
       </NativeBaseProvider>
     </GestureHandlerRootView>
   );

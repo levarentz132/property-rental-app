@@ -1,5 +1,4 @@
 import {
-  Box,
   Factory,
   FlatList,
   HStack,

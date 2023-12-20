@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { isAxiosError } from "axios";
 import {
   Box,
@@ -8,8 +9,8 @@ import {
   useToast,
 } from "native-base";
 import { ColorType } from "native-base/lib/typescript/components/types";
-import React, { useEffect, useState } from "react";
-import { StatusBar } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import { Platform, StatusBar } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -77,8 +78,9 @@ interface HomeProps {
 export const Home: React.FC<HomeProps> = ({
   httpClient,
 }: HomeProps): JSX.Element => {
+  const navigation = useNavigation();
   const toast = useToast();
-  const { colors } = useTheme();
+  const { colors, sizes, radii } = useTheme();
   const [search, setSearch] = useState<string>();
   const [properties, setProperties] = useState<Property[]>([]);
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
@@ -94,6 +96,19 @@ export const Home: React.FC<HomeProps> = ({
       backgroundColor: bgColor.value,
     };
   });
+  const tabBarStyle = useMemo(
+    () => ({
+      borderTopRightRadius: radii["3xl"],
+      borderTopLeftRadius: radii["3xl"],
+      backgroundColor: colors.primary.bg.white,
+      borderTopWidth: 0,
+      height: Platform.OS === "android" ? "auto" : undefined,
+      marginTop: Platform.OS === "android" ? undefined : sizes[4],
+      paddingTop: Platform.OS === "android" ? sizes[9] : 0,
+      paddingBottom: sizes[9],
+    }),
+    [],
+  );
   const handleChangeCategory = (category: Category) => {
     setSelectedCategory(category);
   };
@@ -151,6 +166,14 @@ export const Home: React.FC<HomeProps> = ({
     }
   };
   useEffect(() => {
+    navigation.setOptions({
+      tabBarStyle: {
+        ...tabBarStyle,
+        display: isFiltersVisible ? "none" : "flex",
+      },
+    });
+  }, [isFiltersVisible]);
+  useEffect(() => {
     if (selectedCategory) {
       const allPropertiesUri = new URL(
         selectedCategory ? `?category=${selectedCategory}` : "/",
@@ -191,10 +214,10 @@ export const Home: React.FC<HomeProps> = ({
   }, []);
   return (
     <>
-      <AnimatedBox flex={1} style={[animatedStyles]}>
-        <SafeAreaView style={{ flex: 1 }}>
+      <AnimatedBox style={[animatedStyles]}>
+        <SafeAreaView>
           <ScrollView>
-            <AnimatedVStack flex={1} style={[animatedStyles]}>
+            <AnimatedVStack style={[animatedStyles]}>
               <StatusBar
                 barStyle="dark-content"
                 backgroundColor="transparent"
@@ -240,6 +263,7 @@ export const Home: React.FC<HomeProps> = ({
               <FeaturedProperties
                 properties={featuredProperties}
                 loading={loadingFeatured}
+                marginBottom={2}
               />
             </AnimatedVStack>
           </ScrollView>
