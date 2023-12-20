@@ -1,8 +1,14 @@
-const { faker } = require("@faker-js/faker");
+import { faker } from "@faker-js/faker";
+import { Property } from "src/domain/models";
 
 const categories = ["Apartment", "House", "Office", "Land", "Condo", "Other"];
 
-function createRandomProperty(id) {
+interface FakeBackendData {
+  properties: Property[];
+  featured: Property[];
+}
+
+function createRandomProperty(id: number): Property {
   return {
     id: id.toString(),
     address: faker.location.streetAddress({ useFullAddress: true }),
@@ -13,7 +19,7 @@ function createRandomProperty(id) {
           max: categories.length - 1,
         })
       ],
-    value: faker.number.int({ min: 750, max: 15000 }),
+    value: faker.number.int({ min: 750, max: 5000 }),
     bathrooms: faker.number.int({ min: 1, max: 5 }),
     beds: faker.number.int({ min: 1, max: 5 }),
     kitchens: faker.number.int({ min: 1, max: 5 }),
@@ -22,13 +28,13 @@ function createRandomProperty(id) {
   };
 }
 
-module.exports = () => {
+export default function () {
   const randomPropertiesTotalData = faker.number.int({ min: 10, max: 20 });
   const randomFeaturedPropertiesTotalData = faker.number.int({
     min: 2,
     max: 7,
   });
-  const data = { properties: [], featured: [] };
+  const data: FakeBackendData = { properties: [], featured: [] };
   for (let i = 0; i < randomPropertiesTotalData; i++) {
     data.properties.push(createRandomProperty(i - 1));
   }
@@ -36,4 +42,4 @@ module.exports = () => {
     data.featured.push(createRandomProperty(i - 1));
   }
   return data;
-};
+}

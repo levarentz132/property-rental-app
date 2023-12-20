@@ -29,7 +29,7 @@ export const Properties: React.FC<PropertiesProps> = ({
   loading = false,
   ...props
 }: PropertiesProps): JSX.Element => {
-  const { colors } = useTheme();
+  const { colors, sizes } = useTheme();
   const Card = loading ? PropertyCardSkeleton : PropertyCard;
   return (
     <VStack flex={1} {...props}>
@@ -49,11 +49,15 @@ export const Properties: React.FC<PropertiesProps> = ({
       </HStack>
       <FlatList
         data={properties}
-        renderItem={({ item }) => <Card {...item} marginX={1.5} />}
+        renderItem={({ item, index }) => (
+          <Card
+            {...item}
+            marginRight={index === properties.length - 1 ? 0 : 3}
+          />
+        )}
         _contentContainerStyle={{
-          paddingBottom: 5,
-          textAlign: "center",
-          textTransform: "capitalize",
+          paddingBottom: sizes[1.5],
+          paddingX: sizes[1],
         }}
         ListEmptyComponent={() => (
           <Text marginLeft={6} textAlign="center" color="textColor.grayDark">

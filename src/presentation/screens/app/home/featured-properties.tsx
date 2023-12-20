@@ -24,13 +24,13 @@ export const FeaturedProperties: React.FC<PropertiesProps> = ({
       </HStack>
       <List borderWidth={0}>
         {properties.length ? (
-          properties.map((el) => (
+          properties.map((item) => (
             <Card
-              key={el.id}
+              key={item.id}
               view="landscape"
               paddingBottom={3}
               paddingX={6}
-              {...el}
+              {...item}
             />
           ))
         ) : (
