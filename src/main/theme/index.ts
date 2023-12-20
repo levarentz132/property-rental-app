@@ -70,6 +70,18 @@ export const THEME = extendTheme({
     33: 148,
     44: 176,
   },
+  shadows: {
+    10: {
+      shadowColor: "#828282",
+      shadowOffset: {
+        width: 5,
+        height: 5,
+      },
+      shadowOpacity: 0.34,
+      shadowRadius: 10,
+      elevation: 10,
+    },
+  },
 });
 
 type CustomThemeType = typeof THEME;

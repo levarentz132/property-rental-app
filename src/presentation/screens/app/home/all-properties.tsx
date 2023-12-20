@@ -33,7 +33,7 @@ export const Properties: React.FC<PropertiesProps> = ({
   return (
     <VStack flex={1} {...props}>
       <HStack paddingX={6} alignItems="center">
-        <Heading fontSize="md" fontWeight="bold" flex={1} marginBottom={2}>
+        <Heading fontSize="md" fontWeight="bold" flex={1}>
           All Property
         </Heading>
         <TouchableOpacity
@@ -55,6 +55,7 @@ export const Properties: React.FC<PropertiesProps> = ({
           />
         )}
         _contentContainerStyle={{
+          paddingTop: sizes[1],
           paddingBottom: sizes[1.5],
           paddingX: sizes[1],
         }}

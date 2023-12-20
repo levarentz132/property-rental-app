@@ -22,16 +22,7 @@ export const PropertyCardSkeleton: React.FC<PropertyCardProps> = ({
       marginBottom={isPortrait ? 0 : 3}
       rounded="3xl"
       bgColor="primary.bg.white"
-      style={{
-        elevation: 10,
-        shadowOffset: {
-          width: 5,
-          height: 5,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 10,
-        shadowColor: colors.textColor.grayLight,
-      }}
+      shadow={10}
       maxW={isPortrait ? 200 : undefined}
       padding={4}
       alignItems="center"

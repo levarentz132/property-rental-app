@@ -17,12 +17,14 @@ import SpaceIconSvg from "src/main/assets/property-icons/space.svg";
 import LocationIconSvg from "src/main/assets/filled-icons/location.svg";
 import { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
 import { Property } from "src/domain/models";
+import { useMemo } from "react";
 
 const Image = Factory(ExpoImage);
 
 export interface PropertyCardProps
   extends Property,
     Omit<InterfacePressableProps, "id" | "size"> {
+  fullWidth?: boolean;
   view?: "portrait" | "landscape";
 }
 
@@ -59,27 +61,24 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   beds,
   bathrooms,
   kitchens,
+  fullWidth = false,
   ...props
 }: PropertyCardProps): JSX.Element => {
   const { colors } = useTheme();
   const isPortrait = view === "portrait";
+  const titleFontSize = useMemo(() => {
+    if (fullWidth) return "2xl";
+    if (isPortrait) return "md";
+    return "lg";
+  }, [isPortrait]);
   const Wrapper = isPortrait ? VStack : HStack;
   return (
     <Pressable {...props}>
       <Wrapper
         rounded="3xl"
         bgColor="primary.bg.white"
-        style={{
-          elevation: 10,
-          shadowOffset: {
-            width: 5,
-            height: 5,
-          },
-          shadowOpacity: 0.2,
-          shadowRadius: 10,
-          shadowColor: colors.textColor.grayLight,
-        }}
-        maxW={isPortrait ? 200 : undefined}
+        shadow={10}
+        maxW={isPortrait && !fullWidth ? 200 : undefined}
         padding={4}
         alignItems="center"
       >
@@ -103,35 +102,40 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           >
             <Text
               fontWeight="bold"
-              fontSize={isPortrait ? "md" : "lg"}
+              fontSize={titleFontSize}
               flex={isPortrait ? 1 : undefined}
               marginRight={isPortrait ? 0 : 6}
               textTransform="capitalize"
             >
               {category}
             </Text>
-            <Text color="primary.blue.800" fontWeight="bold">
+            <Text
+              color="primary.blue.800"
+              fontWeight="bold"
+              fontSize={fullWidth ? "2xl" : "md"}
+            >
               ${value}
             </Text>
           </HStack>
-          {!isPortrait && (
-            <HStack width="100%">
-              <Icon
-                as={LocationIconSvg}
-                fill={colors.textColor.grayLight}
-                marginLeft={-1}
-              />
-              <Text
-                width="100%"
-                color="textColor.grayLight"
-                fontWeight="bold"
-                maxWidth={isPortrait ? undefined : 200}
-                numberOfLines={1}
-              >
-                {address}
-              </Text>
-            </HStack>
-          )}
+          {!isPortrait ||
+            (fullWidth && (
+              <HStack width="100%" padding={fullWidth ? 3 : 0}>
+                <Icon
+                  as={LocationIconSvg}
+                  fill={colors.textColor.grayLight}
+                  marginLeft={-1}
+                />
+                <Text
+                  width="100%"
+                  color="textColor.grayLight"
+                  fontWeight="bold"
+                  maxWidth={isPortrait ? undefined : 200}
+                  numberOfLines={1}
+                >
+                  {address}
+                </Text>
+              </HStack>
+            ))}
           <HStack
             width="100%"
             justifyContent={isPortrait ? "space-around" : "flex-start"}

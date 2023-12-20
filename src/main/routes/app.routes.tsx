@@ -10,7 +10,11 @@ import ChatSVG from "src/main/assets/colorfull-icons/chat.svg";
 import HomeSVG from "src/main/assets/colorfull-icons/home.svg";
 import SettingsSVG from "src/main/assets/colorfull-icons/setting.svg";
 import MenuSVG from "src/main/assets/colorfull-icons/menu.svg";
-import { homeFactory, settingsFactory } from "../factories";
+import {
+  homeFactory,
+  propertyDetailsFactory,
+  settingsFactory,
+} from "../factories";
 
 type AppRoutesTypes = {
   home: undefined;
@@ -65,7 +69,7 @@ export const AppRoutes: React.FC = () => {
       />
       <Screen
         name="favorites"
-        children={() => homeFactory()}
+        children={() => propertyDetailsFactory()}
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Box
