@@ -55,6 +55,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   value,
   address,
   size,
+  picture,
   beds,
   bathrooms,
   kitchens,
@@ -87,8 +88,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           height={isPortrait ? 44 : 20}
           rounded="3xl"
           contentFit="fill"
-          marginRight={isPortrait ? 0 : 2}
-          source={{ uri: "https://picsum.photos/200/300" }}
+          marginRight={isPortrait ? 0 : 3}
+          source={{ uri: picture }}
         />
         <VStack
           alignItems="center"
@@ -120,7 +121,13 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
                 fill={colors.textColor.grayLight}
                 marginLeft={-1}
               />
-              <Text color="textColor.grayLight" fontWeight="bold">
+              <Text
+                width="100%"
+                color="textColor.grayLight"
+                fontWeight="bold"
+                maxWidth={isPortrait ? undefined : 200}
+                numberOfLines={1}
+              >
                 {address}
               </Text>
             </HStack>

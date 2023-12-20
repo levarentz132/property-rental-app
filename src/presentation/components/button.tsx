@@ -26,7 +26,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <NativeBaseButton
       width="100%"
-      h={16}
+      h={12}
       bg={variant === "outline" ? "transparent" : "primary.blue.800"}
       borderWidth={variant === "outline" ? 1 : 0}
       borderColor="primary.blue.500"

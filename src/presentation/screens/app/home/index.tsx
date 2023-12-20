@@ -1,4 +1,12 @@
-import { Box, FlatList, ScrollView, VStack, useTheme } from "native-base";
+import { isAxiosError } from "axios";
+import {
+  Box,
+  FlatList,
+  ScrollView,
+  VStack,
+  useTheme,
+  useToast,
+} from "native-base";
 import { ColorType } from "native-base/lib/typescript/components/types";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
@@ -9,11 +17,14 @@ import Animated, {
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { HttpGetClient } from "src/data/contracts/infra";
+import { Property } from "src/domain/models";
 import { Filter, Group, Header } from "src/presentation/components";
 import { Properties } from "./all-properties";
 import { FeaturedProperties } from "./featured-properties";
 import { Search } from "./search";
-import { HttpGetClient } from "src/data/contracts/infra";
+
+const BASE_URL = "http://localhost:3000";
 
 const AnimatedVStack = Animated.createAnimatedComponent(VStack);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
@@ -66,12 +77,15 @@ interface HomeProps {
 export const Home: React.FC<HomeProps> = ({
   httpClient,
 }: HomeProps): JSX.Element => {
+  const toast = useToast();
   const { colors } = useTheme();
   const [search, setSearch] = useState<string>();
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
+  const [loadingProperties, setLoadingProperties] = useState<boolean>(true);
+  const [loadingFeatured, setLoadingFeatured] = useState<boolean>(true);
   const [isFiltersVisible, setIsFiltersVisible] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<Category>(
-    Category.House,
-  );
+  const [selectedCategory, setSelectedCategory] = useState<Category>();
   const opacity = useSharedValue(1);
   const bgColor = useSharedValue(colors.textColor.white);
   const animatedStyles = useAnimatedStyle(() => {
@@ -90,18 +104,90 @@ export const Home: React.FC<HomeProps> = ({
     );
     setIsFiltersVisible(!isFiltersVisible);
   };
-  useEffect(() => {
-    const fetchDatas = async () => {
-      try {
-        const res = await httpClient.get({
-          url: "https://jsonplaceholder.typicode.com/todos/1",
+  const getAllProperties = async (url: string) => {
+    try {
+      setLoadingProperties(true);
+      const { body = [] } = await httpClient.get<Property[]>({
+        url,
+      });
+      setProperties(body);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        toast.show({
+          title:
+            "Sorry, we couldn't get the properties, please try again later",
+          placement: "top",
+          bgColor: colors.red[500],
+          margin: 4,
         });
-        console.log({ res });
-      } catch (error) {
-        console.error({ error });
+      } else {
+        throw error;
+      }
+    } finally {
+      setLoadingProperties(false);
+    }
+  };
+  const getFeaturedProperties = async () => {
+    try {
+      setLoadingFeatured(true);
+      const { body = [] } = await httpClient.get<Property[]>({
+        url: `${BASE_URL}/featured`,
+      });
+      setFeaturedProperties(body);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        toast.show({
+          title:
+            "Sorry, we couldn't get the featured properties, please try again later",
+          placement: "top",
+          bgColor: colors.red[500],
+          margin: 4,
+        });
+      } else {
+        throw error;
+      }
+    } finally {
+      setLoadingFeatured(false);
+    }
+  };
+  useEffect(() => {
+    if (selectedCategory) {
+      const allPropertiesUri = new URL(
+        selectedCategory ? `?category=${selectedCategory}` : "/",
+        `${BASE_URL}/properties`,
+      );
+      const fetchPropertyDatas = async () => {
+        try {
+          await getAllProperties(allPropertiesUri.toString());
+        } catch {
+          toast.show({
+            title: "Sorry, something went wrong, please try again later",
+            placement: "top",
+            bgColor: colors.red[500],
+            margin: 4,
+          });
+        }
+      };
+      fetchPropertyDatas();
+    }
+  }, [selectedCategory]);
+  useEffect(() => {
+    const fetchPropertyDatas = async () => {
+      try {
+        await Promise.all([
+          getAllProperties(`${BASE_URL}/properties`),
+          getFeaturedProperties(),
+        ]);
+      } catch {
+        toast.show({
+          title: "Sorry, something went wrong, please try again later",
+          placement: "top",
+          bgColor: colors.red[500],
+          margin: 4,
+        });
       }
     };
-    fetchDatas();
+    fetchPropertyDatas();
   }, []);
   return (
     <>
@@ -114,7 +200,7 @@ export const Home: React.FC<HomeProps> = ({
                 backgroundColor="transparent"
                 translucent
               />
-              <VStack padding={6}>
+              <VStack paddingX={6} paddingY={3}>
                 <Header />
                 <Search
                   marginTop={4}
@@ -128,14 +214,14 @@ export const Home: React.FC<HomeProps> = ({
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   data={MOCKED_CATEGORIES}
-                  my={6}
+                  my={3}
                   keyExtractor={({ category: name }) => name}
                   maxH={10}
                   minH={10}
                   renderItem={({ item }) => (
                     <Group
                       active={
-                        selectedCategory.toUpperCase() ===
+                        selectedCategory?.toUpperCase() ===
                         item.category.toUpperCase()
                       }
                       color={item.color}
@@ -146,8 +232,15 @@ export const Home: React.FC<HomeProps> = ({
                   )}
                 />
               </VStack>
-              <Properties marginBottom={2} />
-              <FeaturedProperties />
+              <Properties
+                properties={properties}
+                marginBottom={2}
+                loading={loadingProperties}
+              />
+              <FeaturedProperties
+                properties={featuredProperties}
+                loading={loadingFeatured}
+              />
             </AnimatedVStack>
           </ScrollView>
         </SafeAreaView>

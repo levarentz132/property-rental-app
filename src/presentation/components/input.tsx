@@ -3,6 +3,7 @@ import {
   FormControl,
   IInputProps,
   Input as NativeBaseInput,
+  useTheme,
 } from "native-base";
 import { ColorType } from "native-base/lib/typescript/components/types";
 import React from "react";
@@ -23,14 +24,13 @@ export const Input: React.FC<InputProps> = ({
   icon: Icon,
   ...props
 }: InputProps) => {
+  const { sizes } = useTheme();
   const invalid = !!errorMessage || isInvalid;
   return (
     <FormControl
       isInvalid={invalid}
       bg="primary.bg.white"
-      h={14}
-      my={2}
-      py={8}
+      height={12}
       rounded="2xl"
     >
       <Box
@@ -38,21 +38,23 @@ export const Input: React.FC<InputProps> = ({
         flexDirection="row"
         justifyContent="start"
         alignItems="center"
-        px={3}
       >
-        {Icon && <Icon width={iconSize} height={iconSize} />}
-        {divisionColor && (
-          <Box
-            width={0.5}
-            rounded="full"
-            height={6}
-            bgColor={divisionColor}
-            marginLeft={2}
+        {Icon && (
+          <Icon
+            width={iconSize}
+            height={iconSize}
+            style={{
+              marginHorizontal: sizes[2],
+            }}
           />
         )}
         <NativeBaseInput
           borderWidth={0}
-          flex={1}
+          borderLeftRadius="full"
+          borderLeftWidth={divisionColor ? 3 : 0}
+          borderLeftColor={divisionColor}
+          rounded="none"
+          roundedLeft="2xl"
           fontSize="md"
           color="white"
           fontFamily="body"

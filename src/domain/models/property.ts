@@ -3,6 +3,7 @@ export interface Property {
   category: string;
   value: number;
   address: string;
+  picture: string;
   size?: number;
   beds?: number;
   bathrooms?: number;

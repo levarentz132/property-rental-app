@@ -1,4 +1,4 @@
-import { Box, HStack, IInputProps, IStackProps } from "native-base";
+import { Box, HStack, IInputProps, IStackProps, useTheme } from "native-base";
 import { Button, Input } from "src/presentation/components";
 
 import FilterIcon from "src/main/assets/colorfull-icons/filter.svg";
@@ -14,15 +14,15 @@ export const Search: React.FC<SearchProps> = ({
   onFilterPress,
   ...props
 }: SearchProps): JSX.Element => {
+  const { sizes } = useTheme();
   return (
-    <HStack width="100%" space={4} {...props}>
+    <HStack width="100%" py={3} space={4} {...props}>
       <Box flex={1}>
         <Input
           placeholder="Search"
-          my={2}
           color="blue.700"
           icon={SearchIcon}
-          iconSize={30}
+          iconSize={sizes[6]}
           divisionColor="primary.blue.500"
           {...inputProps}
         />
