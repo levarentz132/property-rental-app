@@ -52,7 +52,6 @@ export const Filter: React.FC<FilterProps> = ({
     })
     .onEnd((event) => {
       if (event.translationY > 250) {
-        console.log("onEnd", event.translationY);
         filterPosition.value = withTiming(5000);
         runOnJS(onCLose)();
       } else {

@@ -117,25 +117,24 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
               ${value}
             </Text>
           </HStack>
-          {!isPortrait ||
-            (fullWidth && (
-              <HStack width="100%" padding={fullWidth ? 3 : 0}>
-                <Icon
-                  as={LocationIconSvg}
-                  fill={colors.textColor.grayLight}
-                  marginLeft={-1}
-                />
-                <Text
-                  width="100%"
-                  color="textColor.grayLight"
-                  fontWeight="bold"
-                  maxWidth={isPortrait ? undefined : 200}
-                  numberOfLines={1}
-                >
-                  {address}
-                </Text>
-              </HStack>
-            ))}
+          {(!isPortrait || fullWidth) && (
+            <HStack width="100%" padding={fullWidth ? 3 : 0}>
+              <Icon
+                as={LocationIconSvg}
+                fill={colors.textColor.grayLight}
+                marginLeft={-1}
+              />
+              <Text
+                width="100%"
+                color="textColor.grayLight"
+                fontWeight="bold"
+                maxWidth={isPortrait ? undefined : 200}
+                numberOfLines={1}
+              >
+                {address}
+              </Text>
+            </HStack>
+          )}
           <HStack
             width="100%"
             justifyContent={isPortrait ? "space-around" : "flex-start"}

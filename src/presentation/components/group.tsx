@@ -38,7 +38,6 @@ export const Group: React.FC<GroupProps> = memo(
     }, [active]);
     return (
       <Pressable
-        mr={3}
         h={10}
         style={animatedStyle}
         rounded="md"

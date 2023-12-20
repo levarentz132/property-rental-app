@@ -8,16 +8,22 @@ import { Platform } from "react-native";
 import FavoritesSVG from "src/main/assets/colorfull-icons/bookmark.svg";
 import ChatSVG from "src/main/assets/colorfull-icons/chat.svg";
 import HomeSVG from "src/main/assets/colorfull-icons/home.svg";
-import SettingsSVG from "src/main/assets/colorfull-icons/setting.svg";
 import MenuSVG from "src/main/assets/colorfull-icons/menu.svg";
+import SettingsSVG from "src/main/assets/colorfull-icons/setting.svg";
 import {
   homeFactory,
+  menuFactory,
+  messagesFactory,
   propertyDetailsFactory,
   settingsFactory,
 } from "../factories";
 
 type AppRoutesTypes = {
   home: undefined;
+  favorites: undefined;
+  menu: undefined;
+  messages: undefined;
+  settings: undefined;
 };
 
 export type AppNavigatorRouteProps = BottomTabNavigationProp<AppRoutesTypes>;
@@ -87,7 +93,7 @@ export const AppRoutes: React.FC = () => {
       />
       <Screen
         name="menu"
-        children={() => homeFactory()}
+        children={() => menuFactory()}
         options={{
           tabBarIcon: () => (
             <Box
@@ -109,7 +115,7 @@ export const AppRoutes: React.FC = () => {
       />
       <Screen
         name="messages"
-        children={() => homeFactory()}
+        children={() => messagesFactory()}
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Box

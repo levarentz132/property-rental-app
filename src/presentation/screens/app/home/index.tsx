@@ -8,7 +8,6 @@ import {
   useTheme,
   useToast,
 } from "native-base";
-import { ColorType } from "native-base/lib/typescript/components/types";
 import React, { useEffect, useMemo, useState } from "react";
 import { Platform, StatusBar } from "react-native";
 import Animated, {
@@ -239,6 +238,10 @@ export const Home: React.FC<HomeProps> = ({
                   my={3}
                   keyExtractor={({ category: name }) => name}
                   maxH={10}
+                  _contentContainerStyle={{
+                    // @ts-ignore
+                    gap: 2,
+                  }}
                   minH={10}
                   renderItem={({ item }) => (
                     <Group
