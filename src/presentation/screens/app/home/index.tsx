@@ -41,35 +41,8 @@ export enum Category {
 
 export type CategoryData = {
   category: Category;
-  color: ColorType;
+  color: string;
 };
-
-const MOCKED_CATEGORIES: CategoryData[] = [
-  {
-    category: Category.House,
-    color: "red.500",
-  },
-  {
-    category: Category.Office,
-    color: "yellow.500",
-  },
-  {
-    category: Category.Apartment,
-    color: "green.500",
-  },
-  {
-    category: Category.Land,
-    color: "blue.500",
-  },
-  {
-    category: Category.Condo,
-    color: "purple.500",
-  },
-  {
-    category: Category.Other,
-    color: "pink.500",
-  },
-];
 
 interface HomeProps {
   httpClient: HttpGetClient;
@@ -96,6 +69,32 @@ export const Home: React.FC<HomeProps> = ({
       backgroundColor: bgColor.value,
     };
   });
+  const MOCKED_CATEGORIES: CategoryData[] = [
+    {
+      category: Category.House,
+      color: colors.red[500],
+    },
+    {
+      category: Category.Office,
+      color: colors.yellow[500],
+    },
+    {
+      category: Category.Apartment,
+      color: colors.green[500],
+    },
+    {
+      category: Category.Land,
+      color: colors.blue[500],
+    },
+    {
+      category: Category.Condo,
+      color: colors.purple[500],
+    },
+    {
+      category: Category.Other,
+      color: colors.muted[500],
+    },
+  ];
   const tabBarStyle = useMemo(
     () => ({
       borderTopRightRadius: radii["3xl"],
