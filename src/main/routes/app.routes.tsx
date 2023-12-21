@@ -4,6 +4,7 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { Box, useTheme } from "native-base";
 import { Platform } from "react-native";
+import { SvgProps } from "react-native-svg";
 
 import FavoritesSVG from "src/main/assets/colorfull-icons/bookmark.svg";
 import ChatSVG from "src/main/assets/colorfull-icons/chat.svg";
@@ -11,16 +12,15 @@ import HomeSVG from "src/main/assets/colorfull-icons/home.svg";
 import MenuSVG from "src/main/assets/colorfull-icons/menu.svg";
 import SettingsSVG from "src/main/assets/colorfull-icons/setting.svg";
 import {
-  homeFactory,
   menuFactory,
   messagesFactory,
   propertyDetailsFactory,
   settingsFactory,
 } from "../factories";
-import { SvgProps } from "react-native-svg";
+import { makeStackNavigator } from "./stack-navigator";
 
 type AppRoutesTypes = {
-  home: undefined;
+  homeTab: undefined;
   favorites: undefined;
   menu: undefined;
   messages: undefined;
@@ -33,28 +33,28 @@ type ScreenProps = React.ComponentProps<typeof Screen> & {
 
 const screens: ScreenProps[] = [
   {
-    name: "home",
-    component: () => homeFactory(),
+    name: "homeTab",
+    component: () => makeStackNavigator(),
     svg: HomeSVG,
   },
   {
     name: "favorites",
-    component: propertyDetailsFactory,
+    component: () => propertyDetailsFactory(),
     svg: FavoritesSVG,
   },
   {
     name: "menu",
-    component: menuFactory,
+    component: () => menuFactory(),
     svg: MenuSVG,
   },
   {
     name: "messages",
-    component: messagesFactory,
+    component: () => messagesFactory(),
     svg: ChatSVG,
   },
   {
     name: "settings",
-    component: settingsFactory,
+    component: () => settingsFactory(),
     svg: SettingsSVG,
   },
 ];
@@ -93,7 +93,7 @@ export const AppRoutes: React.FC = () => {
   const iconSize = sizes[6];
   return (
     <Navigator
-      initialRouteName="home"
+      initialRouteName="homeTab"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,

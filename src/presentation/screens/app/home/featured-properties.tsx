@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import { HStack, Heading, IStackProps, List, Text, VStack } from "native-base";
 
 import { Property } from "src/domain/models";
+import { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
 import { PropertyCard } from "src/presentation/components";
 import { PropertyCardSkeleton } from "src/presentation/components/property-card-skeleton";
 
@@ -14,6 +16,7 @@ export const FeaturedProperties: React.FC<PropertiesProps> = ({
   loading = false,
   ...props
 }: PropertiesProps): JSX.Element => {
+  const { navigate } = useNavigation<StackNavigatorRouteProps>();
   const Card = loading ? PropertyCardSkeleton : PropertyCard;
   return (
     <VStack flex={1} {...props}>
@@ -29,7 +32,13 @@ export const FeaturedProperties: React.FC<PropertiesProps> = ({
               key={item.id}
               view="landscape"
               paddingBottom={3}
-              paddingX={6}
+              paddingX={4}
+              onPress={() =>
+                navigate("property-details", {
+                  type: "featured",
+                  id: item.id,
+                })
+              }
               {...item}
             />
           ))

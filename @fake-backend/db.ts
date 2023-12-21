@@ -36,10 +36,10 @@ export default function () {
   });
   const data: FakeBackendData = { properties: [], featured: [] };
   for (let i = 0; i < randomPropertiesTotalData; i++) {
-    data.properties.push(createRandomProperty(i - 1));
+    data.properties.push(createRandomProperty(i + 1));
   }
   for (let i = 0; i < randomFeaturedPropertiesTotalData; i++) {
-    data.featured.push(createRandomProperty(i - 1));
+    data.featured.push(createRandomProperty(i + 1));
   }
   return data;
 }

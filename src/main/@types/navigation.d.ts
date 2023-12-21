@@ -6,6 +6,10 @@ export declare global {
       menu: undefined;
       messages: undefined;
       settings: undefined;
+      "property-details": {
+        type: "property" | "featured";
+        id: string;
+      };
     }
   }
 }

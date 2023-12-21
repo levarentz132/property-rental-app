@@ -24,7 +24,7 @@ import { Properties } from "./all-properties";
 import { FeaturedProperties } from "./featured-properties";
 import { Search } from "./search";
 
-const BASE_URL = "http://192.168.12.85:3000";
+const BASE_URL = "http://192.168.1.244:3000";
 
 const AnimatedVStack = Animated.createAnimatedComponent(VStack);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
@@ -214,7 +214,7 @@ export const Home: React.FC<HomeProps> = ({
     <>
       <AnimatedBox style={[animatedStyles]}>
         <SafeAreaView>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <AnimatedVStack style={[animatedStyles]}>
               <StatusBar
                 barStyle="dark-content"

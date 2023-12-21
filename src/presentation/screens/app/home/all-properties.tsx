@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   Factory,
   FlatList,
@@ -12,6 +13,7 @@ import { TouchableOpacity as RNTouchableOpacity } from "react-native";
 
 import { Property } from "src/domain/models";
 import ArrowRightIcon from "src/main/assets/filled-icons/arrow-right2.svg";
+import { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
 import { PropertyCard } from "src/presentation/components";
 import { PropertyCardSkeleton } from "src/presentation/components/property-card-skeleton";
 
@@ -29,6 +31,7 @@ export const Properties: React.FC<PropertiesProps> = ({
   ...props
 }: PropertiesProps): JSX.Element => {
   const { colors, sizes } = useTheme();
+  const navigation = useNavigation<StackNavigatorRouteProps>();
   const Card = loading ? PropertyCardSkeleton : PropertyCard;
   return (
     <VStack flex={1} {...props}>
@@ -51,6 +54,12 @@ export const Properties: React.FC<PropertiesProps> = ({
         renderItem={({ item, index }) => (
           <Card
             {...item}
+            onPress={() =>
+              navigation.navigate("property-details", {
+                type: "property",
+                id: item.id,
+              })
+            }
             marginRight={index === properties.length - 1 ? 0 : 3}
           />
         )}
