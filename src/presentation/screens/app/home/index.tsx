@@ -24,7 +24,7 @@ import { Properties } from "./all-properties";
 import { FeaturedProperties } from "./featured-properties";
 import { Search } from "./search";
 
-const BASE_URL = "http://192.168.1.244:3000";
+const BASE_URL = "http://192.168.12.95:3000";
 
 const AnimatedVStack = Animated.createAnimatedComponent(VStack);
 const AnimatedBox = Animated.createAnimatedComponent(Box);

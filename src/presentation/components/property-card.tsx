@@ -1,5 +1,6 @@
 import { Image as ExpoImage } from "expo-image";
 import {
+  Box,
   Factory,
   HStack,
   Icon,
@@ -8,16 +9,17 @@ import {
   VStack,
   useTheme,
 } from "native-base";
+import { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
 import { SvgProps } from "react-native-svg";
 
+import LocationIconSvg from "src/main/assets/filled-icons/location.svg";
 import BathroomIconSvg from "src/main/assets/property-icons/bathroom.svg";
 import BedIconSvg from "src/main/assets/property-icons/bed.svg";
 import KitchenIconSvg from "src/main/assets/property-icons/kitchen.svg";
 import SpaceIconSvg from "src/main/assets/property-icons/space.svg";
-import LocationIconSvg from "src/main/assets/filled-icons/location.svg";
-import { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
-import { Property } from "src/domain/models";
+
 import { useMemo } from "react";
+import { Property } from "src/domain/models";
 
 const Image = Factory(ExpoImage);
 
@@ -144,30 +146,31 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
               <PropItem
                 icon={SpaceIconSvg}
                 value={`${size}m²`}
-                marginRight={!isPortrait}
+                marginRight={!isPortrait || fullWidth}
               />
             )}
             {beds && (
               <PropItem
                 icon={BedIconSvg}
                 value={beds}
-                marginRight={!isPortrait}
+                marginRight={!isPortrait || fullWidth}
               />
             )}
             {bathrooms && (
               <PropItem
                 icon={BathroomIconSvg}
                 value={bathrooms}
-                marginRight={!isPortrait}
+                marginRight={!isPortrait || fullWidth}
               />
             )}
             {kitchens && (
               <PropItem
                 icon={KitchenIconSvg}
                 value={kitchens}
-                marginRight={!isPortrait}
+                marginRight={!isPortrait || fullWidth}
               />
             )}
+            {fullWidth && <Box flex={1} />}
           </HStack>
         </VStack>
       </Wrapper>

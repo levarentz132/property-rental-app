@@ -14,7 +14,7 @@ import SettingsSVG from "src/main/assets/colorfull-icons/setting.svg";
 import {
   menuFactory,
   messagesFactory,
-  propertyDetailsFactory,
+  savedPropertyFactory,
   settingsFactory,
 } from "../factories";
 import { makeStackNavigator } from "./stack-navigator";
@@ -39,7 +39,7 @@ const screens: ScreenProps[] = [
   },
   {
     name: "favorites",
-    component: () => propertyDetailsFactory(),
+    component: () => savedPropertyFactory(),
     svg: FavoritesSVG,
   },
   {

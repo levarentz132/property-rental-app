@@ -8,18 +8,22 @@ import {
   useTheme,
   useToast,
 } from "native-base";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { TouchableOpacity as RNTouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import BookmarkFilledIcon from "src/main/assets/colorfull-icons/bookmark-filled.svg";
+import BookmarkIcon from "src/main/assets/colorfull-icons/bookmark.svg";
+import ArrowBackIcon from "src/main/assets/outline-icons/arrow-left2.svg";
+
 import { HttpGetClient } from "src/data/contracts/infra";
 import { Property } from "src/domain/models";
-import ArrowBackIcon from "src/main/assets/outline-icons/arrow-left2.svg";
 import { BaseRouteParamsProps } from "src/main/routes";
 import { Loading, PropertyCard } from "src/presentation/components";
+import { useApp } from "src/presentation/hooks/use-app";
 import { Review } from "./review";
 
-const BASE_URL = "http://192.168.1.244:3000";
+const BASE_URL = "http://192.168.12.95:3000";
 const TouchableOpacity = Factory(RNTouchableOpacity);
 
 interface RouteParamsProps extends BaseRouteParamsProps {
@@ -32,17 +36,30 @@ interface RouteParamsProps extends BaseRouteParamsProps {
 interface PropertyDetailsProps {
   httpClient: HttpGetClient;
 }
+const ICON_SIZE = 7;
 
 export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   httpClient,
 }: PropertyDetailsProps): JSX.Element => {
+  const { bookmarks, addToBookmarks, removeFromBookmarks } = useApp();
   const { params } = useRoute<RouteParamsProps>();
   const { navigate, goBack } = useNavigation();
   const { colors, sizes } = useTheme();
   const toast = useToast();
   const [property, setProperty] = useState<Property>();
+  const isBookmarked = useMemo(
+    () => bookmarks.includes(params.id),
+    [bookmarks],
+  );
+  const Bookmark = isBookmarked ? BookmarkFilledIcon : BookmarkIcon;
+  const toggleBookmark = useCallback(() => {
+    if (isBookmarked) {
+      removeFromBookmarks(params.id);
+      return;
+    }
+    addToBookmarks(params.id);
+  }, [isBookmarked]);
   const fetchData = async () => {
-    console.log(params.id);
     try {
       const matchCategory =
         params.type === "property" ? "properties" : "featured";
@@ -74,12 +91,21 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
               onPress={goBack}
             >
               <ArrowBackIcon
-                width={sizes[7]}
-                height={sizes[7]}
+                width={sizes[ICON_SIZE]}
+                height={sizes[ICON_SIZE]}
                 fill={colors.primary.blue[800]}
               />
             </TouchableOpacity>
-            <Heading textTransform="capitalize">Property Details</Heading>
+            <Heading flex={1} textTransform="capitalize">
+              Property Details
+            </Heading>
+            <TouchableOpacity activeOpacity={0.7} onPress={toggleBookmark}>
+              <Bookmark
+                width={sizes[ICON_SIZE]}
+                height={sizes[ICON_SIZE]}
+                fill={colors.primary.blue[800]}
+              />
+            </TouchableOpacity>
           </HStack>
           <PropertyCard fullWidth {...property} />
           <Review />
