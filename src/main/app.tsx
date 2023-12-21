@@ -13,6 +13,9 @@ import { Loading } from "../presentation/components/loading";
 import { Routes } from "./routes";
 import { THEME } from "./theme";
 import { AppProvider } from "src/presentation/context";
+import { ReactNativeAsyncStorage } from "src/infra/storage/rn-storage";
+
+const storageClient = new ReactNativeAsyncStorage();
 
 export const App = () => {
   const [isReady, setIsReady] = useState(false);
@@ -38,7 +41,7 @@ export const App = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NativeBaseProvider theme={THEME} isSSR={false}>
         {isReady && fontsLoaded ? (
-          <AppProvider>
+          <AppProvider asyncStorageClient={storageClient}>
             <Routes />
           </AppProvider>
         ) : (
