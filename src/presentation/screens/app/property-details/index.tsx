@@ -23,6 +23,7 @@ import { BaseRouteParamsProps } from "src/main/routes";
 import { Loading, PropertyCard } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
 import { Review } from "./review";
+import { OwnerCard } from "./owner-card";
 
 const TouchableOpacity = Factory(RNTouchableOpacity);
 
@@ -109,6 +110,7 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
           </HStack>
           <PropertyCard fullWidth {...property} />
           <Review />
+          <OwnerCard />
         </VStack>
       </ScrollView>
     </SafeAreaView>

@@ -90,7 +90,9 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           rounded="3xl"
           contentFit="fill"
           marginRight={isPortrait ? 0 : 3}
-          source={{ uri: picture }}
+          source={{
+            uri: `${picture}?dummy=${address.replace(/\s/g, "")}`,
+          }}
         />
         <VStack
           alignItems="center"

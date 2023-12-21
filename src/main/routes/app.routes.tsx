@@ -103,6 +103,7 @@ export const AppRoutes: React.FC = () => {
           marginBottom: Platform.OS === "android" ? undefined : sizes[4],
         },
         tabBarStyle: {
+          display: "flex",
           borderTopRightRadius: radii["3xl"],
           borderTopLeftRadius: radii["3xl"],
           backgroundColor: colors.primary.bg.white,

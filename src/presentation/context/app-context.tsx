@@ -1,12 +1,8 @@
 import { uniq } from "ramda";
 import React, { createContext, ReactNode } from "react";
-import { AsyncStorageClient } from "src/data/contracts/infra";
 
-interface UserData {
-  realName: string;
-  username: string;
-  bookmarks: string[];
-}
+import { AsyncStorageClient } from "src/data/contracts/infra";
+import { UserData } from "src/domain/models";
 
 interface AppContextType {
   user: UserData | undefined;
@@ -28,6 +24,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({
   asyncStorageClient,
 }) => {
   const [user, setUser] = React.useState<UserData>();
+
+  React.useEffect(() => {
+    const getUser = async () => {
+      const userData = await asyncStorageClient.get<UserData>("user");
+      setUser(userData);
+    };
+    getUser();
+  }, []);
 
   const addToBookmarks = async (id: string) => {
     const userData = await asyncStorageClient.get<UserData>("user");

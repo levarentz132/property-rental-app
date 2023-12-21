@@ -26,7 +26,7 @@ export const App = () => {
   const handleHideNavigationBar = async () => {
     try {
       if (Platform.OS === "ios") return;
-      await NavigationBar.setBehaviorAsync("overlay-swipe");
+      await NavigationBar.setBehaviorAsync("inset-swipe");
       await NavigationBar.setVisibilityAsync("hidden");
     } catch (error) {
       console.error(error);
@@ -36,6 +36,18 @@ export const App = () => {
   };
   useEffect(() => {
     handleHideNavigationBar();
+  }, []);
+  useEffect(() => {
+    if (Platform.OS === "ios") return;
+    const subs = NavigationBar.addVisibilityListener((e) => {
+      if (e.visibility === "visible") {
+        setTimeout(() => {
+          NavigationBar.setVisibilityAsync("hidden");
+        }, 3000);
+      }
+    });
+
+    return () => subs.remove();
   }, []);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
