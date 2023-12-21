@@ -9,8 +9,10 @@ import ShieldIcon from "src/main/assets/colorfull-icons/shield.svg";
 import UserIcon from "src/main/assets/colorfull-icons/user.svg";
 
 import { Card } from "./card";
+import { useApp } from "src/presentation/hooks/use-app";
 
 export const Settings: React.FC = (): JSX.Element => {
+  const { removeUser } = useApp();
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -21,7 +23,12 @@ export const Settings: React.FC = (): JSX.Element => {
           <Card icon={ShieldIcon} label="Privacy policy" />
           <Card icon={DocsIcon} label="Data saver" />
           <Card icon={NotificationIcon} label="Notification" />
-          <Card hideArrow icon={LogOutIcon} label="Log out" />
+          <Card
+            hideArrow
+            icon={LogOutIcon}
+            label="Log out"
+            onPress={removeUser}
+          />
         </VStack>
       </ScrollView>
     </SafeAreaView>

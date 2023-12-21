@@ -6,4 +6,10 @@ export interface SetAsyncStorage {
   set: <T = string>(key: string, value: T) => Promise<void>;
 }
 
-export type AsyncStorageClient = GetAsyncStorage & SetAsyncStorage;
+export interface RemoveAsyncStorage {
+  remove: (key: string) => Promise<void>;
+}
+
+export type AsyncStorageClient = GetAsyncStorage &
+  SetAsyncStorage &
+  RemoveAsyncStorage;

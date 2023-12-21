@@ -1,5 +1,6 @@
-import { Box, Heading, VStack } from "native-base";
+import { Box, Heading, VStack, useTheme, useToast } from "native-base";
 import React, { useState } from "react";
+import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import PasswordIcon from "src/main/assets/colorfull-icons/password.svg";
@@ -7,14 +8,63 @@ import UserIcon from "src/main/assets/colorfull-icons/user.svg";
 import Logo from "src/main/assets/logo.svg";
 import { InputGroup } from "src/presentation/components";
 
+import { HttpPostClient } from "src/data/contracts/infra";
+import { env } from "src/main/config/env";
+import { useApp } from "src/presentation/hooks/use-app";
 import { Social } from "../social";
 import { Actions } from "./actions";
-import { StatusBar } from "react-native";
+import { isAxiosError } from "axios";
 
-export const Login: React.FC = (): JSX.Element => {
+interface LoginProps {
+  httpClient: HttpPostClient;
+}
+
+export const Login: React.FC<LoginProps> = ({
+  httpClient,
+}: LoginProps): JSX.Element => {
+  const { addUser } = useApp();
+  const toast = useToast();
+  const { colors } = useTheme();
+  const [loading, setLoading] = useState<boolean>(false);
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const handleLogin = () => {};
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+      const { body } = await httpClient.post<any>({
+        url: `${env.ENDPOINT}/signin`,
+        body: {
+          username,
+          password,
+        },
+      });
+      await addUser({
+        username: body.user.username,
+        realName: body.user.real_name,
+        bookmarks: body.user.bookmarks,
+      });
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const errorData = error.toJSON() as any;
+        console.log(errorData.status);
+        if (errorData.status === 401) {
+          toast.show({
+            title: "Invalid credentials",
+            description:
+              error.response?.data.message ||
+              "Please check your username and password",
+            placement: "top",
+            bgColor: colors.red[500],
+            alignItems: "center",
+            margin: 4,
+          });
+        }
+        console.log(error.response?.data);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleForgotPassword = () => {};
   return (
     <>
@@ -60,16 +110,28 @@ export const Login: React.FC = (): JSX.Element => {
                 {
                   label: "Username",
                   icon: UserIcon,
-                  inputProps: { value: username, onChangeText: setUsername },
+                  inputProps: {
+                    isDisabled: loading,
+                    value: username,
+                    onChangeText: setUsername,
+                    type: "text",
+                    autoCorrect: false,
+                  },
                 },
                 {
                   label: "Password",
                   icon: PasswordIcon,
-                  inputProps: { value: password, onChangeText: setPassword },
+                  inputProps: {
+                    isDisabled: loading,
+                    value: password,
+                    onChangeText: setPassword,
+                    type: "password",
+                  },
                 },
               ]}
             />
             <Actions
+              loading={loading}
               marginTop={8}
               onLogin={handleLogin}
               onForgotPassword={handleForgotPassword}

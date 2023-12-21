@@ -1,8 +1,17 @@
+import { uniq } from "ramda";
 import React, { createContext, ReactNode } from "react";
 import { AsyncStorageClient } from "src/data/contracts/infra";
 
-interface AppContextType {
+interface UserData {
+  realName: string;
+  username: string;
   bookmarks: string[];
+}
+
+interface AppContextType {
+  user: UserData | undefined;
+  addUser: (user: UserData) => Promise<void>;
+  removeUser: () => Promise<void>;
   addToBookmarks: (id: string) => Promise<void>;
   removeFromBookmarks: (id: string) => Promise<void>;
 }
@@ -18,29 +27,48 @@ export const AppProvider: React.FC<AppProviderProps> = ({
   children,
   asyncStorageClient,
 }) => {
-  const [bookmarks, setBookmarks] = React.useState<string[]>([]);
+  const [user, setUser] = React.useState<UserData>();
 
   const addToBookmarks = async (id: string) => {
-    await asyncStorageClient.set("bookmarks", [...bookmarks, id]);
-    setBookmarks((prev) => {
-      if (prev.includes(id)) return prev;
-      return [...prev, id];
-    });
+    const userData = await asyncStorageClient.get<UserData>("user");
+    if (userData) {
+      const newUserData = {
+        ...userData,
+        bookmarks: uniq(
+          userData?.bookmarks ? [...userData?.bookmarks, id] : [id],
+        ),
+      };
+      await asyncStorageClient.set("user", newUserData);
+      setUser(newUserData);
+    }
   };
 
   const removeFromBookmarks = async (id: string) => {
-    await asyncStorageClient.set(
-      "bookmarks",
-      bookmarks.filter((item) => item !== id),
-    );
-    setBookmarks((prev) => {
-      if (!prev.includes(id)) return prev;
-      return prev.filter((item) => item !== id);
-    });
+    const userData = await asyncStorageClient.get<UserData>("user");
+    if (userData) {
+      const newUserData = {
+        ...userData,
+        bookmarks: userData?.bookmarks?.filter((item) => item !== id),
+      };
+      await asyncStorageClient.set("user", newUserData);
+      setUser(newUserData);
+    }
+  };
+
+  const addUser = async (user: UserData) => {
+    await asyncStorageClient.set("user", user);
+    setUser(user);
+  };
+
+  const removeUser = async () => {
+    await asyncStorageClient.remove("user");
+    setUser(undefined);
   };
 
   const contextValue: AppContextType = {
-    bookmarks,
+    user,
+    addUser,
+    removeUser,
     addToBookmarks,
     removeFromBookmarks,
   };

@@ -1,4 +1,4 @@
-import { HStack, Skeleton, VStack, useTheme } from "native-base";
+import { HStack, Skeleton, VStack } from "native-base";
 import { PropertyCardProps } from "./property-card";
 
 export const PropertyCardSkeleton: React.FC<PropertyCardProps> = ({
@@ -13,7 +13,6 @@ export const PropertyCardSkeleton: React.FC<PropertyCardProps> = ({
   kitchens,
   ...props
 }: PropertyCardProps): JSX.Element => {
-  const { colors } = useTheme();
   const isPortrait = view === "portrait";
   const Wrapper = isPortrait ? VStack : HStack;
   return (

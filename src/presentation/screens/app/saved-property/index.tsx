@@ -18,39 +18,38 @@ import { Property } from "src/domain/models";
 import { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
 import { Input, PropertyCard } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
+import { env } from "src/main/config/env";
 
 interface SavedPropertyProps {
   httpClient: HttpGetClient;
 }
-
-const BASE_URL = "http://192.168.12.95:3000";
 
 export const SavedProperty: React.FC<SavedPropertyProps> = ({
   httpClient,
 }: SavedPropertyProps): JSX.Element => {
   const { sizes } = useTheme();
   const { navigate } = useNavigation<StackNavigatorRouteProps>();
-  const { bookmarks } = useApp();
+  const { user } = useApp();
   const [bookmarkList, setBookmarkList] = useState<Property[]>();
   useFocusEffect(
     useCallback(() => {
       console.log("oi");
       const fetchBookmarks = async () => {
         let mergedPath = "";
-        bookmarks.forEach((bookmark) => {
+        user?.bookmarks.forEach((bookmark) => {
           mergedPath += `id=${bookmark}&`;
         });
         const { body } = await httpClient.get<Property[]>({
-          url: `${BASE_URL}/properties?${mergedPath}`,
+          url: `${env.ENDPOINT}/properties?${mergedPath}`,
         });
         setBookmarkList(body);
       };
-      if (bookmarks.length) {
+      if (user?.bookmarks.length) {
         fetchBookmarks();
       } else {
         setBookmarkList([]);
       }
-    }, [bookmarks.length]),
+    }, [user?.bookmarks.length]),
   );
   return (
     <SafeAreaView style={{ flex: 1 }}>

@@ -10,6 +10,8 @@ export declare global {
         type: "property" | "featured";
         id: string;
       };
+      "sign-in": undefined;
+      "sign-up": undefined;
     }
   }
 }

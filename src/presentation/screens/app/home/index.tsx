@@ -19,12 +19,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { HttpGetClient } from "src/data/contracts/infra";
 import { Property } from "src/domain/models";
+import { env } from "src/main/config/env";
 import { Filter, Group, Header } from "src/presentation/components";
 import { Properties } from "./all-properties";
 import { FeaturedProperties } from "./featured-properties";
 import { Search } from "./search";
-
-const BASE_URL = "http://192.168.12.95:3000";
 
 const AnimatedVStack = Animated.createAnimatedComponent(VStack);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
@@ -144,7 +143,7 @@ export const Home: React.FC<HomeProps> = ({
     try {
       setLoadingFeatured(true);
       const { body = [] } = await httpClient.get<Property[]>({
-        url: `${BASE_URL}/featured`,
+        url: `${env.ENDPOINT}/featured`,
       });
       setFeaturedProperties(body);
     } catch (error) {
@@ -175,7 +174,7 @@ export const Home: React.FC<HomeProps> = ({
     if (selectedCategory) {
       const allPropertiesUri = new URL(
         selectedCategory ? `?category=${selectedCategory}` : "/",
-        `${BASE_URL}/properties`,
+        `${env.ENDPOINT}/properties`,
       );
       const fetchPropertyDatas = async () => {
         try {
@@ -196,7 +195,7 @@ export const Home: React.FC<HomeProps> = ({
     const fetchPropertyDatas = async () => {
       try {
         await Promise.all([
-          getAllProperties(`${BASE_URL}/properties`),
+          getAllProperties(`${env.ENDPOINT}/properties`),
           getFeaturedProperties(),
         ]);
       } catch {

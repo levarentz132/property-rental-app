@@ -4,12 +4,14 @@ import {
   Text,
   useTheme,
   Box,
+  Spinner,
 } from "native-base";
 import React from "react";
 import { SvgProps } from "react-native-svg";
 
 interface ButtonProps extends Omit<IButtonProps, "variant"> {
   title: string;
+  loading?: boolean;
   variant?: "outline" | "solid";
   addorment?: React.FC<SvgProps>;
   endorment?: React.FC<SvgProps>;
@@ -20,11 +22,13 @@ export const Button: React.FC<ButtonProps> = ({
   variant,
   addorment: Addorment,
   endorment: Endorment,
+  loading = false,
   ...props
 }: ButtonProps) => {
   const { space } = useTheme();
   return (
     <NativeBaseButton
+      disabled={loading}
       width="100%"
       h={12}
       bg={variant === "outline" ? "transparent" : "primary.blue.800"}
@@ -36,21 +40,33 @@ export const Button: React.FC<ButtonProps> = ({
       }}
       {...props}
     >
-      <Box flexDirection="row" justifyContent="center" alignItems="center">
-        {Addorment && (
-          <Addorment width={30} height={30} style={{ marginRight: space[2] }} />
-        )}
-        <Text
-          color={variant === "outline" ? "primary.blue.500" : "white"}
-          fontFamily="heading"
-          fontSize="md"
-        >
-          {title}
-        </Text>
-        {Endorment && (
-          <Endorment width={30} height={30} style={{ marginLeft: space[2] }} />
-        )}
-      </Box>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Box flexDirection="row" justifyContent="center" alignItems="center">
+          {Addorment && (
+            <Addorment
+              width={30}
+              height={30}
+              style={{ marginRight: space[2] }}
+            />
+          )}
+          <Text
+            color={variant === "outline" ? "primary.blue.500" : "white"}
+            fontFamily="heading"
+            fontSize="md"
+          >
+            {title}
+          </Text>
+          {Endorment && (
+            <Endorment
+              width={30}
+              height={30}
+              style={{ marginLeft: space[2] }}
+            />
+          )}
+        </Box>
+      )}
     </NativeBaseButton>
   );
 };

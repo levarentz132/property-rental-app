@@ -15,4 +15,8 @@ export class ReactNativeAsyncStorage implements AsyncStorageClient {
       typeof value === "string" ? value : JSON.stringify(value),
     );
   }
+
+  public async remove(key: string): Promise<void> {
+    await AsyncStorage.removeItem(key);
+  }
 }

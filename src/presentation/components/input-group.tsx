@@ -28,12 +28,12 @@ export const InputGroup: React.FC<InputGroupProps> = ({
       {inputs.map(({ label, icon: Icon, inputProps }, index) => {
         return (
           <React.Fragment key={index}>
-            <HStack alignItems="center" px={30} py={1.5}>
-              <Icon width={40} height={40} />
+            <HStack alignItems="center" p={2}>
               <Input
+                color="textColor.dark"
+                InputLeftElement={<Icon width={40} height={40} />}
                 key={index}
                 placeholder={label}
-                marginLeft={2}
                 {...inputProps}
               />
             </HStack>

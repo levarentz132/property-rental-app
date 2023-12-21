@@ -18,12 +18,12 @@ import ArrowBackIcon from "src/main/assets/outline-icons/arrow-left2.svg";
 
 import { HttpGetClient } from "src/data/contracts/infra";
 import { Property } from "src/domain/models";
+import { env } from "src/main/config/env";
 import { BaseRouteParamsProps } from "src/main/routes";
 import { Loading, PropertyCard } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
 import { Review } from "./review";
 
-const BASE_URL = "http://192.168.12.95:3000";
 const TouchableOpacity = Factory(RNTouchableOpacity);
 
 interface RouteParamsProps extends BaseRouteParamsProps {
@@ -41,15 +41,15 @@ const ICON_SIZE = 7;
 export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   httpClient,
 }: PropertyDetailsProps): JSX.Element => {
-  const { bookmarks, addToBookmarks, removeFromBookmarks } = useApp();
+  const { user, addToBookmarks, removeFromBookmarks } = useApp();
   const { params } = useRoute<RouteParamsProps>();
   const { navigate, goBack } = useNavigation();
   const { colors, sizes } = useTheme();
   const toast = useToast();
   const [property, setProperty] = useState<Property>();
   const isBookmarked = useMemo(
-    () => bookmarks.includes(params.id),
-    [bookmarks],
+    () => user?.bookmarks.includes(params.id),
+    [user?.bookmarks],
   );
   const Bookmark = isBookmarked ? BookmarkFilledIcon : BookmarkIcon;
   const toggleBookmark = useCallback(() => {
@@ -64,7 +64,7 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
       const matchCategory =
         params.type === "property" ? "properties" : "featured";
       const { body } = await httpClient.get<Property[]>({
-        url: `${BASE_URL}/${matchCategory}?id=${params.id}`,
+        url: `${env.ENDPOINT}/${matchCategory}?id=${params.id}`,
       });
       if (body) setProperty(body[0]);
     } catch {

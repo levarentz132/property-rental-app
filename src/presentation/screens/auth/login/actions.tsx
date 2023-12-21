@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native";
 import { Button } from "src/presentation/components";
 
 interface ActionsPageProps extends IStackProps {
+  loading?: boolean;
   onForgotPassword: () => void;
   onLogin: () => void;
 }
@@ -12,6 +13,7 @@ interface ActionsPageProps extends IStackProps {
 export const Actions: React.FC<ActionsPageProps> = ({
   onForgotPassword,
   onLogin,
+  loading = false,
   ...props
 }: ActionsPageProps) => {
   return (
@@ -25,7 +27,7 @@ export const Actions: React.FC<ActionsPageProps> = ({
           Forgot password?
         </Text>
       </TouchableOpacity>
-      <Button flex={1} title="Login" onPress={onLogin} />
+      <Button flex={1} title="Login" loading={loading} onPress={onLogin} />
     </HStack>
   );
 };
