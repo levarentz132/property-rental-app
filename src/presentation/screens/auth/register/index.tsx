@@ -1,14 +1,13 @@
 import { Box, Heading, VStack } from "native-base";
 import React, { useState } from "react";
+import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
 import EmailIcon from "src/main/assets/colorfull-icons/email.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/password.svg";
 import UserIcon from "src/main/assets/colorfull-icons/user.svg";
 import { Button, Input } from "src/presentation/components";
 
 import { Social } from "../social";
-import { StatusBar } from "react-native";
 
 export const Register: React.FC = (): JSX.Element => {
   const [username, setUsername] = useState<string>();

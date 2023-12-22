@@ -5,20 +5,18 @@ import {
   Heading,
   ScrollView,
   Text,
-  VStack,
   useTheme,
+  VStack,
 } from "native-base";
 import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import type { HttpGetClient } from "src/data/contracts/infra";
+import type { Property } from "src/domain/models";
 import SearchIcon from "src/main/assets/colorfull-icons/search.svg";
-
-import { HttpGetClient } from "src/data/contracts/infra";
-import { Property } from "src/domain/models";
-import { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
+import { env } from "src/main/config/env";
+import type { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
 import { Input, PropertyCard } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
-import { env } from "src/main/config/env";
 
 interface SavedPropertyProps {
   httpClient: HttpGetClient;

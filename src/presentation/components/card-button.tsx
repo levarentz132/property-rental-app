@@ -1,6 +1,6 @@
-import { Center, Text, useTheme, Pressable } from "native-base";
-import { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
-import { SvgProps } from "react-native-svg";
+import { Center, Pressable, Text, useTheme } from "native-base";
+import type { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
+import type { SvgProps } from "react-native-svg";
 
 interface CardButtonProps extends InterfacePressableProps {
   label: string;

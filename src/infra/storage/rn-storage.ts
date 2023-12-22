@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import { AsyncStorageClient } from "src/data/contracts/infra";
+import type { AsyncStorageClient } from "src/data/contracts/infra";
 
 export class ReactNativeAsyncStorage implements AsyncStorageClient {
   public async get<T = any>(key: string): Promise<T | undefined> {
@@ -8,7 +7,9 @@ export class ReactNativeAsyncStorage implements AsyncStorageClient {
     if (value) {
       return JSON.parse(value);
     }
+    return undefined;
   }
+
   public async set<T>(key: string, value: T): Promise<void> {
     await AsyncStorage.setItem(
       key,

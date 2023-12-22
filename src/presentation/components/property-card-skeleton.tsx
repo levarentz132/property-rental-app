@@ -1,17 +1,9 @@
 import { HStack, Skeleton, VStack } from "native-base";
-import { PropertyCardProps } from "./property-card";
+
+import type { PropertyCardProps } from "./property-card";
 
 export const PropertyCardSkeleton: React.FC<PropertyCardProps> = ({
   view = "portrait",
-  category,
-  value,
-  address,
-  size,
-  picture,
-  beds,
-  bathrooms,
-  kitchens,
-  ...props
 }: PropertyCardProps): JSX.Element => {
   const isPortrait = view === "portrait";
   const Wrapper = isPortrait ? VStack : HStack;

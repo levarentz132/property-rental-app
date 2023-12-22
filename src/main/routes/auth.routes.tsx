@@ -20,17 +20,15 @@ const screens: ScreenProps[] = [
   },
 ];
 
-export const AuthRoutes: React.FC = () => {
-  return (
-    <Navigator
-      initialRouteName="homeTab"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {screens.map(({ name, component }) => {
-        return <Screen key={name} name={name} children={component as any} />;
-      })}
-    </Navigator>
-  );
-};
+export const AuthRoutes: React.FC = () => (
+  <Navigator
+    initialRouteName="homeTab"
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    {screens.map(({ name, component }) => (
+      <Screen key={name} name={name} children={component as any} />
+    ))}
+  </Navigator>
+);

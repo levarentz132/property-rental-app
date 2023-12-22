@@ -1,15 +1,14 @@
 import { Heading, ScrollView, VStack } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import DocsIcon from "src/main/assets/colorfull-icons/docs.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/key.svg";
 import LogOutIcon from "src/main/assets/colorfull-icons/logout.svg";
 import NotificationIcon from "src/main/assets/colorfull-icons/notification.svg";
 import ShieldIcon from "src/main/assets/colorfull-icons/shield.svg";
 import UserIcon from "src/main/assets/colorfull-icons/user.svg";
+import { useApp } from "src/presentation/hooks/use-app";
 
 import { Card } from "./card";
-import { useApp } from "src/presentation/hooks/use-app";
 
 export const Settings: React.FC = (): JSX.Element => {
   const { removeUser } = useApp();

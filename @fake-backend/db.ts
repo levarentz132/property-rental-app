@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Property } from "src/domain/models";
+import type { Property } from "src/domain/models";
 
 const categories = ["Apartment", "House", "Office", "Land", "Condo", "Other"];
 
@@ -28,18 +28,20 @@ function createRandomProperty(id: number): Property {
   };
 }
 
-export default function () {
+const generateMockData = () => {
   const randomPropertiesTotalData = faker.number.int({ min: 10, max: 20 });
   const randomFeaturedPropertiesTotalData = faker.number.int({
     min: 2,
     max: 7,
   });
   const data: FakeBackendData = { properties: [], featured: [] };
-  for (let i = 0; i < randomPropertiesTotalData; i++) {
+  for (let i = 0; i < randomPropertiesTotalData; i += 1) {
     data.properties.push(createRandomProperty(i + 1));
   }
-  for (let i = 0; i < randomFeaturedPropertiesTotalData; i++) {
+  for (let i = 0; i < randomFeaturedPropertiesTotalData; i += 1) {
     data.featured.push(createRandomProperty(i + 1));
   }
   return data;
-}
+};
+
+export default generateMockData;

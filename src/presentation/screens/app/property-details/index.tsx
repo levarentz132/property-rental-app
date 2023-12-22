@@ -1,29 +1,28 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   Factory,
-  HStack,
   Heading,
+  HStack,
   ScrollView,
-  VStack,
   useTheme,
   useToast,
+  VStack,
 } from "native-base";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { TouchableOpacity as RNTouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import BookmarkFilledIcon from "src/main/assets/colorfull-icons/bookmark-filled.svg";
+import type { HttpGetClient } from "src/data/contracts/infra";
+import type { Property } from "src/domain/models";
 import BookmarkIcon from "src/main/assets/colorfull-icons/bookmark.svg";
+import BookmarkFilledIcon from "src/main/assets/colorfull-icons/bookmark-filled.svg";
 import ArrowBackIcon from "src/main/assets/outline-icons/arrow-left2.svg";
-
-import { HttpGetClient } from "src/data/contracts/infra";
-import { Property } from "src/domain/models";
 import { env } from "src/main/config/env";
-import { BaseRouteParamsProps } from "src/main/routes";
+import type { BaseRouteParamsProps } from "src/main/routes";
 import { Loading, PropertyCard } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
-import { Review } from "./review";
+
 import { OwnerCard } from "./owner-card";
+import { Review } from "./review";
 
 const TouchableOpacity = Factory(RNTouchableOpacity);
 

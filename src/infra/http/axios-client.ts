@@ -1,5 +1,4 @@
 import axios, { type AxiosRequestConfig } from "axios";
-
 import type {
   HttpClient,
   HttpGetClient,

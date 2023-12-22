@@ -1,13 +1,13 @@
+import type { IInputProps } from "native-base";
 import {
   Box,
   FormControl,
-  IInputProps,
   Input as NativeBaseInput,
   useTheme,
 } from "native-base";
-import { ColorType } from "native-base/lib/typescript/components/types";
+import type { ColorType } from "native-base/lib/typescript/components/types";
 import React from "react";
-import { SvgProps } from "react-native-svg";
+import type { SvgProps } from "react-native-svg";
 
 interface InputProps extends IInputProps {
   icon?: React.FC<SvgProps>;

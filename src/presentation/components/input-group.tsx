@@ -1,6 +1,7 @@
-import { Box, HStack, VStack, IInputProps } from "native-base";
+import type { IInputProps } from "native-base";
+import { Box, HStack, VStack } from "native-base";
 import React from "react";
-import { SvgProps } from "react-native-svg";
+import type { SvgProps } from "react-native-svg";
 
 import { Input } from "./input";
 
@@ -25,24 +26,22 @@ export const InputGroup: React.FC<InputGroupProps> = ({
       alignItems="center"
       justifyContent="center"
     >
-      {inputs.map(({ label, icon: Icon, inputProps }, index) => {
-        return (
-          <React.Fragment key={index}>
-            <HStack alignItems="center" p={2}>
-              <Input
-                color="textColor.dark"
-                InputLeftElement={<Icon width={40} height={40} />}
-                key={index}
-                placeholder={label}
-                {...inputProps}
-              />
-            </HStack>
-            {index < total - 1 && (
-              <Box width="full" height={0.4} bgColor="textColor.grayDark" />
-            )}
-          </React.Fragment>
-        );
-      })}
+      {inputs.map(({ label, icon: Icon, inputProps }, index) => (
+        <React.Fragment key={index}>
+          <HStack alignItems="center" p={2}>
+            <Input
+              color="textColor.dark"
+              InputLeftElement={<Icon width={40} height={40} />}
+              key={index}
+              placeholder={label}
+              {...inputProps}
+            />
+          </HStack>
+          {index < total - 1 && (
+            <Box width="full" height={0.4} bgColor="textColor.grayDark" />
+          )}
+        </React.Fragment>
+      ))}
     </VStack>
   );
 };

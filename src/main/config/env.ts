@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { ENDPOINT, ENV } from "@env";
+import { z } from "zod";
 
 const envSchema = z.object({
   ENDPOINT: z.string().url(),

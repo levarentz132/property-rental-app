@@ -1,16 +1,14 @@
-import {
-  BottomTabNavigationProp,
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Box, useTheme } from "native-base";
 import { Platform } from "react-native";
-import { SvgProps } from "react-native-svg";
-
+import type { SvgProps } from "react-native-svg";
 import FavoritesSVG from "src/main/assets/colorfull-icons/bookmark.svg";
 import ChatSVG from "src/main/assets/colorfull-icons/chat.svg";
 import HomeSVG from "src/main/assets/colorfull-icons/home.svg";
 import MenuSVG from "src/main/assets/colorfull-icons/menu.svg";
 import SettingsSVG from "src/main/assets/colorfull-icons/setting.svg";
+
 import {
   menuFactory,
   messagesFactory,
@@ -73,20 +71,18 @@ const makeTabIcon =
     focused: boolean;
     color: string;
     size: number;
-  }) => {
-    return (
-      <Box
-        justifyContent="center"
-        alignItems="center"
-        width={size * 2}
-        height={size * 2}
-        bgColor={focused ? color : "transparent"}
-        rounded="2xl"
-      >
-        <Icon width={size} height={size} />
-      </Box>
-    );
-  };
+  }) => (
+    <Box
+      justifyContent="center"
+      alignItems="center"
+      width={size * 2}
+      height={size * 2}
+      bgColor={focused ? color : "transparent"}
+      rounded="2xl"
+    >
+      <Icon width={size} height={size} />
+    </Box>
+  );
 
 export const AppRoutes: React.FC = () => {
   const { sizes, colors, radii } = useTheme();
@@ -115,8 +111,8 @@ export const AppRoutes: React.FC = () => {
         },
       }}
     >
-      {screens.map(({ name, component, svg }) => {
-        return name === "menu" ? (
+      {screens.map(({ name, component, svg }) =>
+        name === "menu" ? (
           <Screen
             name="menu"
             key="menu"
@@ -149,8 +145,8 @@ export const AppRoutes: React.FC = () => {
               tabBarIcon: makeTabIcon(svg),
             }}
           />
-        );
-      })}
+        ),
+      )}
     </Navigator>
   );
 };

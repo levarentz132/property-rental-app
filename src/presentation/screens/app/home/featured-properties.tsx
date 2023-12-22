@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import { HStack, Heading, IStackProps, List, Text, VStack } from "native-base";
-
-import { Property } from "src/domain/models";
-import { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
+import type { IStackProps } from "native-base";
+import { Heading, HStack, List, Text, VStack } from "native-base";
+import type { Property } from "src/domain/models";
+import type { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
 import { PropertyCard } from "src/presentation/components";
 import { PropertyCardSkeleton } from "src/presentation/components/property-card-skeleton";
 

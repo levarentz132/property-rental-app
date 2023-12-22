@@ -1,8 +1,8 @@
 import { uniq } from "ramda";
-import React, { createContext, ReactNode } from "react";
-
-import { AsyncStorageClient } from "src/data/contracts/infra";
-import { UserData } from "src/domain/models";
+import type { ReactNode } from "react";
+import React, { createContext, useMemo } from "react";
+import type { AsyncStorageClient } from "src/data/contracts/infra";
+import type { UserData } from "src/domain/models";
 
 interface AppContextType {
   user: UserData | undefined;
@@ -39,7 +39,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({
       const newUserData = {
         ...userData,
         bookmarks: uniq(
-          userData?.bookmarks ? [...userData?.bookmarks, id] : [id],
+          userData?.bookmarks ? [...userData.bookmarks, id] : [id],
         ),
       };
       await asyncStorageClient.set("user", newUserData);
@@ -59,9 +59,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({
     }
   };
 
-  const addUser = async (user: UserData) => {
-    await asyncStorageClient.set("user", user);
-    setUser(user);
+  const addUser = async (newUser: UserData) => {
+    await asyncStorageClient.set("user", newUser);
+    setUser(newUser);
   };
 
   const removeUser = async () => {
@@ -69,13 +69,16 @@ export const AppProvider: React.FC<AppProviderProps> = ({
     setUser(undefined);
   };
 
-  const contextValue: AppContextType = {
-    user,
-    addUser,
-    removeUser,
-    addToBookmarks,
-    removeFromBookmarks,
-  };
+  const contextValue: AppContextType = useMemo(
+    () => ({
+      user,
+      addUser,
+      removeUser,
+      addToBookmarks,
+      removeFromBookmarks,
+    }),
+    [user],
+  );
 
   return (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>

@@ -1,11 +1,9 @@
 import { HStack, VStack } from "native-base";
-import { UserSignature } from "src/presentation/components/user-signature";
-
 import CallIcon from "src/main/assets/colorfull-icons/call.svg";
 import MessagesIcon from "src/main/assets/colorfull-icons/messages.svg";
 import ScheduleIcon from "src/main/assets/colorfull-icons/schedule.svg";
-
 import { CardButton } from "src/presentation/components";
+import { UserSignature } from "src/presentation/components/user-signature";
 import { useApp } from "src/presentation/hooks/use-app";
 
 export const OwnerCard: React.FC = (): JSX.Element => {

@@ -1,19 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
+import type { IStackProps } from "native-base";
 import {
   Factory,
   FlatList,
-  HStack,
   Heading,
-  IStackProps,
+  HStack,
   Text,
-  VStack,
   useTheme,
+  VStack,
 } from "native-base";
 import { TouchableOpacity as RNTouchableOpacity } from "react-native";
-
-import { Property } from "src/domain/models";
+import type { Property } from "src/domain/models";
 import ArrowRightIcon from "src/main/assets/filled-icons/arrow-right2.svg";
-import { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
+import type { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
 import { PropertyCard } from "src/presentation/components";
 import { PropertyCardSkeleton } from "src/presentation/components/property-card-skeleton";
 

@@ -1,7 +1,7 @@
-import { HStack, Text, VStack, useTheme } from "native-base";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
-import { SvgProps } from "react-native-svg";
-
+import { HStack, Text, useTheme, VStack } from "native-base";
+import type { TouchableOpacityProps } from "react-native";
+import { TouchableOpacity } from "react-native";
+import type { SvgProps } from "react-native-svg";
 import ArrowRight from "src/main/assets/outline-icons/arrow-right2.svg";
 
 interface CardProps extends TouchableOpacityProps {

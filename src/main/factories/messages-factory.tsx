@@ -1,3 +1,2 @@
-export const messagesFactory = () => {
-  return <></>;
-};
+// eslint-disable-next-line react/jsx-no-useless-fragment
+export const messagesFactory = () => <></>;

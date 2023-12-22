@@ -6,20 +6,18 @@ import {
   Icon,
   Pressable,
   Text,
-  VStack,
   useTheme,
+  VStack,
 } from "native-base";
-import { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
-import { SvgProps } from "react-native-svg";
-
+import type { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
+import { useMemo } from "react";
+import type { SvgProps } from "react-native-svg";
+import type { Property } from "src/domain/models";
 import LocationIconSvg from "src/main/assets/filled-icons/location.svg";
 import BathroomIconSvg from "src/main/assets/property-icons/bathroom.svg";
 import BedIconSvg from "src/main/assets/property-icons/bed.svg";
 import KitchenIconSvg from "src/main/assets/property-icons/kitchen.svg";
 import SpaceIconSvg from "src/main/assets/property-icons/space.svg";
-
-import { useMemo } from "react";
-import { Property } from "src/domain/models";
 
 const Image = Factory(ExpoImage);
 
@@ -38,20 +36,18 @@ const PropItem = ({
   icon: React.FC<SvgProps>;
   value: string | number;
   marginRight?: boolean;
-}) => {
-  return (
-    <HStack alignItems="center" justifyContent="center">
-      <Icon as={icon} size={4} />
-      <Text
-        marginLeft={1}
-        marginRight={marginRight ? 4 : 0}
-        color="textColor.grayDark"
-      >
-        {value}
-      </Text>
-    </HStack>
-  );
-};
+}) => (
+  <HStack alignItems="center" justifyContent="center">
+    <Icon as={icon} size={4} />
+    <Text
+      marginLeft={1}
+      marginRight={marginRight ? 4 : 0}
+      color="textColor.grayDark"
+    >
+      {value}
+    </Text>
+  </HStack>
+);
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({
   view = "portrait",

@@ -2,24 +2,25 @@ import { isAxiosError } from "axios";
 import {
   FlatList,
   ScrollView,
-  VStack,
   useDisclose,
   useTheme,
   useToast,
+  VStack,
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import { HttpGetClient } from "src/data/contracts/infra";
-import { Property } from "src/domain/models";
+import type { HttpGetClient } from "src/data/contracts/infra";
+import type { Property } from "src/domain/models";
 import { env } from "src/main/config/env";
 import { Group, Header } from "src/presentation/components";
+
 import { ActionSheet } from "./action-sheet";
 import { Properties } from "./all-properties";
 import { FeaturedProperties } from "./featured-properties";
 import { Search } from "./search";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export enum Category {
   House = "House",
   Office = "Office",
@@ -196,6 +197,7 @@ export const Home: React.FC<HomeProps> = ({
                 keyExtractor={({ category: name }) => name}
                 maxH={10}
                 _contentContainerStyle={{
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
                   gap: 2,
                 }}

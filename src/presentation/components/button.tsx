@@ -1,13 +1,13 @@
+import type { IButtonProps } from "native-base";
 import {
+  Box,
   Button as NativeBaseButton,
-  IButtonProps,
+  Spinner,
   Text,
   useTheme,
-  Box,
-  Spinner,
 } from "native-base";
 import React from "react";
-import { SvgProps } from "react-native-svg";
+import type { SvgProps } from "react-native-svg";
 
 interface ButtonProps extends Omit<IButtonProps, "variant"> {
   title: string;

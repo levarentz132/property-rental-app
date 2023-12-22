@@ -1,19 +1,18 @@
-import { Box, Heading, VStack, useTheme, useToast } from "native-base";
+import { isAxiosError } from "axios";
+import { Box, Heading, useTheme, useToast, VStack } from "native-base";
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import type { HttpPostClient } from "src/data/contracts/infra";
 import PasswordIcon from "src/main/assets/colorfull-icons/password.svg";
 import UserIcon from "src/main/assets/colorfull-icons/user.svg";
 import Logo from "src/main/assets/logo.svg";
-import { InputGroup } from "src/presentation/components";
-
-import { HttpPostClient } from "src/data/contracts/infra";
 import { env } from "src/main/config/env";
+import { InputGroup } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
+
 import { Social } from "../social";
 import { Actions } from "./actions";
-import { isAxiosError } from "axios";
 
 interface LoginProps {
   httpClient: HttpPostClient;

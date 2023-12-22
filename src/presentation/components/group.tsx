@@ -1,5 +1,5 @@
+import type { IPressableProps } from "native-base";
 import {
-  IPressableProps,
   Pressable as NBPressable,
   Text as NBText,
   useTheme,
@@ -10,7 +10,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Category } from "../screens/app";
+
+import type { Category } from "../screens/app";
 
 const Pressable = Animated.createAnimatedComponent(NBPressable);
 const Text = Animated.createAnimatedComponent(NBText);

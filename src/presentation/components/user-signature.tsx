@@ -1,13 +1,6 @@
-import {
-  Box,
-  Factory,
-  HStack,
-  Heading,
-  IStackProps,
-  Text,
-  VStack,
-} from "native-base";
 import { Image as ExpoImage } from "expo-image";
+import type { IStackProps } from "native-base";
+import { Box, Factory, Heading, HStack, Text, VStack } from "native-base";
 
 const Image = Factory(ExpoImage);
 

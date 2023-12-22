@@ -1,6 +1,5 @@
-import RNMultiSlider, {
-  MultiSliderProps as RNMultiSliderProps,
-} from "@ptomasroos/react-native-multi-slider";
+import type { MultiSliderProps as RNMultiSliderProps } from "@ptomasroos/react-native-multi-slider";
+import RNMultiSlider from "@ptomasroos/react-native-multi-slider";
 import { Box, useTheme } from "native-base";
 import { Dimensions } from "react-native";
 import Animated, {
@@ -23,11 +22,12 @@ export const MultiSlider: React.FC<MultiSliderProps> = ({
 }: MultiSliderProps): JSX.Element => {
   const { colors, space } = useTheme();
   const marginTop = useSharedValue(0);
-  const sliderStyle = useAnimatedStyle(() => {
-    return {
-      marginTop: marginTop.value,
-    };
-  });
+  const sliderStyle = useAnimatedStyle(() => ({
+    marginTop: marginTop.value,
+  }));
+  const handleElevation = (opening: boolean) => () => {
+    marginTop.value = withTiming(opening ? 40 : 0, { duration: 100 });
+  };
   return (
     <AnimatedBox style={[sliderStyle]}>
       <RNMultiSlider
@@ -40,12 +40,8 @@ export const MultiSlider: React.FC<MultiSliderProps> = ({
           justifyContent: "center",
           alignItems: "center",
         }}
-        onValuesChangeStart={() =>
-          (marginTop.value = withTiming(40, { duration: 100 }))
-        }
-        onValuesChangeFinish={() =>
-          (marginTop.value = withTiming(0, { duration: 100 }))
-        }
+        onValuesChangeStart={handleElevation(true)}
+        onValuesChangeFinish={handleElevation(false)}
         trackStyle={{
           backgroundColor: colors.secondary.sky,
         }}

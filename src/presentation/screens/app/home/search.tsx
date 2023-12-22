@@ -1,8 +1,8 @@
-import { Box, HStack, IInputProps, IStackProps, useTheme } from "native-base";
-import { Button, Input } from "src/presentation/components";
-
+import type { IInputProps, IStackProps } from "native-base";
+import { Box, HStack, useTheme } from "native-base";
 import FilterIcon from "src/main/assets/colorfull-icons/filter.svg";
 import SearchIcon from "src/main/assets/colorfull-icons/search.svg";
+import { Button, Input } from "src/presentation/components";
 
 interface SearchProps extends IStackProps {
   inputProps: Pick<IInputProps, "value" | "onChangeText">;
