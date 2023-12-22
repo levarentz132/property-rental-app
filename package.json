@@ -8,7 +8,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
@@ -41,11 +42,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@brucesong/eslint-config-react-native": "^0.0.17",
     "@faker-js/faker": "^8.3.1",
     "@types/json-server": "^0.14.7",
     "@types/ramda": "^0.29.9",
     "@types/react": "~18.2.14",
     "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-config-universe": "^12.0.0",
     "json-server": "^0.17.4",
     "prettier": "^3.1.1",
