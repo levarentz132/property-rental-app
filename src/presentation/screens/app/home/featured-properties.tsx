@@ -31,8 +31,8 @@ export const FeaturedProperties: React.FC<PropertiesProps> = ({
             <Card
               key={item.id}
               view="landscape"
-              paddingBottom={3}
-              paddingX={4}
+              paddingBottom="$3"
+              paddingHorizontal="$4"
               onPress={() =>
                 navigate("property-details", {
                   type: "featured",

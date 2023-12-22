@@ -1,4 +1,7 @@
-import { HStack, Skeleton, VStack } from "native-base";
+// import { HStack, Skeleton, VStack } from "native-base";
+
+import { HStack, VStack } from "@gluestack-ui/themed";
+import { Skeleton } from "native-base";
 
 import type { PropertyCardProps } from "./property-card";
 
@@ -9,12 +12,12 @@ export const PropertyCardSkeleton: React.FC<PropertyCardProps> = ({
   const Wrapper = isPortrait ? VStack : HStack;
   return (
     <Wrapper
-      marginX={isPortrait ? 1.5 : 6}
-      marginBottom={isPortrait ? 0 : 3}
-      rounded="3xl"
+      marginHorizontal={isPortrait ? "$1.5" : "$6"}
+      marginBottom={isPortrait ? 0 : "$3"}
+      rounded="$3xl"
       bgColor="primary.bg.white"
-      shadow={10}
-      maxW={isPortrait ? 200 : undefined}
+      // shadow={10}
+      maxWidth={isPortrait ? "$48" : undefined}
       padding={4}
       alignItems="center"
     >

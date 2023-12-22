@@ -1,13 +1,13 @@
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {
   Box,
   Center,
   Heading,
   ScrollView,
   Text,
-  useTheme,
+  useToken,
   VStack,
-} from "native-base";
+} from "@gluestack-ui/themed";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { HttpGetClient } from "src/data/contracts/infra";
@@ -25,7 +25,7 @@ interface SavedPropertyProps {
 export const SavedProperty: React.FC<SavedPropertyProps> = ({
   httpClient,
 }: SavedPropertyProps): JSX.Element => {
-  const { sizes } = useTheme();
+  const iconSize = useToken("space", "6");
   const { navigate } = useNavigation<StackNavigatorRouteProps>();
   const { user } = useApp();
   const [bookmarkList, setBookmarkList] = useState<Property[]>();
@@ -51,14 +51,14 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        <VStack flex={1} padding={6} space={4}>
-          <Heading marginBottom={6}>Saved Property</Heading>
-          <Box flex={1} marginBottom={6}>
+        <VStack flex={1} padding="$6" space="lg">
+          <Heading marginBottom="$6">Saved Property</Heading>
+          <Box flex={1} marginBottom="$6">
             <Input
               placeholder="Search"
               color="blue.700"
               icon={SearchIcon}
-              iconSize={sizes[6]}
+              iconSize={iconSize}
               divisionColor="primary.blue.500"
             />
           </Box>
@@ -79,11 +79,7 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
             ))
           ) : (
             <Center>
-              <Text
-                fontWeight="normal"
-                color="textColor.grayDark"
-                fontSize="lg"
-              >
+              <Text fontWeight="normal" color="$textDark800" fontSize="$lg">
                 No bookmarked properties
               </Text>
             </Center>

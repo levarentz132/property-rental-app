@@ -1,42 +1,39 @@
-import type { IInputProps } from "native-base";
 import {
   Box,
   FormControl,
   Input as NativeBaseInput,
-  useTheme,
-} from "native-base";
-import type { ColorType } from "native-base/lib/typescript/components/types";
+  InputField,
+  useToken,
+} from "@gluestack-ui/themed";
+import type { ComponentProps } from "react";
 import React from "react";
+import type { ColorValue } from "react-native";
 import type { SvgProps } from "react-native-svg";
 
-interface InputProps extends IInputProps {
+interface InputProps extends ComponentProps<typeof InputField> {
   icon?: React.FC<SvgProps>;
   iconSize?: number;
-  divisionColor?: ColorType;
+  divisionColor?: ColorValue;
   errorMessage?: string;
+  isInvalid?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
   errorMessage,
-  isInvalid,
-  iconSize = 40,
+  isInvalid = false,
+  iconSize,
   divisionColor,
   icon: Icon,
   ...props
 }: InputProps) => {
-  const { sizes } = useTheme();
+  const iconMargin = useToken("space", "4");
   const invalid = !!errorMessage || isInvalid;
   return (
-    <FormControl
-      isInvalid={invalid}
-      bg="primary.bg.white"
-      height={12}
-      rounded="2xl"
-    >
+    <FormControl isInvalid={invalid} bg="$white" height="$12" rounded="$2xl">
       <Box
         flex={1}
         flexDirection="row"
-        justifyContent="start"
+        justifyContent="flex-start"
         alignItems="center"
       >
         {Icon && (
@@ -44,35 +41,39 @@ export const Input: React.FC<InputProps> = ({
             width={iconSize}
             height={iconSize}
             style={{
-              marginHorizontal: sizes[2],
+              marginHorizontal: iconMargin,
             }}
           />
         )}
         <NativeBaseInput
+          flex={1}
           borderWidth={0}
-          borderLeftRadius="full"
-          borderLeftWidth={divisionColor ? 3 : 0}
-          borderLeftColor={divisionColor}
-          rounded="none"
-          roundedLeft="2xl"
-          fontSize="md"
-          color="white"
-          fontFamily="body"
-          placeholderTextColor="textColor.grayLight"
+          borderLeftWidth={divisionColor ? "$2" : 0}
+          borderLeftColor={divisionColor as string}
           isInvalid={invalid}
-          _invalid={{
-            borderWidth: 1,
-            borderColor: "red.500",
-          }}
-          _focus={{
-            bg: "transparent",
-            borderWidth: 0,
-            placeholderTextColor: "gray.300",
-          }}
-          {...props}
-        />
+          justifyContent="center"
+          alignItems="center"
+        >
+          <InputField
+            height="$full"
+            $focus={{
+              borderWidth: "$2",
+              borderColor: "$blue800",
+            }}
+            $invalid={{
+              borderWidth: 1,
+              borderColor: "$red500",
+            }}
+            rounded="$none"
+            color="$white"
+            fontFamily="$body"
+            placeholder="Enter Text here"
+            fontSize="$sm"
+            placeholderTextColor="$textDark800"
+            {...props}
+          />
+        </NativeBaseInput>
       </Box>
-      <FormControl.ErrorMessage>{errorMessage}</FormControl.ErrorMessage>
     </FormControl>
   );
 };

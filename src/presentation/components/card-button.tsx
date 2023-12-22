@@ -1,8 +1,8 @@
-import { Center, Pressable, Text, useTheme } from "native-base";
-import type { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
+import { Center, Pressable, Text, useToken } from "@gluestack-ui/themed";
+import type { ComponentProps } from "react";
 import type { SvgProps } from "react-native-svg";
 
-interface CardButtonProps extends InterfacePressableProps {
+interface CardButtonProps extends ComponentProps<typeof Pressable> {
   label: string;
   icon: React.FC<SvgProps>;
 }
@@ -12,16 +12,16 @@ export const CardButton: React.FC<CardButtonProps> = ({
   icon: Icon,
   ...props
 }: CardButtonProps) => {
-  const { sizes } = useTheme();
+  const iconSize = useToken("space", "7");
   return (
-    <Pressable w={sizes[6]} h={sizes[6]} rounded="2xl" {...props}>
+    <Pressable width="$24" height="$24" rounded="$2xl" {...props}>
       <Center flex={1}>
-        <Icon width={sizes[7]} height={sizes[7]} />
+        <Icon width={iconSize} height={iconSize} />
         <Text
           textTransform="capitalize"
-          fontSize="xs"
-          color="textColor.dark"
-          marginTop={1}
+          fontSize="$xs"
+          color="$textDark800"
+          marginTop={2}
         >
           {label}
         </Text>

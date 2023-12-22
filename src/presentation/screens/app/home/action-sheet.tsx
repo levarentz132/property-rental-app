@@ -1,10 +1,14 @@
 import {
   Actionsheet as RNActionsheet,
+  ActionsheetBackdrop,
+  ActionsheetContent,
+  ActionsheetDragIndicator,
+  ActionsheetDragIndicatorWrapper,
   Heading,
   HStack,
   Text,
   VStack,
-} from "native-base";
+} from "@gluestack-ui/themed";
 import { Button } from "src/presentation/components";
 import { MultiSlider } from "src/presentation/components/multi-slider";
 
@@ -18,22 +22,26 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
   onClose,
 }: ActionSheetProps): JSX.Element => (
   <RNActionsheet isOpen={isOpen} onClose={onClose}>
-    <RNActionsheet.Content>
-      <VStack padding={4}>
-        <Heading alignSelf="center" fontSize="xl" marginBottom={4}>
+    <ActionsheetBackdrop />
+    <ActionsheetContent>
+      <ActionsheetDragIndicatorWrapper>
+        <ActionsheetDragIndicator />
+      </ActionsheetDragIndicatorWrapper>
+      <VStack padding="$4">
+        <Heading alignSelf="center" fontSize="$xl" marginBottom="$4">
           Filter
         </Heading>
-        <Text fontSize="lg" fontWeight="bold" marginBottom={16}>
+        <Text fontSize="$lg" fontWeight="bold" marginBottom="$16" fontFamily="">
           Property types
         </Text>
-        <HStack marginBottom={2}>
-          <Text flex={1} fontSize="md" fontWeight="bold">
+        <HStack marginBottom="$2">
+          <Text flex={1} fontSize="$md" fontWeight="bold">
             Property Size
           </Text>
           <Text
-            fontSize="sm"
+            fontSize="$sm"
             fontWeight="bold"
-            color="secondary.sky"
+            color="$lightBlue400"
             opacity={0.7}
           >
             Up to 5000 m²
@@ -46,14 +54,14 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
           step={10}
           valueSuffix="m²"
         />
-        <Text fontSize="md" fontWeight="bold" marginBottom={2} marginTop={8}>
+        <Text fontSize="$md" fontWeight="bold" marginBottom="$2" marginTop="$8">
           Property Price
         </Text>
         <HStack>
-          <Text flex={1} fontSize="xs" fontWeight="normal">
+          <Text flex={1} fontSize="$xs" fontWeight="normal">
             Low
           </Text>
-          <Text fontSize="xs" fontWeight="normal">
+          <Text fontSize="$xs" fontWeight="normal">
             High
           </Text>
         </HStack>
@@ -64,11 +72,11 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
           step={10000}
           valuePrefix="$"
         />
-        <HStack width="100%" space={4} marginTop={8}>
+        <HStack width="100%" space="lg" marginTop="$8">
           <Button flex={0.5} title="Reset" variant="outline" />
           <Button flex={1} title="Check availability" />
         </HStack>
       </VStack>
-    </RNActionsheet.Content>
+    </ActionsheetContent>
   </RNActionsheet>
 );

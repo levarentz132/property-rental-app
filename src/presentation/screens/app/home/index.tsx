@@ -1,12 +1,6 @@
+import { ScrollView, VStack } from "@gluestack-ui/themed";
 import { isAxiosError } from "axios";
-import {
-  FlatList,
-  ScrollView,
-  useDisclose,
-  useTheme,
-  useToast,
-  VStack,
-} from "native-base";
+import { FlatList, useTheme, useToast } from "native-base";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -49,8 +43,10 @@ export const Home: React.FC<HomeProps> = ({
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [loadingProperties, setLoadingProperties] = useState<boolean>(true);
   const [loadingFeatured, setLoadingFeatured] = useState<boolean>(true);
-  const { isOpen, onOpen, onClose } = useDisclose();
+  const [showActionsheet, setShowActionsheet] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
+
+  const handleClose = () => setShowActionsheet(!showActionsheet);
 
   const MOCKED_CATEGORIES: CategoryData[] = [
     {
@@ -82,7 +78,8 @@ export const Home: React.FC<HomeProps> = ({
     setSelectedCategory(category);
   };
   const handleToggleFilters = () => {
-    onOpen();
+    // onOpen();
+    setShowActionsheet(!showActionsheet);
   };
   const getAllProperties = async (url: string) => {
     try {
@@ -179,7 +176,7 @@ export const Home: React.FC<HomeProps> = ({
               backgroundColor="transparent"
               translucent
             />
-            <VStack paddingX={6} paddingY={3}>
+            <VStack paddingHorizontal="$6" paddingVertical="$3">
               <Header />
               <Search
                 marginTop={4}
@@ -218,7 +215,7 @@ export const Home: React.FC<HomeProps> = ({
             </VStack>
             <Properties
               properties={properties}
-              marginBottom={2}
+              marginBottom="$2"
               loading={loadingProperties}
             />
             <FeaturedProperties
@@ -229,7 +226,7 @@ export const Home: React.FC<HomeProps> = ({
           </VStack>
         </ScrollView>
       </SafeAreaView>
-      <ActionSheet isOpen={isOpen} onClose={onClose} />
+      <ActionSheet isOpen={showActionsheet} onClose={handleClose} />
     </>
   );
 };

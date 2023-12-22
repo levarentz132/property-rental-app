@@ -1,15 +1,15 @@
-import { Image as ExpoImage } from "expo-image";
 import {
   Box,
-  Factory,
+  createComponents,
   HStack,
   Icon,
   Pressable,
   Text,
-  useTheme,
+  useToken,
   VStack,
-} from "native-base";
-import type { InterfacePressableProps } from "native-base/lib/typescript/components/primitives/Pressable/types";
+} from "@gluestack-ui/themed";
+import { Image as ExpoImage } from "expo-image";
+import type { ComponentProps } from "react";
 import { useMemo } from "react";
 import type { SvgProps } from "react-native-svg";
 import type { Property } from "src/domain/models";
@@ -19,11 +19,11 @@ import BedIconSvg from "src/main/assets/property-icons/bed.svg";
 import KitchenIconSvg from "src/main/assets/property-icons/kitchen.svg";
 import SpaceIconSvg from "src/main/assets/property-icons/space.svg";
 
-const Image = Factory(ExpoImage);
+const Image = createComponents(ExpoImage);
 
 export interface PropertyCardProps
   extends Property,
-    Omit<InterfacePressableProps, "id" | "size"> {
+    Omit<ComponentProps<typeof Pressable>, "id" | "size"> {
   fullWidth?: boolean;
   view?: "portrait" | "landscape";
 }
@@ -38,11 +38,11 @@ const PropItem = ({
   marginRight?: boolean;
 }) => (
   <HStack alignItems="center" justifyContent="center">
-    <Icon as={icon} size={4} />
+    <Icon as={icon} size="sm" />
     <Text
-      marginLeft={1}
-      marginRight={marginRight ? 4 : 0}
-      color="textColor.grayDark"
+      marginLeft="$1"
+      marginRight={marginRight ? "$4" : 0}
+      color="$textDark800"
     >
       {value}
     </Text>
@@ -62,71 +62,76 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   fullWidth = false,
   ...props
 }: PropertyCardProps): JSX.Element => {
-  const { colors } = useTheme();
+  const trueGray300 = useToken("colors", "trueGray300");
   const isPortrait = view === "portrait";
+  const portraitImageWidth = useToken("space", isPortrait ? "full" : "20");
+  const portraitImageHeight = useToken("space", isPortrait ? "48" : "20");
+  const portraitMarginRight = useToken("space", isPortrait ? "0" : "3");
+  const portraitImageRadius = useToken("radii", "3xl");
   const titleFontSize = useMemo(() => {
-    if (fullWidth) return "2xl";
-    if (isPortrait) return "md";
-    return "lg";
+    if (fullWidth) return "$xl";
+    if (isPortrait) return "$md";
+    return "$lg";
   }, [isPortrait]);
   const Wrapper = isPortrait ? VStack : HStack;
   return (
     <Pressable {...props}>
       <Wrapper
-        rounded="3xl"
-        bgColor="primary.bg.white"
-        shadow={10}
-        maxW={isPortrait && !fullWidth ? 200 : undefined}
-        padding={4}
+        rounded="$3xl"
+        bgColor="$white"
+        shadowRadius="$2"
+        shadowColor="$black"
+        shadowOffset={{ width: 0, height: 5 }}
+        shadowOpacity={0.34}
+        maxWidth={isPortrait && !fullWidth ? "$56" : undefined}
+        padding="$5"
         alignItems="center"
       >
         <Image
-          width={isPortrait ? "100%" : 20}
-          height={isPortrait ? 44 : 20}
-          rounded="3xl"
+          style={{
+            borderRadius: portraitImageRadius,
+            width: portraitImageWidth,
+            height: portraitImageHeight,
+            marginRight: portraitMarginRight,
+          }}
           contentFit="fill"
-          marginRight={isPortrait ? 0 : 3}
           source={{
             uri: `${picture}?dummy=${address.replace(/\s/g, "")}`,
           }}
         />
         <VStack
           alignItems="center"
-          marginTop={isPortrait ? 4 : 0}
+          marginTop={isPortrait ? "$4" : 0}
           flex={isPortrait ? undefined : 1}
         >
           <HStack
             width="100%"
-            marginBottom={isPortrait ? 0 : 2}
+            marginBottom={isPortrait ? 0 : "$2"}
             alignItems="center"
           >
             <Text
               fontWeight="bold"
               fontSize={titleFontSize}
               flex={isPortrait ? 1 : undefined}
-              marginRight={isPortrait ? 0 : 6}
+              marginRight={isPortrait ? 0 : "$6"}
               textTransform="capitalize"
             >
               {category}
             </Text>
             <Text
-              color="primary.blue.800"
+              color="$blue800"
               fontWeight="bold"
-              fontSize={fullWidth ? "2xl" : "md"}
+              fontSize={fullWidth ? "$xl" : "$md"}
             >
               ${value}
             </Text>
           </HStack>
           {(!isPortrait || fullWidth) && (
             <HStack width="100%" padding={fullWidth ? 3 : 0}>
-              <Icon
-                as={LocationIconSvg}
-                fill={colors.textColor.grayLight}
-                marginLeft={-1}
-              />
+              <Icon as={LocationIconSvg} fill={trueGray300} marginLeft={-1} />
               <Text
                 width="100%"
-                color="textColor.grayLight"
+                color="$textDark800"
                 fontWeight="bold"
                 maxWidth={isPortrait ? undefined : 200}
                 numberOfLines={1}

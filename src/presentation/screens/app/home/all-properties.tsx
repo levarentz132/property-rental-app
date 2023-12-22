@@ -59,7 +59,7 @@ export const Properties: React.FC<PropertiesProps> = ({
                 id: item.id,
               })
             }
-            marginRight={index === properties.length - 1 ? 0 : 3}
+            marginRight={index === properties.length - 1 ? 0 : "$3"}
           />
         )}
         _contentContainerStyle={{

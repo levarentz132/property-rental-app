@@ -1,13 +1,15 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { createComponents, useToken } from "@gluestack-style/react";
 import {
-  Factory,
   Heading,
   HStack,
   ScrollView,
-  useTheme,
+  Toast,
+  ToastDescription,
+  ToastTitle,
   useToast,
   VStack,
-} from "native-base";
+} from "@gluestack-ui/themed";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { TouchableOpacity as RNTouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,7 +26,7 @@ import { useApp } from "src/presentation/hooks/use-app";
 import { OwnerCard } from "./owner-card";
 import { Review } from "./review";
 
-const TouchableOpacity = Factory(RNTouchableOpacity);
+const TouchableOpacity = createComponents(RNTouchableOpacity);
 
 interface RouteParamsProps extends BaseRouteParamsProps {
   params: {
@@ -36,7 +38,7 @@ interface RouteParamsProps extends BaseRouteParamsProps {
 interface PropertyDetailsProps {
   httpClient: HttpGetClient;
 }
-const ICON_SIZE = 7;
+const ICON_SIZE = "7";
 
 export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   httpClient,
@@ -44,7 +46,8 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   const { user, addToBookmarks, removeFromBookmarks } = useApp();
   const { params } = useRoute<RouteParamsProps>();
   const { navigate, goBack } = useNavigation();
-  const { colors, sizes } = useTheme();
+  const iconColor = useToken("colors", "blue800");
+  const iconSize = useToken("space", ICON_SIZE);
   const toast = useToast();
   const [property, setProperty] = useState<Property>();
   const isBookmarked = useMemo(
@@ -69,10 +72,26 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
       if (body) setProperty(body[0]);
     } catch {
       toast.show({
-        title: "Ops! Something went wrong, please try again.",
         placement: "top",
-        bgColor: colors.red[500],
-        marginTop: 2,
+        render: ({ id }) => {
+          const toastId = `toast-${id}`;
+          return (
+            <Toast
+              nativeID={toastId}
+              action="attention"
+              variant="solid"
+              bgColor="$red500"
+              marginTop="$2"
+            >
+              <VStack space="xs">
+                <ToastTitle color="$white">Error</ToastTitle>
+                <ToastDescription color="$white">
+                  Ops! Something went wrong, please try again.
+                </ToastDescription>
+              </VStack>
+            </Toast>
+          );
+        },
       });
       navigate("home");
     }
@@ -83,28 +102,24 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   return property ? (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        <VStack flex={1} padding={6} space={4}>
-          <HStack marginBottom={3} alignItems="center">
+        <VStack flex={1} padding="$6" space="lg">
+          <HStack marginBottom="$3" alignItems="center">
             <TouchableOpacity
+              style={{ marginRight: 4 }}
               activeOpacity={0.7}
-              marginRight={4}
               onPress={goBack}
             >
               <ArrowBackIcon
-                width={sizes[ICON_SIZE]}
-                height={sizes[ICON_SIZE]}
-                fill={colors.primary.blue[800]}
+                width={iconSize}
+                height={iconSize}
+                fill={iconColor}
               />
             </TouchableOpacity>
             <Heading flex={1} textTransform="capitalize">
               Property Details
             </Heading>
             <TouchableOpacity activeOpacity={0.7} onPress={toggleBookmark}>
-              <Bookmark
-                width={sizes[ICON_SIZE]}
-                height={sizes[ICON_SIZE]}
-                fill={colors.primary.blue[800]}
-              />
+              <Bookmark width={iconSize} height={iconSize} fill={iconColor} />
             </TouchableOpacity>
           </HStack>
           <PropertyCard fullWidth {...property} />
