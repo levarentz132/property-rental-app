@@ -1,18 +1,17 @@
 import { z } from "zod";
-import { ENDPOINT } from "@env";
+import { ENDPOINT, ENV } from "@env";
 
 const envSchema = z.object({
   ENDPOINT: z.string().url(),
+  ENV: z.enum(["development", "production", "test"]),
 });
 
-const parsedEnv = envSchema.safeParse({ ENDPOINT });
+const parsedEnv = envSchema.safeParse({ ENDPOINT, ENV });
 
 if (!parsedEnv.success) {
-  console.error(
-    "Invalid environment variables",
-    parsedEnv.error.flatten().fieldErrors,
-  );
-  throw new Error("Invalid environment variables");
+  throw new Error("Invalid environment variables", {
+    cause: parsedEnv.error.flatten().fieldErrors,
+  });
 }
 
 export const env = parsedEnv.data;

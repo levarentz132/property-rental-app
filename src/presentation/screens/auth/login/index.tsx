@@ -46,7 +46,6 @@ export const Login: React.FC<LoginProps> = ({
     } catch (error) {
       if (isAxiosError(error)) {
         const errorData = error.toJSON() as any;
-        console.log(errorData.status);
         if (errorData.status === 401) {
           toast.show({
             title: "Invalid credentials",
@@ -59,7 +58,6 @@ export const Login: React.FC<LoginProps> = ({
             margin: 4,
           });
         }
-        console.log(error.response?.data);
       }
     } finally {
       setLoading(false);

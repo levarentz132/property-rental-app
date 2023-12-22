@@ -33,7 +33,6 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
   const [bookmarkList, setBookmarkList] = useState<Property[]>();
   useFocusEffect(
     useCallback(() => {
-      console.log("oi");
       const fetchBookmarks = async () => {
         let mergedPath = "";
         user?.bookmarks.forEach((bookmark) => {

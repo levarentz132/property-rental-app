@@ -1,32 +1,24 @@
-import { useNavigation } from "@react-navigation/native";
 import { isAxiosError } from "axios";
 import {
-  Box,
   FlatList,
   ScrollView,
   VStack,
+  useDisclose,
   useTheme,
   useToast,
 } from "native-base";
-import React, { useEffect, useMemo, useState } from "react";
-import { Platform, StatusBar } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import React, { useEffect, useState } from "react";
+import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { HttpGetClient } from "src/data/contracts/infra";
 import { Property } from "src/domain/models";
 import { env } from "src/main/config/env";
-import { Filter, Group, Header } from "src/presentation/components";
+import { Group, Header } from "src/presentation/components";
+import { ActionSheet } from "./action-sheet";
 import { Properties } from "./all-properties";
 import { FeaturedProperties } from "./featured-properties";
 import { Search } from "./search";
-
-const AnimatedVStack = Animated.createAnimatedComponent(VStack);
-const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 export enum Category {
   House = "House",
@@ -49,24 +41,16 @@ interface HomeProps {
 export const Home: React.FC<HomeProps> = ({
   httpClient,
 }: HomeProps): JSX.Element => {
-  const navigation = useNavigation();
   const toast = useToast();
-  const { colors, sizes, radii } = useTheme();
+  const { colors } = useTheme();
   const [search, setSearch] = useState<string>();
   const [properties, setProperties] = useState<Property[]>([]);
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [loadingProperties, setLoadingProperties] = useState<boolean>(true);
   const [loadingFeatured, setLoadingFeatured] = useState<boolean>(true);
-  const [isFiltersVisible, setIsFiltersVisible] = useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useDisclose();
   const [selectedCategory, setSelectedCategory] = useState<Category>();
-  const opacity = useSharedValue(1);
-  const bgColor = useSharedValue(colors.textColor.white);
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value,
-      backgroundColor: bgColor.value,
-    };
-  });
+
   const MOCKED_CATEGORIES: CategoryData[] = [
     {
       category: Category.House,
@@ -93,28 +77,11 @@ export const Home: React.FC<HomeProps> = ({
       color: colors.muted[500],
     },
   ];
-  const tabBarStyle = useMemo(
-    () => ({
-      borderTopRightRadius: radii["3xl"],
-      borderTopLeftRadius: radii["3xl"],
-      backgroundColor: colors.primary.bg.white,
-      borderTopWidth: 0,
-      height: Platform.OS === "android" ? "auto" : undefined,
-      marginTop: Platform.OS === "android" ? undefined : sizes[4],
-      paddingTop: Platform.OS === "android" ? sizes[9] : 0,
-      paddingBottom: sizes[9],
-    }),
-    [],
-  );
   const handleChangeCategory = (category: Category) => {
     setSelectedCategory(category);
   };
   const handleToggleFilters = () => {
-    opacity.value = withTiming(!isFiltersVisible ? 0.5 : 1);
-    bgColor.value = withTiming(
-      !isFiltersVisible ? colors.muted[900] : colors.textColor.white,
-    );
-    setIsFiltersVisible(!isFiltersVisible);
+    onOpen();
   };
   const getAllProperties = async (url: string) => {
     try {
@@ -163,14 +130,6 @@ export const Home: React.FC<HomeProps> = ({
     }
   };
   useEffect(() => {
-    navigation.setOptions({
-      tabBarStyle: {
-        ...tabBarStyle,
-        display: isFiltersVisible ? "none" : "flex",
-      },
-    });
-  }, [isFiltersVisible]);
-  useEffect(() => {
     if (selectedCategory) {
       const allPropertiesUri = new URL(
         selectedCategory ? `?category=${selectedCategory}` : "/",
@@ -211,66 +170,64 @@ export const Home: React.FC<HomeProps> = ({
   }, []);
   return (
     <>
-      <AnimatedBox style={[animatedStyles]}>
-        <SafeAreaView>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <AnimatedVStack style={[animatedStyles]}>
-              <StatusBar
-                barStyle="dark-content"
-                backgroundColor="transparent"
-                translucent
+      <SafeAreaView>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <VStack>
+            <StatusBar
+              barStyle="dark-content"
+              backgroundColor="transparent"
+              translucent
+            />
+            <VStack paddingX={6} paddingY={3}>
+              <Header />
+              <Search
+                marginTop={4}
+                inputProps={{
+                  value: search,
+                  onChangeText: setSearch,
+                }}
+                onFilterPress={handleToggleFilters}
               />
-              <VStack paddingX={6} paddingY={3}>
-                <Header />
-                <Search
-                  marginTop={4}
-                  inputProps={{
-                    value: search,
-                    onChangeText: setSearch,
-                  }}
-                  onFilterPress={handleToggleFilters}
-                />
-                <FlatList
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={MOCKED_CATEGORIES}
-                  my={3}
-                  keyExtractor={({ category: name }) => name}
-                  maxH={10}
-                  _contentContainerStyle={{
-                    // @ts-ignore
-                    gap: 2,
-                  }}
-                  minH={10}
-                  renderItem={({ item }) => (
-                    <Group
-                      active={
-                        selectedCategory?.toUpperCase() ===
-                        item.category.toUpperCase()
-                      }
-                      color={item.color}
-                      category={item.category}
-                      onSelect={handleChangeCategory}
-                      paddingX={4}
-                    />
-                  )}
-                />
-              </VStack>
-              <Properties
-                properties={properties}
-                marginBottom={2}
-                loading={loadingProperties}
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={MOCKED_CATEGORIES}
+                my={3}
+                keyExtractor={({ category: name }) => name}
+                maxH={10}
+                _contentContainerStyle={{
+                  // @ts-ignore
+                  gap: 2,
+                }}
+                minH={10}
+                renderItem={({ item }) => (
+                  <Group
+                    active={
+                      selectedCategory?.toUpperCase() ===
+                      item.category.toUpperCase()
+                    }
+                    color={item.color}
+                    category={item.category}
+                    onSelect={handleChangeCategory}
+                    paddingX={4}
+                  />
+                )}
               />
-              <FeaturedProperties
-                properties={featuredProperties}
-                loading={loadingFeatured}
-                marginBottom={2}
-              />
-            </AnimatedVStack>
-          </ScrollView>
-        </SafeAreaView>
-      </AnimatedBox>
-      {isFiltersVisible && <Filter onCLose={handleToggleFilters} />}
+            </VStack>
+            <Properties
+              properties={properties}
+              marginBottom={2}
+              loading={loadingProperties}
+            />
+            <FeaturedProperties
+              properties={featuredProperties}
+              loading={loadingFeatured}
+              marginBottom={2}
+            />
+          </VStack>
+        </ScrollView>
+      </SafeAreaView>
+      <ActionSheet isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
