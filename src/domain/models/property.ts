@@ -1,3 +1,5 @@
+import type { Review } from "./review";
+
 export interface Property {
   id: string;
   category: string;
@@ -8,4 +10,5 @@ export interface Property {
   beds?: number;
   bathrooms?: number;
   kitchens?: number;
+  reviews: Review[];
 }

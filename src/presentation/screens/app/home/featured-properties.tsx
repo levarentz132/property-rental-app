@@ -21,7 +21,7 @@ export const FeaturedProperties: React.FC<PropertiesProps> = ({
   return (
     <VStack flex={1} {...props}>
       <HStack paddingHorizontal="$6" alignItems="center">
-        <Heading fontSize="md" fontWeight="bold" flex={1} marginBottom="$2">
+        <Heading fontSize="$md" fontWeight="bold" flex={1} marginBottom="$2">
           Featured Property
         </Heading>
       </HStack>

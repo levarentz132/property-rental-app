@@ -24,7 +24,17 @@ function createRandomProperty(id: number): Property {
     beds: faker.number.int({ min: 1, max: 5 }),
     kitchens: faker.number.int({ min: 1, max: 5 }),
     size: faker.number.int({ min: 100, max: 2000 }),
-    picture: "https://picsum.photos/200/300",
+    picture: faker.image.urlLoremFlickr({ category: "building" }),
+    reviews: Array.from({ length: faker.number.int({ min: 0, max: 3 }) }).map(
+      () => ({
+        id: faker.string.uuid(),
+        name: faker.person.firstName(),
+        userRole: faker.person.jobTitle(),
+        comment: faker.lorem.paragraph(),
+        rating: faker.number.int({ min: 1, max: 5 }),
+        picture: faker.image.avatar(),
+      }),
+    ),
   };
 }
 

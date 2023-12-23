@@ -85,7 +85,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
         shadowRadius="$2"
         shadowColor="$black"
         shadowOffset={{ width: 0, height: 5 }}
-        shadowOpacity={0.34}
+        shadowOpacity={0.1}
         maxWidth={isPortrait && !fullWidth ? "$56" : undefined}
         padding="$4"
         alignItems="center"
@@ -104,8 +104,10 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
         />
         <VStack
           alignItems="center"
+          justifyContent="space-evenly"
           marginTop={isPortrait ? "$4" : 0}
           flex={isPortrait ? undefined : 1}
+          space="xs"
         >
           <HStack width="100%" alignItems="center">
             <Text
@@ -132,7 +134,6 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
               width="100%"
               padding={fullWidth ? 3 : 0}
               alignItems="center"
-              marginTop="$2"
             >
               <Icon
                 as={LocationIconSvg}
@@ -147,7 +148,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
                 fontWeight="$bold"
                 fontFamily="$extraLight"
                 fontSize={fullWidth ? "$md" : "$sm"}
-                maxWidth={isPortrait ? undefined : 200}
+                maxWidth={isPortrait ? undefined : 220}
                 numberOfLines={fullWidth ? 2 : 1}
               >
                 {address}
@@ -157,7 +158,6 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           <HStack
             width="100%"
             justifyContent={isPortrait ? "space-around" : "flex-start"}
-            marginTop="$2"
           >
             {size && (
               <PropItem

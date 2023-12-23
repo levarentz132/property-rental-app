@@ -123,7 +123,9 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
             </TouchableOpacity>
           </HStack>
           <PropertyCard fullWidth {...property} />
-          <Review />
+          {property.reviews.map((review) => (
+            <Review key={review.id} {...review} />
+          ))}
           <OwnerCard />
         </VStack>
       </ScrollView>

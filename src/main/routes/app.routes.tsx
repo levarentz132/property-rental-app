@@ -93,7 +93,6 @@ export const AppRoutes: React.FC = () => {
   const menuSvgPosition = useToken("space", "5");
   const tabBarActiveTintColor = useToken("colors", "blue100");
   const tabBarInactiveTintColor = useToken("colors", "gray200");
-  const borderRadius = useToken("radii", "3xl");
   const backgroundColor = useToken("colors", "white");
   return (
     <Navigator
@@ -109,8 +108,6 @@ export const AppRoutes: React.FC = () => {
         },
         tabBarStyle: {
           display: "flex",
-          borderTopRightRadius: borderRadius,
-          borderTopLeftRadius: borderRadius,
           backgroundColor,
           borderTopWidth: 0,
           height: Platform.OS === "android" ? "auto" : undefined,

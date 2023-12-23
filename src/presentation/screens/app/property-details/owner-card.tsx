@@ -17,7 +17,7 @@ export const OwnerCard: React.FC = (): JSX.Element => {
       shadowRadius="$2"
       shadowColor="primary.bg.black"
       shadowOffset={{ width: 0, height: 5 }}
-      shadowOpacity={0.34}
+      shadowOpacity={0.1}
     >
       <UserSignature
         marginBottom="$5"

@@ -35,7 +35,7 @@ export const Properties: React.FC<PropertiesProps> = ({
   return (
     <VStack flex={1} {...props}>
       <HStack paddingHorizontal="$6" alignItems="center">
-        <Heading fontSize="md" fontWeight="bold" flex={1}>
+        <Heading fontSize="$md" fontWeight="bold" flex={1}>
           All Property
         </Heading>
         <TouchableOpacity activeOpacity={0.7}>
@@ -63,7 +63,7 @@ export const Properties: React.FC<PropertiesProps> = ({
           padding: cardPadding,
         }}
         ListEmptyComponent={() => (
-          <Text marginLeft={6} textAlign="center" color="textColor.grayDark">
+          <Text marginLeft={6} textAlign="center" color="$textDark800">
             No properties found
           </Text>
         )}
