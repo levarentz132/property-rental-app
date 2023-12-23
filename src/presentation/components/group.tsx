@@ -1,9 +1,9 @@
-import type { IPressableProps } from "native-base";
 import {
   Pressable as NBPressable,
   Text as NBText,
-  useTheme,
-} from "native-base";
+  useToken,
+} from "@gluestack-ui/themed";
+import type { ComponentProps } from "react";
 import React, { memo, useEffect } from "react";
 import Animated, {
   useAnimatedStyle,
@@ -15,7 +15,7 @@ import type { Category } from "../screens/app";
 
 const Pressable = Animated.createAnimatedComponent(NBPressable);
 const Text = Animated.createAnimatedComponent(NBText);
-interface GroupProps extends IPressableProps {
+interface GroupProps extends ComponentProps<typeof NBPressable> {
   category: Category;
   active?: boolean;
   color: string;
@@ -24,9 +24,9 @@ interface GroupProps extends IPressableProps {
 
 export const Group: React.FC<GroupProps> = memo(
   ({ category, color, active = false, ...props }: GroupProps) => {
-    const { colors } = useTheme();
+    const white = useToken("colors", "white");
     const pressableBgColor = useSharedValue(active ? color : "transparent");
-    const textColor = useSharedValue(active ? colors.primary.bg.white : color);
+    const textColor = useSharedValue(active ? white : color);
     const animatedStyle = useAnimatedStyle(() => ({
       backgroundColor: pressableBgColor.value,
     }));
@@ -35,24 +35,23 @@ export const Group: React.FC<GroupProps> = memo(
     }));
     useEffect(() => {
       pressableBgColor.value = withTiming(active ? color : "transparent");
-      textColor.value = withTiming(active ? colors.primary.bg.white : color);
+      textColor.value = withTiming(active ? white : color);
     }, [active]);
     return (
       <Pressable
-        h={10}
+        height="$10"
         style={animatedStyle}
-        rounded="md"
+        rounded="$md"
         justifyContent="center"
         alignItems="center"
         overflow="hidden"
         onPress={() => props.onSelect(category)}
-        isPressed={active}
         {...props}
       >
         <Text
           style={animatedTextStyle}
           textTransform="capitalize"
-          fontSize="lg"
+          fontSize="$lg"
           fontWeight="bold"
         >
           {category}

@@ -565,6 +565,7 @@ export const gluestackUIConfig = createConfig({
     fonts: {
       heading: "Inter_700Bold",
       body: "Inter_400Regular",
+      extraLight: "Inter_200ExtraLight",
       mono: undefined,
     },
     fontSizes: {

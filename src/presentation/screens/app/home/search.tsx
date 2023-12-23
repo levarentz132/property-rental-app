@@ -1,11 +1,12 @@
-import type { IInputProps, IStackProps } from "native-base";
-import { Box, HStack, useTheme } from "native-base";
+import { Box, HStack, useToken } from "@gluestack-ui/themed";
+import type { ComponentProps } from "react";
 import FilterIcon from "src/main/assets/colorfull-icons/filter.svg";
 import SearchIcon from "src/main/assets/colorfull-icons/search.svg";
+import type { InputProps } from "src/presentation/components";
 import { Button, Input } from "src/presentation/components";
 
-interface SearchProps extends IStackProps {
-  inputProps: Pick<IInputProps, "value" | "onChangeText">;
+interface SearchProps extends ComponentProps<typeof HStack> {
+  inputProps: Pick<InputProps, "value" | "onChangeText">;
   onFilterPress: () => void;
 }
 
@@ -14,15 +15,15 @@ export const Search: React.FC<SearchProps> = ({
   onFilterPress,
   ...props
 }: SearchProps): JSX.Element => {
-  const { sizes } = useTheme();
+  const sizes = useToken("sizes", "6");
   return (
-    <HStack width="100%" py={3} space={4} {...props}>
+    <HStack width="$full" py={3} space="md" {...props}>
       <Box flex={1}>
         <Input
           placeholder="Search"
-          color="blue.700"
+          color="$blue700"
           icon={SearchIcon}
-          iconSize={sizes[6]}
+          iconSize={sizes}
           divisionColor="primary.blue.500"
           {...inputProps}
         />

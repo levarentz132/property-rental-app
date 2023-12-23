@@ -1,4 +1,4 @@
-import { HStack, Text, useTheme, VStack } from "native-base";
+import { HStack, Text, useToken, VStack } from "@gluestack-ui/themed";
 import type { TouchableOpacityProps } from "react-native";
 import { TouchableOpacity } from "react-native";
 import type { SvgProps } from "react-native-svg";
@@ -16,27 +16,26 @@ export const Card: React.FC<CardProps> = ({
   hideArrow = false,
   ...props
 }: CardProps): JSX.Element => {
-  const { sizes } = useTheme();
+  const sizes = useToken("space", "10");
   return (
     <TouchableOpacity activeOpacity={0.7} {...props}>
       <HStack
-        width="100%"
-        minHeight={14}
-        rounded="2xl"
-        // bgColor="primary.blue.100"
-        padding={3}
+        width="$full"
+        minHeight="$14"
+        rounded="$2xl"
+        padding="$3"
         alignItems="center"
         justifyContent="center"
       >
-        <Icon width={sizes[10]} height={sizes[10]} />
+        <Icon width={sizes} height={sizes} />
         <HStack
           flex={1}
           justifyContent="space-between"
           alignItems="center"
-          marginLeft={3}
+          marginLeft="$3"
         >
           <VStack flex={1}>
-            <Text fontSize="md" textTransform="capitalize">
+            <Text fontSize="$md" textTransform="capitalize">
               {label}
             </Text>
           </VStack>

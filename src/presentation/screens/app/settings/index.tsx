@@ -1,4 +1,4 @@
-import { Heading, ScrollView, VStack } from "native-base";
+import { Heading, ScrollView, VStack } from "@gluestack-ui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DocsIcon from "src/main/assets/colorfull-icons/docs.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/key.svg";
@@ -15,8 +15,8 @@ export const Settings: React.FC = (): JSX.Element => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        <VStack flex={1} padding={6} space={4}>
-          <Heading marginBottom={3}>Settings</Heading>
+        <VStack flex={1} padding="$6" space="lg">
+          <Heading marginBottom="$3">Settings</Heading>
           <Card icon={UserIcon} label="Personal profile" />
           <Card icon={PasswordIcon} label="Change password" />
           <Card icon={ShieldIcon} label="Privacy policy" />

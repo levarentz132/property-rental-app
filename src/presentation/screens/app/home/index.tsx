@@ -1,6 +1,14 @@
-import { ScrollView, VStack } from "@gluestack-ui/themed";
+import {
+  FlatList,
+  ScrollView,
+  Toast,
+  ToastDescription,
+  ToastTitle,
+  useToast,
+  useToken,
+  VStack,
+} from "@gluestack-ui/themed";
 import { isAxiosError } from "axios";
-import { FlatList, useTheme, useToast } from "native-base";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -37,8 +45,14 @@ export const Home: React.FC<HomeProps> = ({
   httpClient,
 }: HomeProps): JSX.Element => {
   const toast = useToast();
-  const { colors } = useTheme();
+  // const { colors } = useTheme();
   const [search, setSearch] = useState<string>();
+  const colorHouse = useToken("colors", "red500");
+  const colorOffice = useToken("colors", "yellow500");
+  const colorApartment = useToken("colors", "green500");
+  const colorLand = useToken("colors", "blue500");
+  const colorCondo = useToken("colors", "purple500");
+  const colorOther = useToken("colors", "muted500");
   const [properties, setProperties] = useState<Property[]>([]);
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [loadingProperties, setLoadingProperties] = useState<boolean>(true);
@@ -51,27 +65,27 @@ export const Home: React.FC<HomeProps> = ({
   const MOCKED_CATEGORIES: CategoryData[] = [
     {
       category: Category.House,
-      color: colors.red[500],
+      color: colorHouse,
     },
     {
       category: Category.Office,
-      color: colors.yellow[500],
+      color: colorOffice,
     },
     {
       category: Category.Apartment,
-      color: colors.green[500],
+      color: colorApartment,
     },
     {
       category: Category.Land,
-      color: colors.blue[500],
+      color: colorLand,
     },
     {
       category: Category.Condo,
-      color: colors.purple[500],
+      color: colorCondo,
     },
     {
       category: Category.Other,
-      color: colors.muted[500],
+      color: colorOther,
     },
   ];
   const handleChangeCategory = (category: Category) => {
@@ -91,11 +105,27 @@ export const Home: React.FC<HomeProps> = ({
     } catch (error) {
       if (isAxiosError(error)) {
         toast.show({
-          title:
-            "Sorry, we couldn't get the properties, please try again later",
           placement: "top",
-          bgColor: colors.red[500],
-          margin: 4,
+          render: ({ id }) => {
+            const toastId = `toast-${id}`;
+            return (
+              <Toast
+                nativeID={toastId}
+                action="attention"
+                variant="solid"
+                bgColor="$red500"
+                marginTop="$2"
+              >
+                <VStack space="xs">
+                  <ToastTitle color="$white">Error</ToastTitle>
+                  <ToastDescription color="$white">
+                    Sorry, we couldn&apos;t get the properties, please try again
+                    later.
+                  </ToastDescription>
+                </VStack>
+              </Toast>
+            );
+          },
         });
       } else {
         throw error;
@@ -114,11 +144,27 @@ export const Home: React.FC<HomeProps> = ({
     } catch (error) {
       if (isAxiosError(error)) {
         toast.show({
-          title:
-            "Sorry, we couldn't get the featured properties, please try again later",
           placement: "top",
-          bgColor: colors.red[500],
-          margin: 4,
+          render: ({ id }) => {
+            const toastId = `toast-${id}`;
+            return (
+              <Toast
+                nativeID={toastId}
+                action="attention"
+                variant="solid"
+                bgColor="$red500"
+                marginTop="$2"
+              >
+                <VStack space="xs">
+                  <ToastTitle color="$white">Error</ToastTitle>
+                  <ToastDescription color="$white">
+                    Sorry, we couldn&apos;t get the featured properties, please
+                    try again later.
+                  </ToastDescription>
+                </VStack>
+              </Toast>
+            );
+          },
         });
       } else {
         throw error;
@@ -138,10 +184,26 @@ export const Home: React.FC<HomeProps> = ({
           await getAllProperties(allPropertiesUri.toString());
         } catch {
           toast.show({
-            title: "Sorry, something went wrong, please try again later",
             placement: "top",
-            bgColor: colors.red[500],
-            margin: 4,
+            render: ({ id }) => {
+              const toastId = `toast-${id}`;
+              return (
+                <Toast
+                  nativeID={toastId}
+                  action="attention"
+                  variant="solid"
+                  bgColor="$red500"
+                  marginTop="$2"
+                >
+                  <VStack space="xs">
+                    <ToastTitle color="$white">Error</ToastTitle>
+                    <ToastDescription color="$white">
+                      Sorry, something went wrong, please try again later.
+                    </ToastDescription>
+                  </VStack>
+                </Toast>
+              );
+            },
           });
         }
       };
@@ -157,10 +219,26 @@ export const Home: React.FC<HomeProps> = ({
         ]);
       } catch {
         toast.show({
-          title: "Sorry, something went wrong, please try again later",
           placement: "top",
-          bgColor: colors.red[500],
-          margin: 4,
+          render: ({ id }) => {
+            const toastId = `toast-${id}`;
+            return (
+              <Toast
+                nativeID={toastId}
+                action="attention"
+                variant="solid"
+                bgColor="$red500"
+                marginTop="$2"
+              >
+                <VStack space="xs">
+                  <ToastTitle color="$white">Error</ToastTitle>
+                  <ToastDescription color="$white">
+                    Sorry, something went wrong, please try again later.
+                  </ToastDescription>
+                </VStack>
+              </Toast>
+            );
+          },
         });
       }
     };
@@ -179,7 +257,7 @@ export const Home: React.FC<HomeProps> = ({
             <VStack paddingHorizontal="$6" paddingVertical="$3">
               <Header />
               <Search
-                marginTop={4}
+                marginTop="$4"
                 inputProps={{
                   value: search,
                   onChangeText: setSearch,
@@ -190,27 +268,28 @@ export const Home: React.FC<HomeProps> = ({
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={MOCKED_CATEGORIES}
-                my={3}
-                keyExtractor={({ category: name }) => name}
-                maxH={10}
-                _contentContainerStyle={{
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  gap: 2,
+                my="$3"
+                keyExtractor={(element) => (element as CategoryData).category}
+                maxHeight="$10"
+                contentContainerStyle={{
+                  gap: 8,
                 }}
-                minH={10}
-                renderItem={({ item }) => (
-                  <Group
-                    active={
-                      selectedCategory?.toUpperCase() ===
-                      item.category.toUpperCase()
-                    }
-                    color={item.color}
-                    category={item.category}
-                    onSelect={handleChangeCategory}
-                    paddingX={4}
-                  />
-                )}
+                minHeight="$10"
+                renderItem={(data) => {
+                  const item = data.item as CategoryData;
+                  return (
+                    <Group
+                      active={
+                        selectedCategory?.toUpperCase() ===
+                        item.category.toUpperCase()
+                      }
+                      color={item.color}
+                      category={item.category}
+                      onSelect={handleChangeCategory}
+                      paddingHorizontal="$4"
+                    />
+                  );
+                }}
               />
             </VStack>
             <Properties
@@ -221,7 +300,7 @@ export const Home: React.FC<HomeProps> = ({
             <FeaturedProperties
               properties={featuredProperties}
               loading={loadingFeatured}
-              marginBottom={2}
+              marginBottom="$2"
             />
           </VStack>
         </ScrollView>

@@ -1,6 +1,6 @@
+import { Box, useToken } from "@gluestack-ui/themed";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Box, useTheme } from "native-base";
 import { Platform } from "react-native";
 import type { SvgProps } from "react-native-svg";
 import FavoritesSVG from "src/main/assets/colorfull-icons/bookmark.svg";
@@ -78,36 +78,45 @@ const makeTabIcon =
       width={size * 2}
       height={size * 2}
       bgColor={focused ? color : "transparent"}
-      rounded="2xl"
+      rounded="$2xl"
     >
       <Icon width={size} height={size} />
     </Box>
   );
 
 export const AppRoutes: React.FC = () => {
-  const { sizes, colors, radii } = useTheme();
-  const iconSize = sizes[6];
+  const iconSize = useToken("space", "5");
+  const marginBottomOnIos = useToken("space", "4");
+  const marginTopOnIos = useToken("space", "4");
+  const paddingTopOnAndroid = useToken("space", "4");
+  const paddingBottom = useToken("space", "9");
+  const menuSvgPosition = useToken("space", "5");
+  const tabBarActiveTintColor = useToken("colors", "blue100");
+  const tabBarInactiveTintColor = useToken("colors", "gray200");
+  const borderRadius = useToken("radii", "3xl");
+  const backgroundColor = useToken("colors", "white");
   return (
     <Navigator
       initialRouteName="homeTab"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: colors.primary.blue[100],
-        tabBarInactiveTintColor: colors.gray[200],
+        tabBarActiveTintColor,
+        tabBarInactiveTintColor,
         tabBarIconStyle: {
-          marginBottom: Platform.OS === "android" ? undefined : sizes[4],
+          marginBottom:
+            Platform.OS === "android" ? undefined : marginBottomOnIos,
         },
         tabBarStyle: {
           display: "flex",
-          borderTopRightRadius: radii["3xl"],
-          borderTopLeftRadius: radii["3xl"],
-          backgroundColor: colors.primary.bg.white,
+          borderTopRightRadius: borderRadius,
+          borderTopLeftRadius: borderRadius,
+          backgroundColor,
           borderTopWidth: 0,
           height: Platform.OS === "android" ? "auto" : undefined,
-          marginTop: Platform.OS === "android" ? undefined : sizes[4],
-          paddingTop: Platform.OS === "android" ? sizes[9] : 0,
-          paddingBottom: sizes[9],
+          marginTop: Platform.OS === "android" ? undefined : marginTopOnIos,
+          paddingTop: Platform.OS === "android" ? paddingTopOnAndroid : 0,
+          paddingBottom,
         },
       }}
     >
@@ -123,13 +132,13 @@ export const AppRoutes: React.FC = () => {
                   justifyContent="center"
                   alignItems="center"
                   width={iconSize / 2}
-                  rounded="2xl"
+                  rounded="$2xl"
                 >
                   <MenuSVG
                     width={iconSize * 7}
                     height={iconSize * 7}
                     style={{
-                      bottom: sizes[5],
+                      bottom: menuSvgPosition,
                     }}
                   />
                 </Box>

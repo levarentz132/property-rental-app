@@ -1,4 +1,4 @@
-import { Box, Heading, VStack } from "native-base";
+import { Box, Heading, VStack } from "@gluestack-ui/themed";
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -22,26 +22,26 @@ export const Register: React.FC = (): JSX.Element => {
       />
       <VStack
         flex={1}
-        bgColor="primary.blue.800"
+        bgColor="$blue800"
         justifyContent="center"
         alignItems="center"
       >
         <Box flex={1} />
         <VStack
-          bgColor="primary.bg.light"
-          width="full"
-          borderTopRightRadius="3xl"
-          borderTopLeftRadius="3xl"
+          bgColor="$white"
+          width="$full"
+          borderTopRightRadius="$3xl"
+          borderTopLeftRadius="$3xl"
           alignItems="center"
           justifyContent="flex-end"
-          padding={6}
+          padding="$6"
         >
           <Heading
-            color="textColor.dark"
+            color="$textDark800"
             fontFamily="heading"
-            fontSize="3xl"
-            marginTop={6}
-            marginBottom={12}
+            fontSize="$3xl"
+            marginTop="$6"
+            marginBottom="$12"
           >
             Register
           </Heading>
@@ -51,27 +51,27 @@ export const Register: React.FC = (): JSX.Element => {
           >
             <Input
               placeholder="Username"
-              my={2}
+              my="$2"
               value={username}
               onChangeText={setUsername}
               icon={UserIcon}
             />
             <Input
               placeholder="E-mail"
-              my={2}
+              my="$2"
               value={email}
               onChangeText={setEmail}
               icon={EmailIcon}
             />
             <Input
               placeholder="Password"
-              my={2}
+              my="$2"
               value={password}
               onChangeText={setPassword}
               icon={PasswordIcon}
             />
-            <Button flex={1} title="Register" marginTop={20} />
-            <Social marginTop={12} paddingX={8} />
+            <Button flex={1} title="Register" marginTop="$20" />
+            <Social marginTop="$12" paddingHorizontal="$8" />
           </KeyboardAwareScrollView>
         </VStack>
       </VStack>

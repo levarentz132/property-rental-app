@@ -1,15 +1,16 @@
-import type { IButtonProps } from "native-base";
 import {
   Box,
   Button as NativeBaseButton,
   Spinner,
   Text,
-  useTheme,
-} from "native-base";
+  useToken,
+} from "@gluestack-ui/themed";
+import type { ComponentProps } from "react";
 import React from "react";
 import type { SvgProps } from "react-native-svg";
 
-interface ButtonProps extends Omit<IButtonProps, "variant"> {
+interface ButtonProps
+  extends Omit<ComponentProps<typeof NativeBaseButton>, "variant"> {
   title: string;
   loading?: boolean;
   variant?: "outline" | "solid";
@@ -25,19 +26,17 @@ export const Button: React.FC<ButtonProps> = ({
   loading = false,
   ...props
 }: ButtonProps) => {
-  const { space } = useTheme();
+  const margin = useToken("space", "2");
   return (
     <NativeBaseButton
       disabled={loading}
       width="100%"
-      h={12}
-      bg={variant === "outline" ? "transparent" : "primary.blue.800"}
+      height="$12"
+      bg={variant === "outline" ? "transparent" : "$blue800"}
       borderWidth={variant === "outline" ? 1 : 0}
-      borderColor="primary.blue.500"
-      rounded="2xl"
-      _pressed={{
-        bg: variant === "outline" ? "gray.500" : "primary.blue.500",
-      }}
+      borderColor="$blue500"
+      rounded="$2xl"
+      $pressed-bg={variant === "outline" ? "$gray500" : "$blue500"}
       {...props}
     >
       {loading ? (
@@ -45,25 +44,17 @@ export const Button: React.FC<ButtonProps> = ({
       ) : (
         <Box flexDirection="row" justifyContent="center" alignItems="center">
           {Addorment && (
-            <Addorment
-              width={30}
-              height={30}
-              style={{ marginRight: space[2] }}
-            />
+            <Addorment width={30} height={30} style={{ marginRight: margin }} />
           )}
           <Text
-            color={variant === "outline" ? "primary.blue.500" : "white"}
-            fontFamily="heading"
-            fontSize="md"
+            color={variant === "outline" ? "$blue500" : "$white"}
+            fontFamily="$heading"
+            fontSize="$md"
           >
             {title}
           </Text>
           {Endorment && (
-            <Endorment
-              width={30}
-              height={30}
-              style={{ marginLeft: space[2] }}
-            />
+            <Endorment width={30} height={30} style={{ marginLeft: margin }} />
           )}
         </Box>
       )}

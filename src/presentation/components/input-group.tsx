@@ -1,5 +1,6 @@
-import type { IInputProps } from "native-base";
-import { Box, HStack, VStack } from "native-base";
+import type { InputField } from "@gluestack-ui/themed";
+import { Box, VStack } from "@gluestack-ui/themed";
+import type { ComponentProps } from "react";
 import React from "react";
 import type { SvgProps } from "react-native-svg";
 
@@ -9,7 +10,7 @@ interface InputGroupProps {
   inputs: {
     label: string;
     icon: React.FC<SvgProps>;
-    inputProps?: Partial<IInputProps>;
+    inputProps?: Partial<ComponentProps<typeof InputField>>;
   }[];
 }
 
@@ -18,27 +19,22 @@ export const InputGroup: React.FC<InputGroupProps> = ({
 }: InputGroupProps) => {
   const total = inputs.length;
   return (
-    <VStack
-      width="full"
-      bgColor="primary.bg.white"
-      rounded="2xl"
-      px={4}
-      alignItems="center"
-      justifyContent="center"
-    >
-      {inputs.map(({ label, icon: Icon, inputProps }, index) => (
+    <VStack bgColor="$white" rounded="$2xl" px="$4">
+      {inputs.map(({ label, icon, inputProps }, index) => (
         <React.Fragment key={index}>
-          <HStack alignItems="center" p={2}>
-            <Input
-              color="textColor.dark"
-              InputLeftElement={<Icon width={40} height={40} />}
-              key={index}
-              placeholder={label}
-              {...inputProps}
-            />
-          </HStack>
+          <Input
+            color="$textDark800"
+            marginVertical="$4"
+            icon={icon}
+            key={index}
+            placeholder={label}
+            $focus={{
+              borderWidth: 0,
+            }}
+            {...inputProps}
+          />
           {index < total - 1 && (
-            <Box width="full" height={0.4} bgColor="textColor.grayDark" />
+            <Box width="$full" height="$0.5" bgColor="$trueGray300" />
           )}
         </React.Fragment>
       ))}

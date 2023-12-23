@@ -7,5 +7,4 @@ export * from "./input";
 export * from "./input-group";
 export * from "./loading";
 export * from "./property-card";
-export * from "./property-card-skeleton";
 export * from "./user-signature";

@@ -1,10 +1,10 @@
-import type { IStackProps } from "native-base";
-import { HStack, Text } from "native-base";
+import { HStack, Text } from "@gluestack-ui/themed";
+import type { ComponentProps } from "react";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Button } from "src/presentation/components";
 
-interface ActionsPageProps extends IStackProps {
+interface ActionsPageProps extends ComponentProps<typeof HStack> {
   loading?: boolean;
   onForgotPassword: () => void;
   onLogin: () => void;
@@ -22,7 +22,7 @@ export const Actions: React.FC<ActionsPageProps> = ({
       style={{ flex: 1 }}
       onPress={onForgotPassword}
     >
-      <Text fontSize={14} color="textColor.grayDark">
+      <Text fontSize="$sm" color="$textDark800">
         Forgot password?
       </Text>
     </TouchableOpacity>

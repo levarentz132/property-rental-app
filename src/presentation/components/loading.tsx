@@ -1,8 +1,8 @@
-import { Center, Spinner } from "native-base";
+import { Center, Spinner } from "@gluestack-ui/themed";
 import React from "react";
 
 export const Loading: React.FC = () => (
-  <Center flex={1} bg="primary.bg.light">
+  <Center flex={1} bg="$white">
     <Spinner />
   </Center>
 );

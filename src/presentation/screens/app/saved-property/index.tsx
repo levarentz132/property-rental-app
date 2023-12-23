@@ -56,7 +56,7 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
           <Box flex={1} marginBottom="$6">
             <Input
               placeholder="Search"
-              color="blue.700"
+              color="$blue700"
               icon={SearchIcon}
               iconSize={iconSize}
               divisionColor="primary.blue.500"

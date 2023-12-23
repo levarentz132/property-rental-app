@@ -1,5 +1,13 @@
+import {
+  Box,
+  Heading,
+  Toast,
+  ToastDescription,
+  ToastTitle,
+  useToast,
+  VStack,
+} from "@gluestack-ui/themed";
 import { isAxiosError } from "axios";
-import { Box, Heading, useTheme, useToast, VStack } from "native-base";
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -17,13 +25,11 @@ import { Actions } from "./actions";
 interface LoginProps {
   httpClient: HttpPostClient;
 }
-
 export const Login: React.FC<LoginProps> = ({
   httpClient,
 }: LoginProps): JSX.Element => {
   const { addUser } = useApp();
   const toast = useToast();
-  const { colors } = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
@@ -47,14 +53,26 @@ export const Login: React.FC<LoginProps> = ({
         const errorData = error.toJSON() as any;
         if (errorData.status === 401) {
           toast.show({
-            title: "Invalid credentials",
-            description:
-              error.response?.data.message ||
-              "Please check your username and password",
             placement: "top",
-            bgColor: colors.red[500],
-            alignItems: "center",
-            margin: 4,
+            render: ({ id }) => {
+              const toastId = `toast-${id}`;
+              return (
+                <Toast
+                  nativeID={toastId}
+                  action="attention"
+                  variant="solid"
+                  bgColor="$red500"
+                  marginTop="$2"
+                >
+                  <VStack space="xs">
+                    <ToastTitle color="$white">Invalid credentials</ToastTitle>
+                    <ToastDescription color="$white">
+                      Please check your username and password.
+                    </ToastDescription>
+                  </VStack>
+                </Toast>
+              );
+            },
           });
         }
       }
@@ -72,7 +90,7 @@ export const Login: React.FC<LoginProps> = ({
       />
       <VStack
         flex={1}
-        bgColor="primary.blue.800"
+        bgColor="$blue800"
         justifyContent="center"
         alignItems="center"
       >
@@ -81,34 +99,34 @@ export const Login: React.FC<LoginProps> = ({
         </Box>
 
         <VStack
-          bgColor="primary.bg.light"
-          width="full"
-          borderTopRightRadius="3xl"
-          borderTopLeftRadius="3xl"
+          bgColor="$white"
+          width="$full"
+          borderTopRightRadius="$3xl"
+          borderTopLeftRadius="$3xl"
           alignItems="center"
           justifyContent="flex-end"
-          padding={6}
+          padding="$6"
         >
-          <Heading
-            color="textColor.dark"
-            fontFamily="heading"
-            fontSize="3xl"
-            marginTop={6}
-            marginBottom={12}
-          >
-            Login
-          </Heading>
           <KeyboardAwareScrollView
             showsVerticalScrollIndicator={false}
             style={{ width: "100%" }}
           >
+            <Heading
+              color="$textDark800"
+              fontFamily="$heading"
+              fontSize="$2xl"
+              marginTop="$6"
+              marginBottom="$12"
+            >
+              Login
+            </Heading>
             <InputGroup
               inputs={[
                 {
                   label: "Username",
                   icon: UserIcon,
                   inputProps: {
-                    isDisabled: loading,
+                    borderWidth: 0,
                     value: username,
                     onChangeText: setUsername,
                     type: "text",
@@ -119,7 +137,6 @@ export const Login: React.FC<LoginProps> = ({
                   label: "Password",
                   icon: PasswordIcon,
                   inputProps: {
-                    isDisabled: loading,
                     value: password,
                     onChangeText: setPassword,
                     type: "password",
@@ -129,11 +146,11 @@ export const Login: React.FC<LoginProps> = ({
             />
             <Actions
               loading={loading}
-              marginTop={8}
+              marginTop="$8"
               onLogin={handleLogin}
               onForgotPassword={handleForgotPassword}
             />
-            <Social marginTop={24} paddingX={8} />
+            <Social marginTop="$24" paddingHorizontal="$8" />
           </KeyboardAwareScrollView>
         </VStack>
       </VStack>

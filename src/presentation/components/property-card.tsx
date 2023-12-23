@@ -40,9 +40,12 @@ const PropItem = ({
   <HStack alignItems="center" justifyContent="center">
     <Icon as={icon} size="sm" />
     <Text
+      fontFamily="$extraLight"
+      fontSize="$xs"
+      fontWeight="$bold"
       marginLeft="$1"
       marginRight={marginRight ? "$4" : 0}
-      color="$textDark800"
+      color="$textDark900"
     >
       {value}
     </Text>
@@ -84,7 +87,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
         shadowOffset={{ width: 0, height: 5 }}
         shadowOpacity={0.34}
         maxWidth={isPortrait && !fullWidth ? "$56" : undefined}
-        padding="$5"
+        padding="$4"
         alignItems="center"
       >
         <Image
@@ -104,13 +107,10 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           marginTop={isPortrait ? "$4" : 0}
           flex={isPortrait ? undefined : 1}
         >
-          <HStack
-            width="100%"
-            marginBottom={isPortrait ? 0 : "$2"}
-            alignItems="center"
-          >
+          <HStack width="100%" alignItems="center">
             <Text
-              fontWeight="bold"
+              fontWeight="$bold"
+              fontFamily="$heading"
               fontSize={titleFontSize}
               flex={isPortrait ? 1 : undefined}
               marginRight={isPortrait ? 0 : "$6"}
@@ -120,21 +120,35 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
             </Text>
             <Text
               color="$blue800"
-              fontWeight="bold"
+              fontWeight="$bold"
+              fontFamily="$heading"
               fontSize={fullWidth ? "$xl" : "$md"}
             >
               ${value}
             </Text>
           </HStack>
           {(!isPortrait || fullWidth) && (
-            <HStack width="100%" padding={fullWidth ? 3 : 0}>
-              <Icon as={LocationIconSvg} fill={trueGray300} marginLeft={-1} />
+            <HStack
+              width="100%"
+              padding={fullWidth ? 3 : 0}
+              alignItems="center"
+              marginTop="$2"
+            >
+              <Icon
+                as={LocationIconSvg}
+                fill={trueGray300}
+                marginLeft={-1}
+                size="xs"
+                marginRight="$1.5"
+              />
               <Text
                 width="100%"
                 color="$textDark800"
-                fontWeight="bold"
+                fontWeight="$bold"
+                fontFamily="$extraLight"
+                fontSize={fullWidth ? "$md" : "$sm"}
                 maxWidth={isPortrait ? undefined : 200}
-                numberOfLines={1}
+                numberOfLines={fullWidth ? 2 : 1}
               >
                 {address}
               </Text>
@@ -143,7 +157,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           <HStack
             width="100%"
             justifyContent={isPortrait ? "space-around" : "flex-start"}
-            marginTop={2}
+            marginTop="$2"
           >
             {size && (
               <PropItem
