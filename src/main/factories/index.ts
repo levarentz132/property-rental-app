@@ -1,3 +1,4 @@
+export * from "./change-password-factory";
 export * from "./home-factory";
 export * from "./menu-factory";
 export * from "./messages-factory";

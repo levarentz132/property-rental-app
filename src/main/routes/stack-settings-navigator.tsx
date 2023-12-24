@@ -1,7 +1,7 @@
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { homeFactory, propertyDetailsFactory } from "../factories";
+import { changePasswordFactory, settingsFactory } from "../factories";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Stack = createNativeStackNavigator();
@@ -10,28 +10,25 @@ type ScreenProps = React.ComponentProps<typeof Stack.Screen>;
 
 const screens: ScreenProps[] = [
   {
-    name: "home",
-    component: () => homeFactory(),
+    name: "settings",
+    component: () => settingsFactory(),
   },
   {
-    name: "property-details",
-    component: () => propertyDetailsFactory(),
+    name: "change-password",
+    component: () => changePasswordFactory(),
   },
 ];
 
 type StackRoutes = {
-  home: undefined;
-  "property-details": {
-    type: "property" | "featured";
-    id: string;
-  };
+  settings: undefined;
+  "change-password": undefined;
 };
 
 export type StackNavigatorRouteProps = NativeStackNavigationProp<StackRoutes>;
 
-export const makeStackNavigator = () => (
+export const makeSettingsStackNavigator = () => (
   <Stack.Navigator
-    initialRouteName="home"
+    initialRouteName="settings"
     screenOptions={{
       headerShown: false,
     }}

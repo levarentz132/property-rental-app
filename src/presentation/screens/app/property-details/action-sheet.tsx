@@ -61,11 +61,15 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
           <DatePicker value={date} onChange={setDate} />
           <HStack width="100%" space="lg" marginTop="$8">
             <VStack flex={1} space="sm">
-              <Text>Start Time</Text>
+              <Text fontFamily="$heading" fontSize="$sm">
+                Start Time
+              </Text>
               <TimePicker is24Hour value={startTime} onChange={setStartTime} />
             </VStack>
             <VStack flex={1} space="sm">
-              <Text>End Time</Text>
+              <Text fontFamily="$heading" fontSize="$sm">
+                End Time
+              </Text>
               <TimePicker is24Hour value={endTime} onChange={setEndTime} />
             </VStack>
           </HStack>

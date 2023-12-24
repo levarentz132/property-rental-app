@@ -39,6 +39,7 @@ export const DatePicker: React.FC<DateTimePickerProps> = ({
         bgColor="$violet100"
         alignItems="center"
         paddingHorizontal="$4"
+        borderRadius="$2xl"
       >
         <Pressable
           flex={1}

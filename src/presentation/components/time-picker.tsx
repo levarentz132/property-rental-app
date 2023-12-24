@@ -55,6 +55,7 @@ export const TimePicker: React.FC<DateTimePickerProps> = ({
           bgColor="$violet100"
           alignItems="center"
           paddingHorizontal="$4"
+          borderRadius="$2xl"
         >
           <Text flex={1}>{dayjs(value).format("HH:mm")}</Text>
           <ClockIcon />

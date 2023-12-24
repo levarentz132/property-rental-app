@@ -1,4 +1,5 @@
 import { Heading, ScrollView, useToken, VStack } from "@gluestack-ui/themed";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DocsIcon from "src/main/assets/colorfull-icons/docs.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/key.svg";
@@ -12,6 +13,7 @@ import { Card } from "./card";
 
 export const Settings: React.FC = (): JSX.Element => {
   const { removeUser } = useApp();
+  const { navigate } = useNavigation();
   const backgroundColor = useToken("colors", "backgroundApp");
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor }}>
@@ -19,7 +21,11 @@ export const Settings: React.FC = (): JSX.Element => {
         <VStack flex={1} padding="$6" space="lg">
           <Heading marginBottom="$3">Settings</Heading>
           <Card icon={UserIcon} label="Personal profile" />
-          <Card icon={PasswordIcon} label="Change password" />
+          <Card
+            icon={PasswordIcon}
+            label="Change password"
+            onPress={() => navigate("change-password")}
+          />
           <Card icon={ShieldIcon} label="Privacy policy" />
           <Card icon={DocsIcon} label="Data saver" />
           <Card icon={NotificationIcon} label="Notification" />

@@ -6,6 +6,7 @@ export declare global {
       menu: undefined;
       messages: undefined;
       settings: undefined;
+      "change-password": undefined;
       "property-details": {
         type: "property" | "featured";
         id: string;

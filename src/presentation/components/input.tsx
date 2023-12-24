@@ -1,5 +1,7 @@
 import {
   FormControl,
+  FormControlLabel,
+  FormControlLabelText,
   Input as NativeBaseInput,
   InputField,
   InputIcon,
@@ -16,13 +18,17 @@ export interface InputProps extends ComponentProps<typeof InputField> {
   errorMessage?: string;
   isInvalid?: boolean;
   placeholder?: string;
+  title?: string;
+  containerProps?: ComponentProps<typeof FormControl>;
 }
 
 export const Input: React.FC<InputProps> = ({
   errorMessage,
+  title,
   isInvalid = false,
   divisionColor = "darkBlue500",
   placeholder,
+  containerProps,
   icon,
   ...props
 }: InputProps) => {
@@ -31,19 +37,31 @@ export const Input: React.FC<InputProps> = ({
   return (
     <FormControl
       isInvalid={invalid}
-      bg="$white"
-      height="$12"
-      rounded="$2xl"
+      height="$16"
       width="$full"
+      {...containerProps}
     >
+      {title && (
+        <FormControlLabel mb="$2">
+          <FormControlLabelText
+            textTransform="capitalize"
+            color="$textDark800"
+            fontFamily="$heading"
+          >
+            {title}
+          </FormControlLabelText>
+        </FormControlLabel>
+      )}
       <NativeBaseInput
         width="$full"
-        borderWidth={0}
+        rounded="$2xl"
+        bgColor="$white"
+        borderWidth="$0"
         height="$full"
         isInvalid={invalid}
         justifyContent="flex-start"
         alignItems="center"
-        paddingLeft="$4"
+        paddingLeft={icon ? "$4" : "$0"}
       >
         {icon && <InputIcon as={icon} color="$darkBlue500" />}
         <InputField
@@ -61,7 +79,7 @@ export const Input: React.FC<InputProps> = ({
           color="$white"
           fontFamily="$body"
           placeholder={placeholder ?? "Enter Text here"}
-          fontSize="$md"
+          fontSize="$lg"
           placeholderTextColor="$textDark600"
           {...props}
         />

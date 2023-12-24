@@ -13,16 +13,16 @@ import {
   menuFactory,
   messagesFactory,
   savedPropertyFactory,
-  settingsFactory,
 } from "../factories";
-import { makeStackNavigator } from "./stack-navigator";
+import { makeHomeStackNavigator } from "./stack-home-navigator";
+import { makeSettingsStackNavigator } from "./stack-settings-navigator";
 
 type AppRoutesTypes = {
   homeTab: undefined;
   favorites: undefined;
   menu: undefined;
   messages: undefined;
-  settings: undefined;
+  settingsTab: undefined;
 };
 
 type ScreenProps = React.ComponentProps<typeof Screen> & {
@@ -32,7 +32,7 @@ type ScreenProps = React.ComponentProps<typeof Screen> & {
 const screens: ScreenProps[] = [
   {
     name: "homeTab",
-    component: () => makeStackNavigator(),
+    component: () => makeHomeStackNavigator(),
     svg: HomeSVG,
   },
   {
@@ -51,8 +51,8 @@ const screens: ScreenProps[] = [
     svg: ChatSVG,
   },
   {
-    name: "settings",
-    component: () => settingsFactory(),
+    name: "settingsTab",
+    component: () => makeSettingsStackNavigator(),
     svg: SettingsSVG,
   },
 ];
