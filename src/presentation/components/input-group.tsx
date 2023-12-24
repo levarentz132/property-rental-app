@@ -19,7 +19,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
 }: InputGroupProps) => {
   const total = inputs.length;
   return (
-    <VStack bgColor="$white" rounded="$2xl" px="$4">
+    <VStack bgColor="$white" rounded="$2xl" px="$4" width="$full">
       {inputs.map(({ label, icon, inputProps }, index) => (
         <React.Fragment key={index}>
           <Input

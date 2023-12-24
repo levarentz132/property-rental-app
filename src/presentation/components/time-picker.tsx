@@ -66,7 +66,7 @@ export const TimePicker: React.FC<DateTimePickerProps> = ({
           mode="time"
           is24Hour={is24Hour}
           onChange={handleChangeDate}
-          display={isAndroid ? "calendar" : "spinner"}
+          display={isAndroid ? "clock" : "spinner"}
           positiveButton={{
             label: "Select",
             textColor: selectDateColor,

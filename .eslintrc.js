@@ -15,5 +15,11 @@ module.exports = {
     "@typescript-eslint/no-namespace": "off",
     "react-hooks/exhaustive-deps": "off",
     "react/no-children-prop": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
   },
 };
