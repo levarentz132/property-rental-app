@@ -52,7 +52,7 @@ export const Input: React.FC<InputProps> = ({
           fontFamily="$body"
           placeholder={placeholder ?? "Enter Text here"}
           fontSize="$sm"
-          placeholderTextColor="$textDark800"
+          placeholderTextColor="$textDark600"
           {...props}
         />
       </NativeBaseInput>

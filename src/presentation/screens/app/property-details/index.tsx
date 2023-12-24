@@ -23,6 +23,7 @@ import type { BaseRouteParamsProps } from "src/main/routes";
 import { Loading, PropertyCard } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
 
+import { ActionSheet } from "./action-sheet";
 import { OwnerCard } from "./owner-card";
 import { Review } from "./review";
 
@@ -50,10 +51,12 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   const iconSize = useToken("space", ICON_SIZE);
   const toast = useToast();
   const [property, setProperty] = useState<Property>();
+  const [showActionsheet, setShowActionsheet] = useState(false);
   const isBookmarked = useMemo(
     () => user?.bookmarks.includes(params.id),
     [user?.bookmarks],
   );
+  const toggleActionSheet = () => setShowActionsheet(!showActionsheet);
   const Bookmark = isBookmarked ? BookmarkFilledIcon : BookmarkIcon;
   const toggleBookmark = useCallback(() => {
     if (isBookmarked) {
@@ -126,9 +129,10 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
           {property.reviews.map((review) => (
             <Review key={review.id} {...review} />
           ))}
-          <OwnerCard />
+          <OwnerCard onSchedulePress={toggleActionSheet} />
         </VStack>
       </ScrollView>
+      <ActionSheet isOpen={showActionsheet} onClose={toggleActionSheet} />
     </SafeAreaView>
   ) : (
     <Loading />

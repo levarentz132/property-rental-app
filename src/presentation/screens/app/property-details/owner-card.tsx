@@ -6,7 +6,13 @@ import { CardButton } from "src/presentation/components";
 import { UserSignature } from "src/presentation/components/user-signature";
 import { useApp } from "src/presentation/hooks/use-app";
 
-export const OwnerCard: React.FC = (): JSX.Element => {
+interface OwnerCardProps {
+  onSchedulePress: () => void;
+}
+
+export const OwnerCard: React.FC<OwnerCardProps> = ({
+  onSchedulePress,
+}: OwnerCardProps): JSX.Element => {
   const { user } = useApp();
   return (
     <VStack
@@ -37,6 +43,7 @@ export const OwnerCard: React.FC = (): JSX.Element => {
           icon={ScheduleIcon}
           bgColor="$orange100"
           label="Schedule"
+          onPress={onSchedulePress}
         />
         <CardButton flex={1} icon={CallIcon} bgColor="$green100" label="Call" />
       </HStack>
