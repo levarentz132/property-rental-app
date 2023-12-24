@@ -20,10 +20,7 @@ export const OwnerCard: React.FC<OwnerCardProps> = ({
       padding="$4"
       rounded="$3xl"
       bgColor="$white"
-      shadowRadius="$2"
-      shadowColor="primary.bg.black"
-      shadowOffset={{ width: 0, height: 5 }}
-      shadowOpacity={0.1}
+      softShadow="1"
     >
       <UserSignature
         marginBottom="$5"

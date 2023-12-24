@@ -87,7 +87,7 @@ const makeTabIcon =
 export const AppRoutes: React.FC = () => {
   const iconSize = useToken("space", "5");
   const marginBottomOnIos = useToken("space", "4");
-  const marginTopOnIos = useToken("space", "4");
+  const marginTop = useToken("space", "4");
   const paddingTopOnAndroid = useToken("space", "4");
   const paddingBottom = useToken("space", "9");
   const menuSvgPosition = useToken("space", "5");
@@ -111,7 +111,7 @@ export const AppRoutes: React.FC = () => {
           backgroundColor,
           borderTopWidth: 0,
           height: Platform.OS === "android" ? "auto" : undefined,
-          marginTop: Platform.OS === "android" ? undefined : marginTopOnIos,
+          marginTop,
           paddingTop: Platform.OS === "android" ? paddingTopOnAndroid : 0,
           paddingBottom,
         },

@@ -1,4 +1,4 @@
-import { Heading, ScrollView, VStack } from "@gluestack-ui/themed";
+import { Heading, ScrollView, useToken, VStack } from "@gluestack-ui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DocsIcon from "src/main/assets/colorfull-icons/docs.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/key.svg";
@@ -12,8 +12,9 @@ import { Card } from "./card";
 
 export const Settings: React.FC = (): JSX.Element => {
   const { removeUser } = useApp();
+  const backgroundColor = useToken("colors", "backgroundApp");
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor }}>
       <ScrollView>
         <VStack flex={1} padding="$6" space="lg">
           <Heading marginBottom="$3">Settings</Heading>

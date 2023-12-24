@@ -24,7 +24,6 @@ export const Search: React.FC<SearchProps> = ({
           color="$blue700"
           icon={SearchIcon}
           iconSize={sizes}
-          divisionColor="primary.blue.500"
           {...inputProps}
         />
       </Box>

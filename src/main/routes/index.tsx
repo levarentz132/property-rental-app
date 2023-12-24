@@ -17,7 +17,7 @@ export const Routes = () => {
   theme.colors.background = backgroundColor;
 
   return (
-    <Box flex={1} bg="primary.bg.white">
+    <Box flex={1} bg="$backgroundApp">
       <NavigationContainer theme={theme}>
         {user ? <AppRoutes /> : <AuthRoutes />}
       </NavigationContainer>

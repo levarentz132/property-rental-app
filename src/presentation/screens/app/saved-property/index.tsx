@@ -26,6 +26,7 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
   httpClient,
 }: SavedPropertyProps): JSX.Element => {
   const iconSize = useToken("space", "6");
+  const backgroundColor = useToken("colors", "backgroundApp");
   const { navigate } = useNavigation<StackNavigatorRouteProps>();
   const { user } = useApp();
   const [bookmarkList, setBookmarkList] = useState<Property[]>();
@@ -49,7 +50,7 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
     }, [user?.bookmarks.length]),
   );
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor }}>
       <ScrollView>
         <VStack flex={1} padding="$6" space="lg">
           <Heading marginBottom="$6">Saved Property</Heading>

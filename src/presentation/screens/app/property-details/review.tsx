@@ -23,10 +23,7 @@ export const Review: React.FC<ReviewProps> = ({
       padding="$4"
       rounded="$3xl"
       bgColor="$white"
-      shadowRadius="$2"
-      shadowColor="$black"
-      shadowOffset={{ width: 0, height: 5 }}
-      shadowOpacity={0.1}
+      softShadow="1"
       {...props}
     >
       <UserSignature
@@ -44,10 +41,6 @@ export const Review: React.FC<ReviewProps> = ({
                 <StarIcon key={index} width={starSize} height={starSize} />
               ))
           : null}
-        {/* <StarIcon width={starSize} height={starSize} />
-        <StarIcon width={starSize} height={starSize} />
-        <StarIcon width={starSize} height={starSize} />
-        <StarIcon width={starSize} height={starSize} /> */}
       </HStack>
     </VStack>
   );

@@ -69,6 +69,7 @@ export const Home: React.FC<HomeProps> = ({
 }: HomeProps): JSX.Element => {
   const toast = useToast();
   const [search, setSearch] = useState<string>();
+  const backgroundColor = useToken("colors", "backgroundApp");
   const colorHouse = useToken("colors", "red500");
   const colorOffice = useToken("colors", "yellow500");
   const colorApartment = useToken("colors", "green500");
@@ -81,7 +82,6 @@ export const Home: React.FC<HomeProps> = ({
   const [loadingFeatured, setLoadingFeatured] = useState<boolean>(true);
   const [showActionsheet, setShowActionsheet] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
-
   const handleClose = () => setShowActionsheet(!showActionsheet);
 
   const MOCKED_CATEGORIES: CategoryData[] = [
@@ -205,7 +205,7 @@ export const Home: React.FC<HomeProps> = ({
     fetchPropertyDatas();
   }, []);
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <VStack>
           <StatusBar

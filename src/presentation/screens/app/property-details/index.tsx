@@ -48,6 +48,7 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   const { params } = useRoute<RouteParamsProps>();
   const { navigate, goBack } = useNavigation();
   const iconColor = useToken("colors", "blue800");
+  const backgroundColor = useToken("colors", "backgroundApp");
   const iconSize = useToken("space", ICON_SIZE);
   const toast = useToast();
   const [property, setProperty] = useState<Property>();
@@ -103,7 +104,7 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
     fetchData();
   }, []);
   return property ? (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor }}>
       <ScrollView>
         <VStack flex={1} padding="$6" space="lg">
           <HStack marginBottom="$3" alignItems="center">

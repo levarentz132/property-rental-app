@@ -1,5 +1,5 @@
 import type { InputField } from "@gluestack-ui/themed";
-import { Box, VStack } from "@gluestack-ui/themed";
+import { Box, HStack, VStack } from "@gluestack-ui/themed";
 import type { ComponentProps } from "react";
 import React from "react";
 import type { SvgProps } from "react-native-svg";
@@ -22,17 +22,19 @@ export const InputGroup: React.FC<InputGroupProps> = ({
     <VStack bgColor="$white" rounded="$2xl" px="$4" width="$full">
       {inputs.map(({ label, icon, inputProps }, index) => (
         <React.Fragment key={index}>
-          <Input
-            color="$textDark800"
-            marginVertical="$4"
-            icon={icon}
-            key={index}
-            placeholder={label}
-            $focus={{
-              borderWidth: 0,
-            }}
-            {...inputProps}
-          />
+          <HStack>
+            <Input
+              color="$textDark800"
+              marginVertical="$4"
+              icon={icon}
+              key={index}
+              placeholder={label}
+              $focus={{
+                borderWidth: 0,
+              }}
+              {...inputProps}
+            />
+          </HStack>
           {index < total - 1 && (
             <Box width="$full" height="$0.5" bgColor="$trueGray300" />
           )}

@@ -10,7 +10,7 @@ import {
 } from "@gluestack-ui/themed";
 import { isAxiosError } from "axios";
 import React, { useState } from "react";
-import { Dimensions, StatusBar } from "react-native";
+import { Dimensions, SafeAreaView, StatusBar } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Animated, {
   useAnimatedStyle,
@@ -44,7 +44,7 @@ export const Login: React.FC<LoginProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const headerHeight = useSharedValue(SCREEN_HEIGHT / 1.75);
+  const headerHeight = useSharedValue(SCREEN_HEIGHT / 2);
   const boxStyle = useAnimatedStyle(() => ({
     height: headerHeight.value,
   }));
@@ -67,6 +67,7 @@ export const Login: React.FC<LoginProps> = ({
       if (isAxiosError(error)) {
         const errorData = error.toJSON() as any;
         if (errorData.status === 401) {
+          toast.closeAll();
           toast.show({
             placement: "top",
             render: ({ id }) => {
@@ -77,7 +78,7 @@ export const Login: React.FC<LoginProps> = ({
                   action="attention"
                   variant="solid"
                   bgColor="$red500"
-                  marginTop="$2"
+                  marginTop="$14"
                 >
                   <VStack space="xs">
                     <ToastTitle color="$white">Invalid credentials</ToastTitle>
@@ -97,81 +98,81 @@ export const Login: React.FC<LoginProps> = ({
   };
   const handleForgotPassword = () => {};
   return (
-    <KeyboardAwareScrollView
-      showsVerticalScrollIndicator={false}
-      style={{ backgroundColor }}
-      onKeyboardWillShow={() => {
-        headerHeight.value = withTiming(SCREEN_HEIGHT / 4);
-      }}
-      onKeyboardWillHide={() => {
-        headerHeight.value = withTiming(SCREEN_HEIGHT / 1.75);
-      }}
-    >
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
-      <AnimatedBox
-        flex={1}
-        style={[boxStyle]}
-        bgColor="$blue800"
-        justifyContent="center"
-        alignItems="center"
+    <SafeAreaView>
+      <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor }}
+        onKeyboardWillShow={() => {
+          headerHeight.value = withTiming(SCREEN_HEIGHT / 4);
+        }}
+        onKeyboardWillHide={() => {
+          headerHeight.value = withTiming(SCREEN_HEIGHT / 2);
+        }}
       >
-        <Logo width={150} height={150} />
-      </AnimatedBox>
-      <VStack
-        bgColor="$white"
-        width="$full"
-        borderTopRightRadius="$3xl"
-        borderTopLeftRadius="$3xl"
-        alignItems="center"
-        justifyContent="flex-end"
-        padding="$6"
-      >
-        <Heading
-          color="$textDark800"
-          fontFamily="$heading"
-          fontSize="$2xl"
-          marginTop="$6"
-          marginBottom="$12"
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        <AnimatedBox
+          style={[boxStyle]}
+          bgColor="$blue800"
+          justifyContent="center"
+          alignItems="center"
         >
-          Login
-        </Heading>
-        <InputGroup
-          inputs={[
-            {
-              label: "Username",
-              icon: UserIcon,
-              inputProps: {
-                borderWidth: 0,
-                value: username,
-                onChangeText: setUsername,
-                type: "text",
-                autoCorrect: false,
+          <Logo width={150} height={150} />
+        </AnimatedBox>
+        <VStack
+          bgColor="$white"
+          width="$full"
+          borderTopRightRadius="$3xl"
+          borderTopLeftRadius="$3xl"
+          alignItems="center"
+          justifyContent="flex-end"
+          padding="$6"
+        >
+          <Heading
+            color="$textDark800"
+            fontFamily="$heading"
+            fontSize="$2xl"
+            marginTop="$6"
+            marginBottom="$12"
+          >
+            Login
+          </Heading>
+          <InputGroup
+            inputs={[
+              {
+                label: "Username",
+                icon: UserIcon,
+                inputProps: {
+                  borderWidth: 0,
+                  value: username,
+                  onChangeText: setUsername,
+                  type: "text",
+                  autoCorrect: false,
+                },
               },
-            },
-            {
-              label: "Password",
-              icon: PasswordIcon,
-              inputProps: {
-                value: password,
-                onChangeText: setPassword,
-                type: "password",
+              {
+                label: "Password",
+                icon: PasswordIcon,
+                inputProps: {
+                  value: password,
+                  onChangeText: setPassword,
+                  type: "password",
+                },
               },
-            },
-          ]}
-        />
-        <Actions
-          loading={loading}
-          marginTop="$8"
-          onLogin={handleLogin}
-          onForgotPassword={handleForgotPassword}
-        />
-        <Social marginTop="$24" paddingHorizontal="$8" />
-      </VStack>
-    </KeyboardAwareScrollView>
-    // </VStack>
+            ]}
+          />
+          <Actions
+            loading={loading}
+            marginTop="$8"
+            onLogin={handleLogin}
+            onForgotPassword={handleForgotPassword}
+          />
+          <Social marginTop="$24" paddingHorizontal="$8" />
+        </VStack>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };

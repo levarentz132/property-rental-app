@@ -82,10 +82,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
       <Wrapper
         rounded="$3xl"
         bgColor="$white"
-        shadowRadius="$2"
-        shadowColor="$black"
-        shadowOffset={{ width: 0, height: 5 }}
-        shadowOpacity={0.1}
+        softShadow="1"
         maxWidth={isPortrait && !fullWidth ? "$56" : undefined}
         padding="$4"
         alignItems="center"
