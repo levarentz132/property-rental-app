@@ -86,34 +86,27 @@ const makeTabIcon =
 
 export const AppRoutes: React.FC = () => {
   const iconSize = useToken("space", "5");
-  const marginBottomOnIos = useToken("space", "4");
-  const marginTop = useToken("space", "4");
-  const paddingTopOnAndroid = useToken("space", "4");
-  const paddingBottom = useToken("space", "9");
-  const menuSvgPosition = useToken("space", "5");
+  const menuSvgPosition = useToken("space", "7");
   const tabBarActiveTintColor = useToken("colors", "blue100");
   const tabBarInactiveTintColor = useToken("colors", "gray200");
   const backgroundColor = useToken("colors", "white");
+  const backgroundApp = useToken("colors", "backgroundApp");
   return (
     <Navigator
       initialRouteName="homeTab"
+      sceneContainerStyle={{
+        backgroundColor: backgroundApp,
+      }}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor,
         tabBarInactiveTintColor,
-        tabBarIconStyle: {
-          marginBottom:
-            Platform.OS === "android" ? undefined : marginBottomOnIos,
-        },
         tabBarStyle: {
           display: "flex",
           backgroundColor,
           borderTopWidth: 0,
-          height: Platform.OS === "android" ? "auto" : undefined,
-          marginTop,
-          paddingTop: Platform.OS === "android" ? paddingTopOnAndroid : 0,
-          paddingBottom,
+          height: iconSize * (Platform.OS === "android" ? 4 : 6),
         },
       }}
     >
@@ -132,8 +125,8 @@ export const AppRoutes: React.FC = () => {
                   rounded="$2xl"
                 >
                   <MenuSVG
-                    width={iconSize * 7}
-                    height={iconSize * 7}
+                    width={iconSize * 9}
+                    height={iconSize * 9}
                     style={{
                       bottom: menuSvgPosition,
                     }}

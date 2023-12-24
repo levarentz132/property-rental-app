@@ -1,4 +1,4 @@
-import { Box, useToken } from "@gluestack-ui/themed";
+import { useToken } from "@gluestack-ui/themed";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { useApp } from "src/presentation/hooks/use-app";
 
@@ -17,10 +17,8 @@ export const Routes = () => {
   theme.colors.background = backgroundColor;
 
   return (
-    <Box flex={1} bg="$backgroundApp">
-      <NavigationContainer theme={theme}>
-        {user ? <AppRoutes /> : <AuthRoutes />}
-      </NavigationContainer>
-    </Box>
+    <NavigationContainer theme={theme}>
+      {user ? <AppRoutes /> : <AuthRoutes />}
+    </NavigationContainer>
   );
 };

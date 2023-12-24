@@ -10,8 +10,7 @@ import {
 } from "@gluestack-ui/themed";
 import { isAxiosError } from "axios";
 import React, { useEffect, useState } from "react";
-import { StatusBar } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, StatusBar } from "react-native";
 import type { HttpGetClient } from "src/data/contracts/infra";
 import type { Property } from "src/domain/models";
 import { env } from "src/main/config/env";
@@ -210,8 +209,7 @@ export const Home: React.FC<HomeProps> = ({
         <VStack>
           <StatusBar
             barStyle="dark-content"
-            backgroundColor="transparent"
-            translucent
+            backgroundColor={backgroundColor}
           />
           <VStack paddingHorizontal="$6" paddingVertical="$3">
             <Header />

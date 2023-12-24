@@ -14,7 +14,7 @@ import type { HttpGetClient } from "src/data/contracts/infra";
 import type { Property } from "src/domain/models";
 import SearchIcon from "src/main/assets/colorfull-icons/search.svg";
 import { env } from "src/main/config/env";
-import type { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
+import type { StackNavigatorRouteProps } from "src/main/routes/stack-home-navigator";
 import { Input, PropertyCard } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
 
@@ -60,7 +60,6 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
               color="$blue700"
               icon={SearchIcon}
               iconSize={iconSize}
-              divisionColor="primary.blue.500"
             />
           </Box>
           {bookmarkList?.length ? (
