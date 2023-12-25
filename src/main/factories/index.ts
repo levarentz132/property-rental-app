@@ -2,6 +2,7 @@ export * from "./change-password-factory";
 export * from "./home-factory";
 export * from "./menu-factory";
 export * from "./messages-factory";
+export * from "./owner-profile-factory";
 export * from "./property-details-factory";
 export * from "./saved-property-factory";
 export * from "./settings-factory";

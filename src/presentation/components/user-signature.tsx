@@ -18,11 +18,13 @@ interface UserSignatureProps extends ComponentProps<typeof HStack> {
   name: string;
   userRole: string;
   uri: string;
+  suffix?: string;
 }
 
 export const UserSignature: React.FC<UserSignatureProps> = ({
   name,
   userRole,
+  suffix,
   uri,
   ...props
 }: UserSignatureProps) => (
@@ -36,8 +38,28 @@ export const UserSignature: React.FC<UserSignatureProps> = ({
       />
     </Box>
     <VStack>
-      <Heading size="sm">{name}</Heading>
-      <Text>{userRole}</Text>
+      <HStack space="xs" justifyContent="flex-start" alignItems="baseline">
+        <Heading size="sm">{name}</Heading>
+        {suffix && (
+          <Text
+            color="$textDark700"
+            fontSize="$xs"
+            maxWidth="$64"
+            fontFamily="$heading"
+            numberOfLines={1}
+          >
+            {suffix}
+          </Text>
+        )}
+      </HStack>
+      <Text
+        color="$textDark700"
+        fontSize="$sm"
+        maxWidth="$64"
+        numberOfLines={1}
+      >
+        {userRole}
+      </Text>
     </VStack>
   </HStack>
 );

@@ -3,9 +3,6 @@ import {
   Heading,
   HStack,
   ScrollView,
-  Toast,
-  ToastDescription,
-  ToastTitle,
   useToast,
   VStack,
 } from "@gluestack-ui/themed";
@@ -14,13 +11,14 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { TouchableOpacity as RNTouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { HttpGetClient } from "src/data/contracts/infra";
-import type { Property } from "src/domain/models";
+import type { Property, UserData } from "src/domain/models";
 import BookmarkIcon from "src/main/assets/colorfull-icons/bookmark.svg";
 import BookmarkFilledIcon from "src/main/assets/colorfull-icons/bookmark-filled.svg";
 import ArrowBackIcon from "src/main/assets/outline-icons/arrow-left2.svg";
 import { env } from "src/main/config/env";
 import type { BaseRouteParamsProps } from "src/main/routes";
 import { Loading, PropertyCard } from "src/presentation/components";
+import { errorToast } from "src/presentation/helpers/toasts";
 import { useApp } from "src/presentation/hooks/use-app";
 
 import { ActionSheet } from "./action-sheet";
@@ -51,7 +49,9 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   const backgroundColor = useToken("colors", "backgroundApp");
   const iconSize = useToken("space", ICON_SIZE);
   const toast = useToast();
+  const [loading, setLoading] = useState(true);
   const [property, setProperty] = useState<Property>();
+  const [owner, setOwner] = useState<UserData>();
   const [showActionsheet, setShowActionsheet] = useState(false);
   const isBookmarked = useMemo(
     () => user?.bookmarks.includes(params.id),
@@ -67,43 +67,30 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
     addToBookmarks(params.id);
   }, [isBookmarked]);
   const fetchData = async () => {
+    setLoading(true);
     try {
       const matchCategory =
         params.type === "property" ? "properties" : "featured";
       const { body } = await httpClient.get<Property[]>({
         url: `${env.ENDPOINT}/${matchCategory}?id=${params.id}`,
       });
-      if (body) setProperty(body[0]);
-    } catch {
-      toast.show({
-        placement: "top",
-        render: ({ id }) => {
-          const toastId = `toast-${id}`;
-          return (
-            <Toast
-              nativeID={toastId}
-              action="attention"
-              variant="solid"
-              bgColor="$red500"
-              marginTop="$2"
-            >
-              <VStack space="xs">
-                <ToastTitle color="$white">Error</ToastTitle>
-                <ToastDescription color="$white">
-                  Ops! Something went wrong, please try again.
-                </ToastDescription>
-              </VStack>
-            </Toast>
-          );
-        },
+      const { body: owners } = await httpClient.get<UserData[]>({
+        url: `${env.ENDPOINT}/users?id=${params.id}`,
       });
+      if (owners) setOwner(owners[0]);
+      if (body) setProperty(body[0]);
+      setLoading(false);
+    } catch {
+      toast.show(errorToast());
       navigate("home");
     }
   };
   useEffect(() => {
     fetchData();
   }, []);
-  return property ? (
+  return loading || !property || !owner ? (
+    <Loading />
+  ) : (
     <SafeAreaView style={{ flex: 1, backgroundColor }}>
       <ScrollView>
         <VStack flex={1} padding="$6" space="lg">
@@ -130,12 +117,10 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
           {property.reviews.map((review) => (
             <Review key={review.id} {...review} />
           ))}
-          <OwnerCard onSchedulePress={toggleActionSheet} />
+          <OwnerCard onSchedulePress={toggleActionSheet} owner={owner} />
         </VStack>
       </ScrollView>
       <ActionSheet isOpen={showActionsheet} onClose={toggleActionSheet} />
     </SafeAreaView>
-  ) : (
-    <Loading />
   );
 };

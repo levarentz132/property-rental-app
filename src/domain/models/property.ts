@@ -2,6 +2,7 @@ import type { Review } from "./review";
 
 export interface Property {
   id: string;
+  owner_id: string;
   category: string;
   value: number;
   address: string;

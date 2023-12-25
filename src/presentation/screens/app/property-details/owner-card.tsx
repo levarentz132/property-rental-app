@@ -1,19 +1,27 @@
-import { HStack, VStack } from "@gluestack-ui/themed";
+import { HStack, Pressable, VStack } from "@gluestack-ui/themed";
+import { useNavigation } from "@react-navigation/native";
+import type { UserData } from "src/domain/models";
 import CallIcon from "src/main/assets/colorfull-icons/call.svg";
 import MessagesIcon from "src/main/assets/colorfull-icons/messages.svg";
 import ScheduleIcon from "src/main/assets/colorfull-icons/schedule.svg";
 import { CardButton } from "src/presentation/components";
 import { UserSignature } from "src/presentation/components/user-signature";
-import { useApp } from "src/presentation/hooks/use-app";
 
 interface OwnerCardProps {
+  owner: UserData;
   onSchedulePress: () => void;
 }
 
 export const OwnerCard: React.FC<OwnerCardProps> = ({
+  owner,
   onSchedulePress,
 }: OwnerCardProps): JSX.Element => {
-  const { user } = useApp();
+  const { navigate } = useNavigation();
+  const handleGoToOwnerProfile = () => {
+    navigate("owner-profile", {
+      id: owner.id,
+    });
+  };
   return (
     <VStack
       flex={1}
@@ -22,12 +30,15 @@ export const OwnerCard: React.FC<OwnerCardProps> = ({
       bgColor="$white"
       softShadow="1"
     >
-      <UserSignature
-        marginBottom="$5"
-        name={user!.realName}
-        userRole="Home Owner/Broker"
-        uri={`https://github.com/${user!.username}.png`}
-      />
+      <Pressable onPress={handleGoToOwnerProfile}>
+        <UserSignature
+          marginBottom="$5"
+          name={owner.realName}
+          suffix="Owner"
+          userRole={owner.userRole}
+          uri={owner.profilePicture}
+        />
+      </Pressable>
       <HStack space="lg" justifyContent="space-between">
         <CardButton
           flex={1}

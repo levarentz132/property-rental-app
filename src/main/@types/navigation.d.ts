@@ -13,6 +13,9 @@ export declare global {
       };
       "sign-in": undefined;
       "sign-up": undefined;
+      "owner-profile": {
+        id: string;
+      };
     }
   }
 }

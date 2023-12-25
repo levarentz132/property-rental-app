@@ -1,7 +1,11 @@
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { homeFactory, propertyDetailsFactory } from "../factories";
+import {
+  homeFactory,
+  ownerProfileFactory,
+  propertyDetailsFactory,
+} from "../factories";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Stack = createNativeStackNavigator();
@@ -17,6 +21,10 @@ const screens: ScreenProps[] = [
     name: "property-details",
     component: () => propertyDetailsFactory(),
   },
+  {
+    name: "owner-profile",
+    component: () => ownerProfileFactory(),
+  },
 ];
 
 type StackRoutes = {
@@ -25,6 +33,7 @@ type StackRoutes = {
     type: "property" | "featured";
     id: string;
   };
+  "owner-profile": undefined;
 };
 
 export type StackNavigatorRouteProps = NativeStackNavigationProp<StackRoutes>;

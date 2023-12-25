@@ -1,9 +1,6 @@
 import {
   FlatList,
   ScrollView,
-  Toast,
-  ToastDescription,
-  ToastTitle,
   useToast,
   useToken,
   VStack,
@@ -15,6 +12,7 @@ import type { HttpGetClient } from "src/data/contracts/infra";
 import type { Property } from "src/domain/models";
 import { env } from "src/main/config/env";
 import { Group, Header } from "src/presentation/components";
+import { errorToast } from "src/presentation/helpers/toasts";
 
 import { ActionSheet } from "./action-sheet";
 import { Properties } from "./all-properties";
@@ -39,29 +37,6 @@ export type CategoryData = {
 interface HomeProps {
   httpClient: HttpGetClient;
 }
-
-const SomethingWentWrong = ({
-  toastId,
-  message,
-}: {
-  toastId: string;
-  message?: string;
-}) => (
-  <Toast
-    nativeID={toastId}
-    action="attention"
-    variant="solid"
-    bgColor="$red500"
-    marginTop="$2"
-  >
-    <VStack space="xs">
-      <ToastTitle color="$white">Error</ToastTitle>
-      <ToastDescription color="$white">
-        {message ?? "Sorry, something went wrong, please try again later."}
-      </ToastDescription>
-    </VStack>
-  </Toast>
-);
 
 export const Home: React.FC<HomeProps> = ({
   httpClient,
@@ -125,16 +100,12 @@ export const Home: React.FC<HomeProps> = ({
       setProperties(body);
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.show({
-          placement: "top",
-          render: ({ id }) => (
-            <SomethingWentWrong
-              toastId={`toast-${id}`}
-              message="Sorry, we couldn't get the properties, please try again
-          later."
-            />
-          ),
-        });
+        toast.show(
+          errorToast({
+            message:
+              "Sorry, we couldn't get the properties, please try again later.",
+          }),
+        );
       } else {
         throw error;
       }
@@ -151,16 +122,12 @@ export const Home: React.FC<HomeProps> = ({
       setFeaturedProperties(body);
     } catch (error) {
       if (isAxiosError(error)) {
-        toast.show({
-          placement: "top",
-          render: ({ id }) => (
-            <SomethingWentWrong
-              toastId={`toast-${id}`}
-              message="Sorry, we couldn't get the featured properties, please
-          try again later."
-            />
-          ),
-        });
+        toast.show(
+          errorToast({
+            message:
+              "Sorry, we couldn't get the featured properties, please try again later.",
+          }),
+        );
       } else {
         throw error;
       }
@@ -178,10 +145,7 @@ export const Home: React.FC<HomeProps> = ({
         try {
           await getAllProperties(allPropertiesUri.toString());
         } catch {
-          toast.show({
-            placement: "top",
-            render: ({ id }) => <SomethingWentWrong toastId={`toast-${id}`} />,
-          });
+          toast.show(errorToast());
         }
       };
       fetchPropertyDatas();
@@ -195,10 +159,7 @@ export const Home: React.FC<HomeProps> = ({
           getFeaturedProperties(),
         ]);
       } catch {
-        toast.show({
-          placement: "top",
-          render: ({ id }) => <SomethingWentWrong toastId={`toast-${id}`} />,
-        });
+        toast.show(errorToast());
       }
     };
     fetchPropertyDatas();

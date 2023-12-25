@@ -1,13 +1,4 @@
-import {
-  Box,
-  Heading,
-  Toast,
-  ToastDescription,
-  ToastTitle,
-  useToast,
-  useToken,
-  VStack,
-} from "@gluestack-ui/themed";
+import { Box, Heading, useToast, useToken, VStack } from "@gluestack-ui/themed";
 import { isAxiosError } from "axios";
 import React, { useState } from "react";
 import { Dimensions, SafeAreaView, StatusBar } from "react-native";
@@ -23,6 +14,7 @@ import UserIcon from "src/main/assets/colorfull-icons/user.svg";
 import Logo from "src/main/assets/logo.svg";
 import { env } from "src/main/config/env";
 import { InputGroup } from "src/presentation/components";
+import { errorToast } from "src/presentation/helpers/toasts";
 import { useApp } from "src/presentation/hooks/use-app";
 
 import { Social } from "../social";
@@ -59,37 +51,25 @@ export const Login: React.FC<LoginProps> = ({
         },
       });
       await addUser({
+        id: body.user.id,
         username: body.user.username,
         realName: body.user.real_name,
         bookmarks: body.user.bookmarks,
+        userRole: body.user.user_role,
+        profilePicture: body.user.profile_picture,
       });
     } catch (error) {
       if (isAxiosError(error)) {
         const errorData = error.toJSON() as any;
         if (errorData.status === 401) {
           toast.closeAll();
-          toast.show({
-            placement: "top",
-            render: ({ id }) => {
-              const toastId = `toast-${id}`;
-              return (
-                <Toast
-                  nativeID={toastId}
-                  action="attention"
-                  variant="solid"
-                  bgColor="$red500"
-                  marginTop="$14"
-                >
-                  <VStack space="xs">
-                    <ToastTitle color="$white">Invalid credentials</ToastTitle>
-                    <ToastDescription color="$white">
-                      Please check your username and password.
-                    </ToastDescription>
-                  </VStack>
-                </Toast>
-              );
-            },
-          });
+          toast.show(
+            errorToast({
+              title: "Invalid credentials",
+              message: "Please check your username and password.",
+              marginTop: "$14",
+            }),
+          );
         }
       }
     } finally {
