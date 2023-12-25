@@ -16,6 +16,9 @@ export declare global {
       "owner-profile": {
         id: string;
       };
+      chat: {
+        id: string;
+      };
     }
   }
 }

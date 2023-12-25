@@ -9,7 +9,7 @@ import {
 } from "@gluestack-ui/themed";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native";
 import type { HttpGetClient } from "src/data/contracts/infra";
 import type { Property } from "src/domain/models";
 import SearchIcon from "src/main/assets/colorfull-icons/search.svg";
@@ -30,18 +30,23 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
   const { navigate } = useNavigation<StackNavigatorRouteProps>();
   const { user } = useApp();
   const [bookmarkList, setBookmarkList] = useState<Property[]>();
+  const fetchBookmarks = async () => {
+    try {
+      let mergedPath = "";
+      user?.bookmarks.forEach((bookmark) => {
+        mergedPath += `id=${bookmark}&`;
+      });
+      const { body } = await httpClient.get<Property[]>({
+        url: `${env.ENDPOINT}/properties?${mergedPath}`,
+      });
+      setBookmarkList(body);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
-      const fetchBookmarks = async () => {
-        let mergedPath = "";
-        user?.bookmarks.forEach((bookmark) => {
-          mergedPath += `id=${bookmark}&`;
-        });
-        const { body } = await httpClient.get<Property[]>({
-          url: `${env.ENDPOINT}/properties?${mergedPath}`,
-        });
-        setBookmarkList(body);
-      };
       if (user?.bookmarks.length) {
         fetchBookmarks();
       } else {

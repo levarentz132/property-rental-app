@@ -1,6 +1,7 @@
 import { Box, useToken } from "@gluestack-ui/themed";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { type ComponentProps, useEffect, useState } from "react";
 import { Platform } from "react-native";
 import type { SvgProps } from "react-native-svg";
 import FavoritesSVG from "src/main/assets/colorfull-icons/bookmark.svg";
@@ -8,58 +9,20 @@ import ChatSVG from "src/main/assets/colorfull-icons/chat.svg";
 import HomeSVG from "src/main/assets/colorfull-icons/home.svg";
 import MenuSVG from "src/main/assets/colorfull-icons/menu.svg";
 import SettingsSVG from "src/main/assets/colorfull-icons/setting.svg";
+import { useApp } from "src/presentation/hooks/use-app";
 
-import {
-  menuFactory,
-  messagesFactory,
-  savedPropertyFactory,
-} from "../factories";
+import { menuFactory, savedPropertyFactory } from "../factories";
 import { makeHomeStackNavigator } from "./stack-home-navigator";
+import { makeMessagesStackNavigator } from "./stack-messages-navigator";
 import { makeSettingsStackNavigator } from "./stack-settings-navigator";
 
 type AppRoutesTypes = {
   homeTab: undefined;
   favorites: undefined;
   menu: undefined;
-  messages: undefined;
+  messagesTab: undefined;
   settingsTab: undefined;
 };
-
-type ScreenProps = React.ComponentProps<typeof Screen> & {
-  svg: React.FC<SvgProps>;
-};
-
-const screens: ScreenProps[] = [
-  {
-    name: "homeTab",
-    component: () => makeHomeStackNavigator(),
-    svg: HomeSVG,
-  },
-  {
-    name: "favorites",
-    component: () => savedPropertyFactory(),
-    svg: FavoritesSVG,
-  },
-  {
-    name: "menu",
-    component: () => menuFactory(),
-    svg: MenuSVG,
-  },
-  {
-    name: "messages",
-    component: () => messagesFactory(),
-    svg: ChatSVG,
-  },
-  {
-    name: "settingsTab",
-    component: () => makeSettingsStackNavigator(),
-    svg: SettingsSVG,
-  },
-];
-
-export type AppNavigatorRouteProps = BottomTabNavigationProp<AppRoutesTypes>;
-
-const { Navigator, Screen } = createBottomTabNavigator<AppRoutesTypes>();
 
 const makeTabIcon =
   (Icon: React.FC<SvgProps>) =>
@@ -84,13 +47,87 @@ const makeTabIcon =
     </Box>
   );
 
+export type AppNavigatorRouteProps = BottomTabNavigationProp<AppRoutesTypes>;
+
+const { Navigator, Screen } = createBottomTabNavigator<AppRoutesTypes>();
+
 export const AppRoutes: React.FC = () => {
+  const {
+    system: { bottomTabs },
+  } = useApp();
   const iconSize = useToken("space", "5");
-  const menuSvgPosition = useToken("space", "7");
+  const menuSvgPosition = useToken("space", "5");
   const tabBarActiveTintColor = useToken("colors", "blue100");
   const tabBarInactiveTintColor = useToken("colors", "gray200");
   const backgroundColor = useToken("colors", "white");
   const backgroundApp = useToken("colors", "backgroundApp");
+  const [bottomTabDisplay, setBottomTabDisplay] = useState<"flex" | "none">(
+    "flex",
+  );
+
+  useEffect(() => {
+    bottomTabs.handleAddRefToActivate(() => {
+      setBottomTabDisplay("flex");
+    });
+    bottomTabs.handleAddRefToInactive(() => {
+      setBottomTabDisplay("none");
+    });
+  }, []);
+
+  const screens: ComponentProps<typeof Screen>[] = [
+    {
+      name: "homeTab",
+      children: () => makeHomeStackNavigator(),
+      options: {
+        tabBarIcon: makeTabIcon(HomeSVG),
+      },
+    },
+    {
+      name: "favorites",
+      children: () => savedPropertyFactory(),
+      options: {
+        tabBarIcon: makeTabIcon(FavoritesSVG),
+      },
+    },
+    {
+      name: "menu",
+      children: () => menuFactory(),
+      options: {
+        tabBarIcon: () => (
+          <Box
+            justifyContent="center"
+            alignItems="center"
+            width={iconSize / 2}
+            height={1}
+            rounded="$2xl"
+          >
+            <MenuSVG
+              width={iconSize * 8}
+              height={iconSize * 8}
+              style={{
+                bottom: menuSvgPosition,
+              }}
+            />
+          </Box>
+        ),
+      },
+    },
+    {
+      name: "messagesTab",
+      children: () => makeMessagesStackNavigator(),
+      options: {
+        tabBarIcon: makeTabIcon(ChatSVG),
+      },
+    },
+    {
+      name: "settingsTab",
+      children: () => makeSettingsStackNavigator(),
+      options: {
+        tabBarIcon: makeTabIcon(SettingsSVG),
+      },
+    },
+  ];
+
   return (
     <Navigator
       initialRouteName="homeTab"
@@ -103,49 +140,16 @@ export const AppRoutes: React.FC = () => {
         tabBarActiveTintColor,
         tabBarInactiveTintColor,
         tabBarStyle: {
-          display: "flex",
+          display: bottomTabDisplay,
           backgroundColor,
           borderTopWidth: 0,
           height: iconSize * (Platform.OS === "android" ? 4 : 6),
         },
       }}
     >
-      {screens.map(({ name, component, svg }) =>
-        name === "menu" ? (
-          <Screen
-            name="menu"
-            key="menu"
-            children={() => menuFactory()}
-            options={{
-              tabBarIcon: () => (
-                <Box
-                  justifyContent="center"
-                  alignItems="center"
-                  width={iconSize / 2}
-                  rounded="$2xl"
-                >
-                  <MenuSVG
-                    width={iconSize * 9}
-                    height={iconSize * 9}
-                    style={{
-                      bottom: menuSvgPosition,
-                    }}
-                  />
-                </Box>
-              ),
-            }}
-          />
-        ) : (
-          <Screen
-            key={name}
-            name={name}
-            children={component as any}
-            options={{
-              tabBarIcon: makeTabIcon(svg),
-            }}
-          />
-        ),
-      )}
+      {screens.map((screen) => (
+        <Screen key={screen.name} {...screen} />
+      ))}
     </Navigator>
   );
 };

@@ -7,6 +7,7 @@ export * from "./header";
 export * from "./input";
 export * from "./input-group";
 export * from "./loading";
+export * from "./message-card";
 export * from "./property-card";
 export * from "./time-picker";
 export * from "./user-signature";
