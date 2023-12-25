@@ -35,11 +35,13 @@ export const makeMessagesStackNavigator = () => (
     initialRouteName="messages"
     screenOptions={{
       headerShown: false,
-      presentation: "modal",
     }}
   >
     {screens.map((screen) => (
       <Stack.Screen
+        options={{
+          presentation: "fullScreenModal",
+        }}
         key={screen.name}
         name={screen.name}
         children={screen.component as any}

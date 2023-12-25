@@ -74,11 +74,11 @@ export const MessageCard: React.FC<MessageCardProps> = ({
             {from}
           </Heading>
           <Text color="$textDark600" size="sm">
-            {atoms.pop()?.message}
+            {atoms[atoms.length - 1]?.message}
           </Text>
         </VStack>
         <Text fontSize="$xs" color="$green500">
-          {atoms.pop()?.date.toLocaleDateString()}
+          {atoms[atoms.length - 1]?.date.toLocaleDateString()}
         </Text>
       </HStack>
     </TouchableOpacity>

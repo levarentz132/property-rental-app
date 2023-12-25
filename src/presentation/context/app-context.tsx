@@ -10,7 +10,9 @@ const makeAtoms = (): MessageAtom[] => {
   const atoms: MessageAtom[] = [];
   for (let i = 0; i < random; i += 1) {
     atoms.push({
-      from: faker.datatype.boolean() ? "incoming" : "outgoing",
+      from: faker.datatype.boolean({ probability: 0.3 })
+        ? "incoming"
+        : "outgoing",
       message: faker.lorem.sentence(),
       date: faker.date.recent(),
     });
@@ -24,7 +26,7 @@ const makeFakeMessages = (): Message[] => {
   for (let i = 0; i < random; i += 1) {
     messages.push({
       id: (i + 1).toString(),
-      isOnline: faker.datatype.boolean(),
+      isOnline: faker.datatype.boolean({ probability: 0.3 }),
       from: faker.person.firstName(),
       image: faker.image.avatar(),
       atoms: makeAtoms(),

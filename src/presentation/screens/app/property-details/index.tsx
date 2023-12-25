@@ -42,7 +42,12 @@ const ICON_SIZE = "7";
 export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   httpClient,
 }: PropertyDetailsProps): JSX.Element => {
-  const { user, addToBookmarks, removeFromBookmarks } = useApp();
+  const {
+    user,
+    addToBookmarks,
+    removeFromBookmarks,
+    system: { bottomTabs },
+  } = useApp();
   const { params } = useRoute<RouteParamsProps>();
   const { navigate, goBack } = useNavigation();
   const iconColor = useToken("colors", "blue800");
@@ -85,6 +90,13 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
       navigate("home");
     }
   };
+  useEffect(() => {
+    bottomTabs.inactiveBottomTabs.current!();
+
+    return () => {
+      bottomTabs.activeBottomTabs.current!();
+    };
+  }, []);
   useEffect(() => {
     fetchData();
   }, []);

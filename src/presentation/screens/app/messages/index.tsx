@@ -32,12 +32,7 @@ export const Messages: React.FC = (): JSX.Element => {
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor }}>
-      <VStack
-        flex={1}
-        flexGrow={1}
-        paddingHorizontal="$6"
-        borderColor="$red400"
-      >
+      <VStack flex={1} flexGrow={1} paddingHorizontal="$6">
         <HStack marginBottom="$3" alignItems="center">
           <TouchableOpacity
             style={{ marginRight: 4 }}
@@ -63,6 +58,7 @@ export const Messages: React.FC = (): JSX.Element => {
         />
         <FlatList
           marginTop="$6"
+          showsVerticalScrollIndicator={false}
           flex={1}
           data={list}
           keyExtractor={(item) => (item as Message).id}
