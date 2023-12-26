@@ -20,12 +20,16 @@ const DEFAULT_AREA_VIEW = (
 });
 
 export interface LayoutProps extends PropsWithChildren {
+  title: string;
   onGoBack?: () => void;
+  RightSlot?: JSX.Element;
 }
 
 export const StaticVerticalScrollableLayout = ({
+  title,
   onGoBack,
   children,
+  RightSlot,
 }: LayoutProps) => {
   const backgroundColor = useToken("colors", DEFAULT_BACKGROUND_COLOR);
   const iconSize = useToken("space", "7");
@@ -51,8 +55,9 @@ export const StaticVerticalScrollableLayout = ({
               </TouchableOpacity>
             )}
             <Heading flex={1} textTransform="capitalize">
-              Change Password
+              {title}
             </Heading>
+            {RightSlot}
           </HStack>
           {children}
         </VStack>
@@ -61,12 +66,41 @@ export const StaticVerticalScrollableLayout = ({
   );
 };
 
-export const StaticVerticalLayout = ({ children }: PropsWithChildren) => {
+export const StaticVerticalLayout = ({
+  title,
+  onGoBack,
+  children,
+  RightSlot,
+}: LayoutProps) => {
   const backgroundColor = useToken("colors", DEFAULT_BACKGROUND_COLOR);
+  const iconSize = useToken("space", "7");
+  const iconColor = useToken("colors", "blue800");
+  const marginRightGoBack = useToken("space", "4");
 
   return (
     <SafeAreaView {...DEFAULT_AREA_VIEW(backgroundColor)}>
-      <VStack {...DEFAULT_VERTICAL_PROP}>{children}</VStack>
+      <VStack {...DEFAULT_VERTICAL_PROP}>
+        <HStack marginBottom="$3" alignItems="center">
+          {onGoBack && (
+            <TouchableOpacity
+              style={{ marginRight: marginRightGoBack }}
+              activeOpacity={0.7}
+              onPress={onGoBack}
+            >
+              <ArrowBackIcon
+                width={iconSize}
+                height={iconSize}
+                fill={iconColor}
+              />
+            </TouchableOpacity>
+          )}
+          <Heading flex={1} textTransform="capitalize">
+            {title}
+          </Heading>
+          {RightSlot}
+        </HStack>
+        {children}
+      </VStack>
     </SafeAreaView>
   );
 };

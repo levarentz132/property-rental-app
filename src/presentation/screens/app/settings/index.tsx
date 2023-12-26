@@ -1,4 +1,3 @@
-import { Heading } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import DocsIcon from "src/main/assets/colorfull-icons/docs.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/key.svg";
@@ -15,8 +14,7 @@ export const Settings: React.FC = (): JSX.Element => {
   const { removeUser } = useApp();
   const { navigate } = useNavigation();
   return (
-    <StaticVerticalScrollableLayout>
-      <Heading marginBottom="$3">Settings</Heading>
+    <StaticVerticalScrollableLayout title="Settings">
       <Card icon={UserIcon} label="Personal profile" />
       <Card
         icon={PasswordIcon}

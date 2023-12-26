@@ -1,5 +1,5 @@
 import { useToken } from "@gluestack-style/react";
-import { FlatList, Heading } from "@gluestack-ui/themed";
+import { FlatList } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import type { Message } from "src/domain/models";
@@ -20,8 +20,7 @@ export const Messages: React.FC = (): JSX.Element => {
     console.log();
   };
   return (
-    <StaticVerticalLayout>
-      <Heading textTransform="capitalize">Messages</Heading>
+    <StaticVerticalLayout title="Messages">
       <Search
         inputProps={{
           value: search,

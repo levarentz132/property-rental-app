@@ -9,7 +9,6 @@ interface ReviewProps
     Omit<ComponentProps<typeof VStack>, "id"> {}
 
 export const Review: React.FC<ReviewProps> = ({
-  id,
   comment,
   name,
   picture,

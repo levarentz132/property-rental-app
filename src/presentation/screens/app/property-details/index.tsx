@@ -1,25 +1,18 @@
 import { createComponents, useToken } from "@gluestack-style/react";
-import {
-  Heading,
-  HStack,
-  ScrollView,
-  useToast,
-  VStack,
-} from "@gluestack-ui/themed";
+import { useToast } from "@gluestack-ui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { TouchableOpacity as RNTouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import type { HttpGetClient } from "src/data/contracts/infra";
 import type { Property, UserData } from "src/domain/models";
 import BookmarkIcon from "src/main/assets/colorfull-icons/bookmark.svg";
 import BookmarkFilledIcon from "src/main/assets/colorfull-icons/bookmark-filled.svg";
-import ArrowBackIcon from "src/main/assets/outline-icons/arrow-left2.svg";
 import { env } from "src/main/config/env";
 import type { BaseRouteParamsProps } from "src/main/routes";
 import { Loading, PropertyCard } from "src/presentation/components";
 import { errorToast } from "src/presentation/helpers/toasts";
 import { useApp } from "src/presentation/hooks/use-app";
+import { StaticVerticalScrollableLayout } from "src/presentation/layout";
 
 import { ActionSheet } from "./action-sheet";
 import { OwnerCard } from "./owner-card";
@@ -51,7 +44,6 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   const { params } = useRoute<RouteParamsProps>();
   const { navigate, goBack } = useNavigation();
   const iconColor = useToken("colors", "blue800");
-  const backgroundColor = useToken("colors", "backgroundApp");
   const iconSize = useToken("space", ICON_SIZE);
   const toast = useToast();
   const [loading, setLoading] = useState(true);
@@ -103,36 +95,21 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
   return loading || !property || !owner ? (
     <Loading />
   ) : (
-    <SafeAreaView style={{ flex: 1, backgroundColor }}>
-      <ScrollView>
-        <VStack flex={1} padding="$6" space="lg">
-          <HStack marginBottom="$3" alignItems="center">
-            <TouchableOpacity
-              style={{ marginRight: 4 }}
-              activeOpacity={0.7}
-              onPress={goBack}
-            >
-              <ArrowBackIcon
-                width={iconSize}
-                height={iconSize}
-                fill={iconColor}
-              />
-            </TouchableOpacity>
-            <Heading flex={1} textTransform="capitalize">
-              Property Details
-            </Heading>
-            <TouchableOpacity activeOpacity={0.7} onPress={toggleBookmark}>
-              <Bookmark width={iconSize} height={iconSize} fill={iconColor} />
-            </TouchableOpacity>
-          </HStack>
-          <PropertyCard fullWidth {...property} />
-          {property.reviews.map((review) => (
-            <Review key={review.id} {...review} />
-          ))}
-          <OwnerCard onSchedulePress={toggleActionSheet} owner={owner} />
-        </VStack>
-      </ScrollView>
+    <StaticVerticalScrollableLayout
+      title="Property Details"
+      onGoBack={goBack}
+      RightSlot={
+        <TouchableOpacity activeOpacity={0.7} onPress={toggleBookmark}>
+          <Bookmark width={iconSize} height={iconSize} fill={iconColor} />
+        </TouchableOpacity>
+      }
+    >
+      <PropertyCard fullWidth {...property} />
+      {property.reviews.map((review) => (
+        <Review key={review.id} {...review} />
+      ))}
+      <OwnerCard onSchedulePress={toggleActionSheet} owner={owner} />
       <ActionSheet isOpen={showActionsheet} onClose={toggleActionSheet} />
-    </SafeAreaView>
+    </StaticVerticalScrollableLayout>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Text, useToken } from "@gluestack-ui/themed";
+import { Box, Center, Text, useToken } from "@gluestack-ui/themed";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import type { HttpGetClient } from "src/data/contracts/infra";
@@ -18,7 +18,6 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
   httpClient,
 }: SavedPropertyProps): JSX.Element => {
   const iconSize = useToken("space", "6");
-  const backgroundColor = useToken("colors", "backgroundApp");
   const { navigate } = useNavigation<StackNavigatorRouteProps>();
   const { user } = useApp();
   const [bookmarkList, setBookmarkList] = useState<Property[]>();
@@ -47,8 +46,7 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
     }, [user?.bookmarks.length]),
   );
   return (
-    <StaticVerticalScrollableLayout>
-      <Heading marginBottom="$6">Saved Property</Heading>
+    <StaticVerticalScrollableLayout title="Saved Property">
       <Box flex={1} marginBottom="$6">
         <Input
           placeholder="Search"
