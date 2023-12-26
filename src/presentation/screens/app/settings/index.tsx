@@ -21,7 +21,11 @@ export const Settings: React.FC = (): JSX.Element => {
         label="Change password"
         onPress={() => navigate("change-password")}
       />
-      <Card icon={ShieldIcon} label="Privacy policy" />
+      <Card
+        icon={ShieldIcon}
+        label="Privacy policy"
+        onPress={() => navigate("privacy-policy")}
+      />
       <Card icon={DocsIcon} label="Data saver" />
       <Card icon={NotificationIcon} label="Notification" />
       <Card hideArrow icon={LogOutIcon} label="Log out" onPress={removeUser} />

@@ -27,7 +27,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
       <ActionsheetDragIndicatorWrapper>
         <ActionsheetDragIndicator />
       </ActionsheetDragIndicatorWrapper>
-      <VStack padding="$4">
+      <VStack padding="$4" justifyContent="center">
         <Heading alignSelf="center" fontSize="$xl" marginBottom="$4">
           Filter
         </Heading>

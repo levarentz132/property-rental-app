@@ -24,9 +24,11 @@ const TouchableOpacity = createComponents(RNTouchableOpacity);
 
 interface HeaderProps extends ComponentProps<typeof HStack> {
   avatarUrl?: string;
+  username: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({
+  username,
   avatarUrl,
   ...props
 }: HeaderProps): JSX.Element => {
@@ -39,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
         <ArrowBackIcon width={iconSize} height={iconSize} fill={iconColor} />
       </TouchableOpacity>
       <Avatar bgColor="$indigo600" rounded="$2xl" marginHorizontal="$2">
-        <AvatarFallbackText>Ronald Richards</AvatarFallbackText>
+        <AvatarFallbackText>{username}</AvatarFallbackText>
         <AvatarImage
           rounded="$2xl"
           alt="User profile picture"
@@ -48,7 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
         <AvatarBadge $dark-borderColor="$black" />
       </Avatar>
       <VStack flex={1} marginLeft="$1">
-        <Heading size="sm">Ronald Richards</Heading>
+        <Heading size="sm">{username}</Heading>
         <Text size="sm">Nursing Assistant</Text>
       </VStack>
       <HStack space="sm">

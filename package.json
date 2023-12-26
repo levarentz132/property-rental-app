@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "typecheck": "tsc --noEmit"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",

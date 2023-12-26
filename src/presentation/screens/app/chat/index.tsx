@@ -1,9 +1,15 @@
 import { useToken } from "@gluestack-style/react";
 import { FlatList, VStack } from "@gluestack-ui/themed";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, SafeAreaView } from "react-native";
-import type { Message, MessageAtom } from "src/domain/models";
+import type { HttpGetClient } from "src/data/contracts/infra";
+import type { Message, MessageAtom, UserData } from "src/domain/models";
+import { env } from "src/main/config/env";
 import type { BaseRouteParamsProps } from "src/main/routes";
 import { Loading } from "src/presentation/components";
 import { useApp } from "src/presentation/hooks/use-app";
@@ -13,31 +19,78 @@ import { Header } from "./header";
 import { Messages } from "./message";
 
 interface RouteParamsProps extends BaseRouteParamsProps {
-  params: {
-    id: string;
-  };
+  params:
+    | {
+        id: string;
+      }
+    | {
+        userId: string;
+      };
 }
 
-export const Chat: React.FC = (): JSX.Element => {
+interface ChatProps {
+  httpClient: HttpGetClient;
+}
+
+export const Chat: React.FC<ChatProps> = ({
+  httpClient,
+}: ChatProps): JSX.Element => {
   const {
     system: { bottomTabs },
     messages: { list },
   } = useApp();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const { params } = useRoute<RouteParamsProps>();
   const [loading, setLoading] = useState(true);
   const backgroundColor = useToken("colors", "backgroundApp");
   const [messageEntity, setMessageEntity] = useState<Message>();
-  useEffect(() => {
+  const loadData = async (id: string) => {
     setLoading(true);
-    const message = list.find((item) => item.id === params.id);
-    if (!message) {
-      goBack();
-    } else {
-      setMessageEntity(message);
+    try {
+      if ("id" in params) {
+        const message = list.find((item) => item.id === params.id);
+        if (!message) {
+          goBack();
+        } else {
+          setMessageEntity(message);
+        }
+      } else {
+        const { body = [] } = await httpClient.get<UserData[]>({
+          url: `${env.ENDPOINT}/users?id=${id}`,
+        });
+        if (body.length > 0) {
+          setMessageEntity({
+            image: body[0].profilePicture,
+            from: body[0].realName,
+            atoms: [],
+            id: body[0].id,
+            isOnline: false,
+          });
+        } else {
+          navigate("home");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
     }
-  }, [list]);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      if ("id" in params) {
+        loadData(params.id);
+      } else {
+        loadData(params.userId);
+      }
+    }, [params]),
+  );
+
+  useEffect(() => {
+    console.log(messageEntity);
+  }, [messageEntity]);
+
   useEffect(() => {
     bottomTabs.inactiveBottomTabs.current!();
 
@@ -61,7 +114,10 @@ export const Chat: React.FC = (): JSX.Element => {
           space="md"
           justifyContent="space-between"
         >
-          <Header avatarUrl={messageEntity?.image} />
+          <Header
+            avatarUrl={messageEntity?.image}
+            username={messageEntity?.from || ""}
+          />
           <FlatList
             inverted
             contentContainerStyle={{

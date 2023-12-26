@@ -22,6 +22,11 @@ export const OwnerCard: React.FC<OwnerCardProps> = ({
       id: owner.id,
     });
   };
+  const handleGoToChat = () => {
+    navigate("chat", {
+      userId: owner.id,
+    });
+  };
   return (
     <VStack
       flex={1}
@@ -45,6 +50,7 @@ export const OwnerCard: React.FC<OwnerCardProps> = ({
           icon={MessagesIcon}
           bgColor="$blue100"
           label="Message"
+          onPress={handleGoToChat}
         />
         <CardButton
           flex={1}

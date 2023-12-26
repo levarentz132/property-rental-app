@@ -1,7 +1,11 @@
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { changePasswordFactory, settingsFactory } from "../factories";
+import {
+  changePasswordFactory,
+  privacyPolicyFactory,
+  settingsFactory,
+} from "../factories";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Stack = createNativeStackNavigator();
@@ -16,6 +20,10 @@ const screens: ScreenProps[] = [
   {
     name: "change-password",
     component: () => changePasswordFactory(),
+  },
+  {
+    name: "privacy-policy",
+    component: () => privacyPolicyFactory(),
   },
 ];
 

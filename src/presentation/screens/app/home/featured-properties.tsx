@@ -2,7 +2,7 @@ import { Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import type { ComponentProps } from "react";
 import type { Property } from "src/domain/models";
-import type { StackNavigatorRouteProps } from "src/main/routes/stack-navigator";
+import type { StackNavigatorRouteProps } from "src/main/routes/stack-home-navigator";
 import { Loading, PropertyCard } from "src/presentation/components";
 // import { PropertyCardSkeleton } from "src/presentation/components/property-card-skeleton";
 

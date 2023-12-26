@@ -117,6 +117,7 @@ export const AppRoutes: React.FC = () => {
       children: () => makeMessagesStackNavigator(),
       options: {
         tabBarIcon: makeTabIcon(ChatSVG),
+        lazy: false,
       },
     },
     {

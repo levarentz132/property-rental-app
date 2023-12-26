@@ -7,6 +7,7 @@ export declare global {
       messages: undefined;
       settings: undefined;
       "change-password": undefined;
+      "privacy-policy": undefined;
       "property-details": {
         type: "property" | "featured";
         id: string;
@@ -16,9 +17,13 @@ export declare global {
       "owner-profile": {
         id: string;
       };
-      chat: {
-        id: string;
-      };
+      chat:
+        | {
+            id: string;
+          }
+        | {
+            userId: string;
+          };
     }
   }
 }
