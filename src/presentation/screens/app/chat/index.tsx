@@ -44,11 +44,16 @@ export const Chat: React.FC<ChatProps> = ({
   const [loading, setLoading] = useState(true);
   const backgroundColor = useToken("colors", "backgroundApp");
   const [messageEntity, setMessageEntity] = useState<Message>();
+  const [user, setUser] = useState<UserData>();
+  const isFromChat = "id" in params;
   const loadData = async (id: string) => {
     setLoading(true);
     try {
-      if ("id" in params) {
+      if (isFromChat) {
         const message = list.find((item) => item.id === params.id);
+        setUser({
+          userRole: "Software Engineer",
+        } as UserData);
         if (!message) {
           goBack();
         } else {
@@ -66,6 +71,7 @@ export const Chat: React.FC<ChatProps> = ({
             id: body[0].id,
             isOnline: false,
           });
+          setUser(body[0]);
         } else {
           navigate("home");
         }
@@ -79,7 +85,7 @@ export const Chat: React.FC<ChatProps> = ({
 
   useFocusEffect(
     useCallback(() => {
-      if ("id" in params) {
+      if (isFromChat) {
         loadData(params.id);
       } else {
         loadData(params.userId);
@@ -116,6 +122,7 @@ export const Chat: React.FC<ChatProps> = ({
         >
           <Header
             avatarUrl={messageEntity?.image}
+            userRole={user?.userRole || ""}
             username={messageEntity?.from || ""}
           />
           <FlatList
