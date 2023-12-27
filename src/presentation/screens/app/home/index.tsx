@@ -88,7 +88,6 @@ export const Home: React.FC<HomeProps> = ({
     setSelectedCategory(category);
   };
   const handleToggleFilters = () => {
-    // onOpen();
     setShowActionsheet(!showActionsheet);
   };
   const getAllProperties = async (url: string) => {

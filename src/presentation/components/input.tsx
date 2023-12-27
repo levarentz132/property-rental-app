@@ -71,6 +71,7 @@ export const Input: React.FC<InputProps> = ({
             borderWidth: "$0",
           }}
           $invalid={{
+            rounded: "$2xl",
             borderWidth: "$1",
             borderColor: "$red500",
           }}

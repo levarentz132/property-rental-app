@@ -1,6 +1,6 @@
 import jsonServer from "json-server";
 
-import db from "./db";
+import db, { mockAdminUser } from "./db";
 
 const server = jsonServer.create();
 const router = jsonServer.router(db());
@@ -12,16 +12,10 @@ const TOKEN = "123456789";
 server.use(middlewares);
 server.post("/signin", (req, res) => {
   const { body } = req;
-  if (body.username === "henriquemod" && body.password === "123123") {
+  if (body.username === "henrique" && body.password === "123123") {
     return res.status(200).json({
       token: TOKEN,
-      user: {
-        id: 1,
-        username: "henriquemod",
-        real_name: "Henrique",
-        email: "henrique@gmail.com",
-        bookmarks: [],
-      },
+      user: mockAdminUser,
     });
   }
   return res.status(401).json({

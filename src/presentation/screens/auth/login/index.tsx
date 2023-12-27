@@ -53,10 +53,10 @@ export const Login: React.FC<LoginProps> = ({
       await addUser({
         id: body.user.id,
         username: body.user.username,
-        realName: body.user.real_name,
+        realName: body.user.realName,
         bookmarks: body.user.bookmarks,
-        userRole: body.user.user_role,
-        profilePicture: body.user.profile_picture,
+        userRole: body.user.userRole,
+        profilePicture: body.user.profilePicture,
       });
     } catch (error) {
       if (isAxiosError(error)) {

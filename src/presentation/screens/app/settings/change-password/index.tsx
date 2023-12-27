@@ -25,7 +25,7 @@ export const ChangePassword: React.FC = () => {
         placeholder="New password"
         containerProps={containerProps}
       />
-      <Button title="Change Password" marginBottom="$4" />
+      <Button title="Change Password" marginTop="$4" />
     </StaticVerticalScrollableLayout>
   );
 };

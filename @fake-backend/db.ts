@@ -2,6 +2,14 @@ import { faker } from "@faker-js/faker";
 import type { Property, UserData } from "src/domain/models";
 
 const categories = ["Apartment", "House", "Office", "Land", "Condo", "Other"];
+export const mockAdminUser = {
+  id: "999",
+  bookmarks: [],
+  profilePicture: "https://github.com/henriquemod.png",
+  realName: "Henrique Souza",
+  username: "henrique",
+  userRole: "Admin",
+};
 
 interface FakeBackendData {
   properties: Property[];
@@ -64,6 +72,7 @@ const generateMockData = () => {
   const data: FakeBackendData = { properties: [], featured: [], users: [] };
   for (let i = 0; i < mockedTotalUsers; i += 1) {
     data.users.push(createRandomUser((i + 1).toString()));
+    data.users.push(mockAdminUser);
   }
   for (let i = 0; i < randomPropertiesTotalData; i += 1) {
     data.properties.push(createRandomProperty(i + 1, data.users));

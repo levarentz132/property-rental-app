@@ -1,10 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
-import DocsIcon from "src/main/assets/colorfull-icons/docs.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/key.svg";
 import LogOutIcon from "src/main/assets/colorfull-icons/logout.svg";
-import NotificationIcon from "src/main/assets/colorfull-icons/notification.svg";
 import ShieldIcon from "src/main/assets/colorfull-icons/shield.svg";
 import UserIcon from "src/main/assets/colorfull-icons/user.svg";
+import type { StackNavigatorSettingsRouteProps } from "src/main/routes/stack-settings-navigator";
 import { useApp } from "src/presentation/hooks/use-app";
 import { StaticVerticalScrollableLayout } from "src/presentation/layout";
 
@@ -12,10 +11,14 @@ import { Card } from "./card";
 
 export const Settings: React.FC = (): JSX.Element => {
   const { removeUser } = useApp();
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<StackNavigatorSettingsRouteProps>();
   return (
     <StaticVerticalScrollableLayout title="Settings">
-      <Card icon={UserIcon} label="Personal profile" />
+      <Card
+        icon={UserIcon}
+        label="Personal profile"
+        onPress={() => navigate("personal-profile")}
+      />
       <Card
         icon={PasswordIcon}
         label="Change password"
@@ -26,8 +29,6 @@ export const Settings: React.FC = (): JSX.Element => {
         label="Privacy policy"
         onPress={() => navigate("privacy-policy")}
       />
-      <Card icon={DocsIcon} label="Data saver" />
-      <Card icon={NotificationIcon} label="Notification" />
       <Card hideArrow icon={LogOutIcon} label="Log out" onPress={removeUser} />
     </StaticVerticalScrollableLayout>
   );

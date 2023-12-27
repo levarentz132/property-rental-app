@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
   changePasswordFactory,
+  personalProfileFactory,
   privacyPolicyFactory,
   settingsFactory,
 } from "../factories";
@@ -25,14 +26,21 @@ const screens: ScreenProps[] = [
     name: "privacy-policy",
     component: () => privacyPolicyFactory(),
   },
+  {
+    name: "personal-profile",
+    component: () => personalProfileFactory(),
+  },
 ];
 
 type StackRoutes = {
   settings: undefined;
   "change-password": undefined;
+  "privacy-policy": undefined;
+  "personal-profile": undefined;
 };
 
-export type StackNavigatorRouteProps = NativeStackNavigationProp<StackRoutes>;
+export type StackNavigatorSettingsRouteProps =
+  NativeStackNavigationProp<StackRoutes>;
 
 export const makeSettingsStackNavigator = () => (
   <Stack.Navigator

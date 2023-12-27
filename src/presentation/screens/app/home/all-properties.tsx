@@ -14,7 +14,6 @@ import type { Property } from "src/domain/models";
 import ArrowRightIcon from "src/main/assets/filled-icons/arrow-right2.svg";
 import type { StackNavigatorRouteProps } from "src/main/routes/stack-home-navigator";
 import { Loading, PropertyCard } from "src/presentation/components";
-// import { PropertyCardSkeleton } from "src/presentation/components/property-card-skeleton";
 
 const Icon = createComponents(ArrowRightIcon);
 
