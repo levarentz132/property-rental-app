@@ -1,54 +1,69 @@
 import { Box, Heading, VStack } from "@gluestack-ui/themed";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StatusBar } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAvoidingView, Platform } from "react-native";
+import type { HttpPostClient } from "src/data/contracts/infra";
 import EmailIcon from "src/main/assets/colorfull-icons/email.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/password.svg";
 import UserIcon from "src/main/assets/colorfull-icons/user.svg";
-import { Button, Input } from "src/presentation/components";
+import Logo from "src/main/assets/logo.svg";
+import type { AuthNavigatorRouteProps } from "src/main/routes/auth.routes";
+import { Input } from "src/presentation/components";
+import { StaticVerticalLayout } from "src/presentation/layout";
 
-import { Social } from "../social";
+import { Actions } from "./actions";
 
-export const Register: React.FC = (): JSX.Element => {
+interface LoginProps {
+  httpClient: HttpPostClient;
+}
+export const Register: React.FC<LoginProps> = (): JSX.Element => {
+  const { goBack } = useNavigation<AuthNavigatorRouteProps>();
   const [username, setUsername] = useState<string>();
-  const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [email, setEmail] = useState<string>();
+
   return (
-    <>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
-      <VStack
-        flex={1}
-        bgColor="$blue800"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Box flex={1} />
-        <VStack
-          bgColor="$white"
-          width="$full"
-          borderTopRightRadius="$3xl"
-          borderTopLeftRadius="$3xl"
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <VStack flex={1}>
+        <Box
+          flex={0.7}
+          bgColor="$blue800"
+          justifyContent="center"
           alignItems="center"
-          justifyContent="flex-end"
-          padding="$6"
         >
-          <Heading
-            color="$textDark800"
-            fontFamily="heading"
-            fontSize="$3xl"
-            marginTop="$6"
-            marginBottom="$12"
+          <Logo width={150} height={150} />
+        </Box>
+        <StaticVerticalLayout
+          fullWith
+          bgColor="white"
+          vStackProps={{
+            bgColor: "$blue800",
+            paddingHorizontal: "$0",
+            paddingTop: "$0",
+            space: undefined,
+          }}
+        >
+          <VStack
+            flex={1}
+            bgColor="$white"
+            borderTopRightRadius="$3xl"
+            borderTopLeftRadius="$3xl"
+            alignItems="center"
+            justifyContent="flex-start"
+            paddingHorizontal="$6"
           >
-            Register
-          </Heading>
-          <KeyboardAwareScrollView
-            showsVerticalScrollIndicator={false}
-            style={{ width: "100%" }}
-          >
+            <Heading
+              color="$textDark800"
+              fontFamily="$heading"
+              fontSize="$2xl"
+              marginTop="$6"
+              marginBottom="$12"
+            >
+              Register
+            </Heading>
             <Input
               placeholder="Username"
               my="$2"
@@ -70,11 +85,10 @@ export const Register: React.FC = (): JSX.Element => {
               onChangeText={setPassword}
               icon={PasswordIcon}
             />
-            <Button flex={1} title="Register" marginTop="$20" />
-            <Social marginTop="$12" paddingHorizontal="$8" />
-          </KeyboardAwareScrollView>
-        </VStack>
+            <Actions marginTop="$8" onRegister={() => {}} onGoBack={goBack} />
+          </VStack>
+        </StaticVerticalLayout>
       </VStack>
-    </>
+    </KeyboardAvoidingView>
   );
 };

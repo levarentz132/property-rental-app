@@ -20,9 +20,13 @@ const DEFAULT_AREA_VIEW = (
 });
 
 export interface LayoutProps extends PropsWithChildren {
-  title: string;
+  title?: string;
   onGoBack?: () => void;
   RightSlot?: JSX.Element;
+  bgColor?: string;
+  fullWith?: boolean;
+  fullHeight?: boolean;
+  vStackProps?: ComponentProps<typeof VStack>;
 }
 
 export const StaticVerticalScrollableLayout = ({
@@ -68,19 +72,25 @@ export const StaticVerticalScrollableLayout = ({
 
 export const StaticVerticalLayout = ({
   title,
+  bgColor,
+  fullWith = false,
   onGoBack,
   children,
   RightSlot,
+  vStackProps,
 }: LayoutProps) => {
-  const backgroundColor = useToken("colors", DEFAULT_BACKGROUND_COLOR);
+  const backgroundColor = useToken(
+    "colors",
+    bgColor || DEFAULT_BACKGROUND_COLOR,
+  );
   const iconSize = useToken("space", "7");
   const iconColor = useToken("colors", "blue800");
   const marginRightGoBack = useToken("space", "4");
 
   return (
     <SafeAreaView {...DEFAULT_AREA_VIEW(backgroundColor)}>
-      <VStack {...DEFAULT_VERTICAL_PROP}>
-        <HStack marginBottom="$3" alignItems="center">
+      <VStack {...DEFAULT_VERTICAL_PROP} {...vStackProps}>
+        <HStack marginBottom={fullWith ? "$0" : "$3"} alignItems="center">
           {onGoBack && (
             <TouchableOpacity
               style={{ marginRight: marginRightGoBack }}
@@ -94,9 +104,11 @@ export const StaticVerticalLayout = ({
               />
             </TouchableOpacity>
           )}
-          <Heading flex={1} textTransform="capitalize">
-            {title}
-          </Heading>
+          {title && (
+            <Heading flex={1} textTransform="capitalize">
+              {title}
+            </Heading>
+          )}
           {RightSlot}
         </HStack>
         {children}

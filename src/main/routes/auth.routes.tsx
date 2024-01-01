@@ -1,3 +1,4 @@
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { signInFactory, signUpFactory } from "../factories";
@@ -19,6 +20,13 @@ const screens: ScreenProps[] = [
     component: () => signUpFactory(),
   },
 ];
+
+type AuthRoutesTypes = {
+  "sign-in": undefined;
+  "sign-up": undefined;
+};
+
+export type AuthNavigatorRouteProps = BottomTabNavigationProp<AuthRoutesTypes>;
 
 export const AuthRoutes: React.FC = () => (
   <Navigator
