@@ -30,7 +30,6 @@ export const Properties: React.FC<PropertiesProps> = ({
   const cardPadding = useToken("space", "4");
   const seeAllColorIcon = useToken("colors", "green500");
   const navigation = useNavigation<StackNavigatorRouteProps>();
-  const Card = loading ? Loading : PropertyCard;
   return (
     <VStack flex={1} {...props}>
       <HStack paddingHorizontal="$6" alignItems="center">
@@ -49,33 +48,37 @@ export const Properties: React.FC<PropertiesProps> = ({
           </Box>
         </TouchableOpacity>
       </HStack>
-      <FlatList
-        data={properties}
-        renderItem={({ item, index }) => (
-          <Card
-            {...(item as Property)}
-            onPress={() =>
-              navigation.navigate("property-details", {
-                type: "property",
-                id: (item as Property).id,
-              })
-            }
-            marginRight={index === properties.length - 1 ? 0 : "$3"}
-          />
-        )}
-        contentContainerStyle={{
-          padding: cardPadding,
-        }}
-        ListEmptyComponent={() => (
-          <Text marginLeft={6} textAlign="center" color="$textDark800">
-            No properties found
-          </Text>
-        )}
-        keyExtractor={(item) => (item as Property).id}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        style={{ flex: 1 }}
-      />
+      {loading ? (
+        <Loading minHeight="$64" />
+      ) : (
+        <FlatList
+          data={properties}
+          renderItem={({ item, index }) => (
+            <PropertyCard
+              {...(item as Property)}
+              onPress={() =>
+                navigation.navigate("property-details", {
+                  type: "property",
+                  id: (item as Property).id,
+                })
+              }
+              marginRight={index === properties.length - 1 ? 0 : "$3"}
+            />
+          )}
+          contentContainerStyle={{
+            padding: cardPadding,
+          }}
+          ListEmptyComponent={() => (
+            <Text marginLeft={6} textAlign="center" color="$textDark800">
+              No properties found
+            </Text>
+          )}
+          keyExtractor={(item) => (item as Property).id}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          style={{ flex: 1 }}
+        />
+      )}
     </VStack>
   );
 };

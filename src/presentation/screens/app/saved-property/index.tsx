@@ -32,7 +32,7 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
       });
       setBookmarkList(body);
     } catch (error) {
-      console.log(error);
+      console.log({ error });
     }
   };
 

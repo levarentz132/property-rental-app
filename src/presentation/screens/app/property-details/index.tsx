@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { createComponents, useToken } from "@gluestack-style/react";
 import { useToast } from "@gluestack-ui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -72,7 +73,10 @@ export const PropertyDetails: React.FC<PropertyDetailsProps> = ({
         url: `${env.ENDPOINT}/${matchCategory}?id=${params.id}`,
       });
       const { body: owners } = await httpClient.get<UserData[]>({
-        url: `${env.ENDPOINT}/users?id=${params.id}`,
+        url: `${env.ENDPOINT}/users?id=${faker.number.int({
+          min: 1,
+          max: 5,
+        })}`,
       });
       if (owners) setOwner(owners[0]);
       if (body) setProperty(body[0]);

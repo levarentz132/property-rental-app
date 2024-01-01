@@ -33,7 +33,6 @@ export const MessageCard: React.FC<MessageCardProps> = ({
   ...props
 }: MessageCardProps): JSX.Element => {
   const borderRadius = useToken("radii", "2xl");
-  console.log({ atoms });
   // const { navigate } = useNavigation();
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7} {...props}>

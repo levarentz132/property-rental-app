@@ -33,7 +33,7 @@ export const App = () => {
       await NavigationBar.setBehaviorAsync("inset-swipe");
       await NavigationBar.setVisibilityAsync("hidden");
     } catch (error) {
-      // console.error(error);
+      console.log({ error });
     } finally {
       setIsReady(true);
     }
@@ -41,19 +41,6 @@ export const App = () => {
   useEffect(() => {
     handleHideNavigationBar();
   }, []);
-  // useEffect(() => {
-  //   if (Platform.OS === "ios") return;
-  //   const subs = NavigationBar.addVisibilityListener((e) => {
-  //     if (e.visibility === "visible") {
-  //       setTimeout(() => {
-  //         NavigationBar.setVisibilityAsync("hidden");
-  //       }, 3000);
-  //     }
-  //   });
-
-  //   // eslint-disable-next-line consistent-return
-  //   return () => subs.remove();
-  // }, []);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GluestackUIProvider config={config}>

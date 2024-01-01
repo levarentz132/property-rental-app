@@ -77,7 +77,7 @@ export const Chat: React.FC<ChatProps> = ({
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log({ error });
     } finally {
       setLoading(false);
     }
@@ -92,10 +92,6 @@ export const Chat: React.FC<ChatProps> = ({
       }
     }, [params]),
   );
-
-  useEffect(() => {
-    console.log(messageEntity);
-  }, [messageEntity]);
 
   useEffect(() => {
     bottomTabs.inactiveBottomTabs.current!();

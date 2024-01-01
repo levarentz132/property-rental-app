@@ -16,9 +16,7 @@ export const Messages: React.FC = (): JSX.Element => {
   } = useApp();
   const [search, setSearch] = useState<string>();
   const messagesMargin = useToken("space", "3");
-  const handleNewMessage = () => {
-    console.log();
-  };
+
   return (
     <StaticVerticalLayout title="Messages">
       <Search
@@ -26,7 +24,7 @@ export const Messages: React.FC = (): JSX.Element => {
           value: search,
           onChangeText: setSearch,
         }}
-        onNewMessage={handleNewMessage}
+        onNewMessage={() => {}}
       />
       <FlatList
         marginTop="$6"
