@@ -7,11 +7,10 @@ import type { SvgProps } from "react-native-svg";
 import FavoritesSVG from "src/main/assets/colorfull-icons/bookmark.svg";
 import ChatSVG from "src/main/assets/colorfull-icons/chat.svg";
 import HomeSVG from "src/main/assets/colorfull-icons/home.svg";
-import MenuSVG from "src/main/assets/colorfull-icons/menu.svg";
 import SettingsSVG from "src/main/assets/colorfull-icons/setting.svg";
 import { useApp } from "src/presentation/hooks/use-app";
 
-import { menuFactory, savedPropertyFactory } from "../factories";
+import { savedPropertyFactory } from "../factories";
 import { makeHomeStackNavigator } from "./stack-home-navigator";
 import { makeMessagesStackNavigator } from "./stack-messages-navigator";
 import { makeSettingsStackNavigator } from "./stack-settings-navigator";
@@ -56,7 +55,6 @@ export const AppRoutes: React.FC = () => {
     system: { bottomTabs },
   } = useApp();
   const iconSize = useToken("space", "5");
-  const menuSvgPosition = useToken("space", "5");
   const tabBarActiveTintColor = useToken("colors", "blue100");
   const tabBarInactiveTintColor = useToken("colors", "gray200");
   const backgroundColor = useToken("colors", "white");
@@ -87,29 +85,6 @@ export const AppRoutes: React.FC = () => {
       children: () => savedPropertyFactory(),
       options: {
         tabBarIcon: makeTabIcon(FavoritesSVG),
-      },
-    },
-    {
-      name: "menu",
-      children: () => menuFactory(),
-      options: {
-        tabBarIcon: () => (
-          <Box
-            justifyContent="center"
-            alignItems="center"
-            width={iconSize / 2}
-            height={1}
-            rounded="$2xl"
-          >
-            <MenuSVG
-              width={iconSize * 8}
-              height={iconSize * 8}
-              style={{
-                bottom: menuSvgPosition,
-              }}
-            />
-          </Box>
-        ),
       },
     },
     {

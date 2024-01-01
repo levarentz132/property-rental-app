@@ -12,7 +12,7 @@ const TOKEN = "123456789";
 server.use(middlewares);
 server.post("/signin", (req, res) => {
   const { body } = req;
-  if (body.username === "henrique" && body.password === "123123") {
+  if (body.username === "admin" && body.password === "admin") {
     return res.status(200).json({
       token: TOKEN,
       user: mockAdminUser,

@@ -1,26 +1,37 @@
-import { Box, Heading, VStack } from "@gluestack-ui/themed";
+import { Box, Heading, useToast, VStack } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform } from "react-native";
-import type { HttpPostClient } from "src/data/contracts/infra";
 import EmailIcon from "src/main/assets/colorfull-icons/email.svg";
 import PasswordIcon from "src/main/assets/colorfull-icons/password.svg";
 import UserIcon from "src/main/assets/colorfull-icons/user.svg";
 import Logo from "src/main/assets/logo.svg";
 import type { AuthNavigatorRouteProps } from "src/main/routes/auth.routes";
 import { Input } from "src/presentation/components";
+import { errorToast } from "src/presentation/helpers/toasts";
 import { StaticVerticalLayout } from "src/presentation/layout";
 
 import { Actions } from "./actions";
 
-interface LoginProps {
-  httpClient: HttpPostClient;
-}
-export const Register: React.FC<LoginProps> = (): JSX.Element => {
+export const Register: React.FC = (): JSX.Element => {
   const { goBack } = useNavigation<AuthNavigatorRouteProps>();
+  const toast = useToast();
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [email, setEmail] = useState<string>();
+
+  const toastError = () => {
+    toast.closeAll();
+    toast.show(
+      errorToast({
+        message: "Feature not implemented yet",
+      }),
+    );
+  };
+
+  const handleRegister = async () => {
+    toastError();
+  };
 
   return (
     <KeyboardAvoidingView
@@ -85,7 +96,11 @@ export const Register: React.FC<LoginProps> = (): JSX.Element => {
               onChangeText={setPassword}
               icon={PasswordIcon}
             />
-            <Actions marginTop="$8" onRegister={() => {}} onGoBack={goBack} />
+            <Actions
+              marginTop="$8"
+              onRegister={handleRegister}
+              onGoBack={goBack}
+            />
           </VStack>
         </StaticVerticalLayout>
       </VStack>
