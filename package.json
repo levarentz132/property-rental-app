@@ -15,8 +15,10 @@
     "build-ios-dev": "eas build -p ios -e development",
     "build-android-prod": "eas build -p android -e production",
     "build-ios-prod": "eas build -p ios -e production",
-    "android-build": "eas build --platform android --local -e production",
-    "ios-build": "eas build --platform ios --local -e production"
+    "android-build": "eas build --platform android --local -e development",
+    "android-build-prod": "eas build --platform android --local -e production",
+    "ios-build": "eas build --platform ios --local -e production",
+    "ios-build-prod": "eas build --platform ios --local -e production"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
