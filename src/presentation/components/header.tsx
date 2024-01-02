@@ -19,7 +19,7 @@ export const Header: React.FC = (): JSX.Element => {
           color="$textDark900"
           marginBottom="$2"
         >
-          Ola,
+          Hi,
         </Text>
         <Heading fontWeight="bold" fontSize="$3xl" color="$textDark900">
           Henrique

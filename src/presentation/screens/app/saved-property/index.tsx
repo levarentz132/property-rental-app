@@ -47,7 +47,7 @@ export const SavedProperty: React.FC<SavedPropertyProps> = ({
   );
   return (
     <StaticVerticalScrollableLayout title="Saved Property">
-      <Box flex={1} marginBottom="$6">
+      <Box flex={1}>
         <Input
           placeholder="Search"
           color="$blue700"
