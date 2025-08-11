@@ -31,8 +31,6 @@ export const Login: React.FC<LoginProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
-    Alert.alert("Login pressed");
-    console.log("Login button pressed", { username, password });
     try {
       setLoading(true);
       const { body } = await httpClient.post<any>({
@@ -42,7 +40,6 @@ export const Login: React.FC<LoginProps> = ({
           password,
         },
       });
-      console.debug("Login API response", body);
       await addUser({
         id: body.user.id,
         username: body.user.username,
@@ -52,7 +49,6 @@ export const Login: React.FC<LoginProps> = ({
         profilePicture: body.user.profilePicture,
       });
     } catch (error) {
-      console.error("Login error", error);
       if (isAxiosError(error)) {
         const errorData = error.toJSON() as any;
         if (errorData.status === 401) {
