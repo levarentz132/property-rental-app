@@ -2,6 +2,7 @@ import { Box, Heading, useToast, VStack } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { isAxiosError } from "axios";
 import React, { useState } from "react";
+import { Alert } from "react-native";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import type { HttpPostClient } from "src/data/contracts/infra";
 import PasswordIcon from "src/main/assets/colorfull-icons/password.svg";
@@ -30,6 +31,8 @@ export const Login: React.FC<LoginProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
+    Alert.alert("Login pressed");
+    console.log("Login button pressed", { username, password });
     try {
       setLoading(true);
       const { body } = await httpClient.post<any>({
@@ -39,6 +42,7 @@ export const Login: React.FC<LoginProps> = ({
           password,
         },
       });
+      console.debug("Login API response", body);
       await addUser({
         id: body.user.id,
         username: body.user.username,
@@ -48,6 +52,7 @@ export const Login: React.FC<LoginProps> = ({
         profilePicture: body.user.profilePicture,
       });
     } catch (error) {
+      console.error("Login error", error);
       if (isAxiosError(error)) {
         const errorData = error.toJSON() as any;
         if (errorData.status === 401) {
@@ -107,7 +112,7 @@ export const Login: React.FC<LoginProps> = ({
               marginTop="$6"
               marginBottom="$12"
             >
-              Login
+              Login 123W
             </Heading>
             <InputGroup
               inputs={[

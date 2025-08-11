@@ -5,8 +5,8 @@
   "scripts": {
     "start": "expo start",
     "fake:backend": "ts-node ./@fake-backend",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
@@ -52,13 +52,13 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "zod": "^3.22.4",
-    "expo-dev-client": "~2.4.12",
+
     "@expo/config-plugins": "^7.2.2",
-    "@expo/prebuild-config": "^6.2.4"
+    "@expo/prebuild-config": "^6.2.4",
+    "expo-splash-screen": "~0.20.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@brucesong/eslint-config-react-native": "^0.0.17",
     "@faker-js/faker": "^8.3.1",
     "@types/json-server": "^0.14.7",
     "@types/ramda": "^0.29.9",
